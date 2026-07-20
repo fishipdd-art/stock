@@ -42,7 +42,7 @@ class TestPatternMatching:
         assert resp.intent == "upcoming_events"
         assert resp.confidence > 0
 
-    def test_today_stocks(self):
+    def test_today_stocks(self, in_memory_db):
         resp = ask("今天A股行情")
         assert resp.intent == "today_stocks"
         assert resp.confidence > 0
