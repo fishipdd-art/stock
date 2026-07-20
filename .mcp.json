@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "comfyui": {
+      "command": "/Users/liyuhang/comfyui_remote/.venv/bin/python",
+      "args": [
+        "/Users/liyuhang/comfyui_remote/server.py"
+      ],
+      "env": {
+        "COMFYUI_URL": "http://127.0.0.1:18188"
+      }
+    }
+  }
+}

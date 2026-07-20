@@ -1,0 +1,144 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: stock-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - TZ=Asia/Shanghai
+      - DATABASE_URL=${DATABASE_URL:-}
+      - REDIS_URL=redis://redis:6379/0
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - LLM_API_BASE=${LLM_API_BASE:-}
+      - LLM_MODEL=${LLM_MODEL:-gpt-3.5-turbo}
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    container_name: stock-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: stock-postgres
+    restart: unless-stopped
+    profiles: ["postgres"]  # only start with --profile postgres
+    environment:
+      - POSTGRES_USER=stock
+      - POSTGRES_PASSWORD=stock
+      - POSTGRES_DB=stockdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: stock-prometheus
+    restart: unless-stopped
+    profiles: ["monitoring"]
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deploy/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./deploy/alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
+      - prom_data:/prometheus
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: stock-grafana
+    restart: unless-stopped
+    profiles: ["monitoring"]
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_UNIFIED_ALERTING_ENABLED=true
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./deploy/grafana_dashboard.json:/etc/grafana/provisioning/dashboards/stock_dashboard.json:ro
+      - ./deploy/dashboard_system_health.json:/etc/grafana/provisioning/dashboards/system_health.json:ro
+      - ./deploy/dashboard_business_metrics.json:/etc/grafana/provisioning/dashboards/business_metrics.json:ro
+      - ./deploy/dashboard_business_depth.json:/etc/grafana/provisioning/dashboards/business_depth.json:ro
+      - ./deploy/dashboard_logs_traces.json:/etc/grafana/provisioning/dashboards/logs_traces.json:ro
+      - ./deploy/grafana_provisioning_datasources.yml:/etc/grafana/provisioning/datasources/prometheus.yml:ro
+      - ./deploy/grafana_provisioning_dashboards.yml:/etc/grafana/provisioning/dashboards/provisioning.yml:ro
+    depends_on:
+      - prometheus
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: stock-alertmanager
+    restart: unless-stopped
+    profiles: ["monitoring"]
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./deploy/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+    depends_on:
+      - prometheus
+
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: stock-loki
+    restart: unless-stopped
+    profiles: ["monitoring", "logging"]
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - loki_data:/loki
+
+  promtail:
+    image: grafana/promtail:2.9.0
+    container_name: stock-promtail
+    restart: unless-stopped
+    profiles: ["monitoring", "logging"]
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - ./deploy/promtail.yml:/etc/promtail/config.yml:ro
+      - ./data/logs:/var/log/stock:ro
+    depends_on:
+      - loki
+
+  tempo:
+    image: grafana/tempo:2.3.0
+    container_name: stock-tempo
+    restart: unless-stopped
+    profiles: ["monitoring", "tracing"]
+    ports:
+      - "3200:3200"   # Tempo HTTP
+      - "4317:4317"   # OTLP gRPC
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./deploy/tempo.yaml:/etc/tempo.yaml:ro
+      - tempo_data:/var/tempo
+
+volumes:
+  redis_data:
+  pg_data:
+  prom_data:
+  grafana_data:
+  loki_data:
+  tempo_data:

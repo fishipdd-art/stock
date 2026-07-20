@@ -1,0 +1,196 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: stock-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-app
+  namespace: stock-system
+  labels:
+    app: stock-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stock-app
+  template:
+    metadata:
+      labels:
+        app: stock-app
+    spec:
+      containers:
+        - name: app
+          image: stock-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+            - name: REDIS_URL
+              value: redis://stock-redis:6379/0
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: stock-secrets
+                  key: database-url
+                  optional: true
+            - name: LLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stock-secrets
+                  key: llm-api-key
+                  optional: true
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 2Gi
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: stock-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-app
+  namespace: stock-system
+spec:
+  selector:
+    app: stock-app
+  ports:
+    - port: 80
+      targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-app-public
+  namespace: stock-system
+spec:
+  selector:
+    app: stock-app
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-redis
+  namespace: stock-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stock-redis
+  template:
+    metadata:
+      labels:
+        app: stock-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-redis
+  namespace: stock-system
+spec:
+  selector:
+    app: stock-redis
+  ports:
+    - port: 6379
+      targetPort: 6379
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: stock-data-pvc
+  namespace: stock-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: stock-app-hpa
+  namespace: stock-system
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: stock-app
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: stock-secrets
+  namespace: stock-system
+type: Opaque
+stringData:
+  database-url: postgresql://stock:stock@stock-postgres:5432/stockdb
+  llm-api-key: ""
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: stock-app-monitor
+  namespace: stock-system
+spec:
+  selector:
+    matchLabels:
+      app: stock-app
+  endpoints:
+    - port: 8000
+      path: /metrics
+      interval: 30s

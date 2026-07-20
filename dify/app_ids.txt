@@ -1,0 +1,10 @@
+00_stock总控工作流|workflow|f2795847-878f-4081-af2d-5b86ce52048c
+00_stock运行监控|workflow|8a332ac9-127f-498f-849f-d06f41db6f60
+01_stock数据采集执行器|workflow|53b81c61-1c08-4df5-a9b7-88ef80ff04a3
+01_stock每日根采集|workflow|53b81c61-1c08-4df5-a9b7-88ef80ff04a3
+02_news事件抽取|workflow|bff22ccf-43b7-4c8f-89ba-b4c8a0719f2e
+03_错配图谱传播|workflow|5839980e-0de9-422a-932d-39ead0345983
+04_评分|workflow|554fca85-0b3b-4c51-a029-fc16cf01f0a8
+05_持仓诊断早报|workflow|74d72dbd-2241-43f5-93a9-5c2110758001
+06_盘后复盘|workflow|d355e28a-a5e0-40a1-8d88-fd0ddd1b4520
+cf_01_供应链投资控制台|advanced-chat|bbaa7ea6-d3a9-480d-9c56-9568a333f08d

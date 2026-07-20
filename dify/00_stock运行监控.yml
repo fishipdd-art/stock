@@ -1,0 +1,185 @@
+app:
+  description: 读取 stock Pipeline、数据质量与用户持仓状态，作为 Dify 总控的监控子工作流。
+  icon: 🩺
+  icon_background: '#E8F3FF'
+  icon_type: emoji
+  mode: workflow
+  name: 00_stock运行监控
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+  graph:
+    edges:
+    - data: {isInIteration: false, isInLoop: false, sourceType: start, targetType: http-request}
+      id: start-health
+      source: start
+      sourceHandle: source
+      target: health
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data: {isInIteration: false, isInLoop: false, sourceType: http-request, targetType: http-request}
+      id: health-portfolio
+      source: health
+      sourceHandle: source
+      target: portfolio
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data: {isInIteration: false, isInLoop: false, sourceType: http-request, targetType: http-request}
+      id: portfolio-runs
+      source: portfolio
+      sourceHandle: source
+      target: runs
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data: {isInIteration: false, isInLoop: false, sourceType: http-request, targetType: end}
+      id: runs-end
+      source: runs
+      sourceHandle: source
+      target: end
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: 手动执行时可填写检查原因；定时执行可留空。
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - default: manual
+          label: trigger_source
+          required: false
+          type: text-input
+          variable: trigger_source
+      height: 90
+      id: start
+      position: {x: 40, y: 240}
+      positionAbsolute: {x: 40, y: 240}
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization: {type: no-auth}
+        body: {data: '', type: none}
+        desc: 最近一次各数据集质量门禁结果。
+        headers: ''
+        method: GET
+        params: ''
+        retry_config:
+          enabled: true
+          max_retries: 2
+          retry_interval: 1000
+          exponential_backoff: {enabled: true, multiplier: 2, max_interval: 5000}
+        timeout: {connect: 5, read: 15, write: 15}
+        title: 数据质量
+        type: http-request
+        url: http://host.docker.internal:8000/api/v1/health/data
+      height: 110
+      id: health
+      position: {x: 340, y: 240}
+      positionAbsolute: {x: 340, y: 240}
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization: {type: no-auth}
+        body: {data: '', type: none}
+        desc: 用户确认的 50 万账户、九个持仓、现金与风险桶。
+        headers: ''
+        method: GET
+        params: ''
+        retry_config:
+          enabled: true
+          max_retries: 2
+          retry_interval: 1000
+          exponential_backoff: {enabled: true, multiplier: 2, max_interval: 5000}
+        timeout: {connect: 5, read: 15, write: 15}
+        title: 当前持仓
+        type: http-request
+        url: http://host.docker.internal:8000/api/v1/portfolio/default
+      height: 110
+      id: portfolio
+      position: {x: 640, y: 240}
+      positionAbsolute: {x: 640, y: 240}
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization: {type: no-auth}
+        body: {data: '', type: none}
+        desc: 最近 20 次 Dify Pipeline 运行记录。
+        headers: ''
+        method: GET
+        params: limit:20
+        retry_config:
+          enabled: true
+          max_retries: 2
+          retry_interval: 1000
+          exponential_backoff: {enabled: true, multiplier: 2, max_interval: 5000}
+        timeout: {connect: 5, read: 15, write: 15}
+        title: 最近运行
+        type: http-request
+        url: http://host.docker.internal:8000/api/v1/runs
+      height: 110
+      id: runs
+      position: {x: 940, y: 240}
+      positionAbsolute: {x: 940, y: 240}
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: 原始 JSON 由总控工作流或监控 LLM 继续分析。
+        outputs:
+        - value_selector: [health, body]
+          value_type: string
+          variable: data_health
+        - value_selector: [portfolio, body]
+          value_type: string
+          variable: portfolio
+        - value_selector: [runs, body]
+          value_type: string
+          variable: recent_runs
+        selected: false
+        title: 监控结果
+        type: end
+      height: 140
+      id: end
+      position: {x: 1240, y: 240}
+      positionAbsolute: {x: 1240, y: 240}
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport: {x: 0, y: 0, zoom: 0.75}
+  rag_pipeline_variables: []

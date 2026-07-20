@@ -1,0 +1,246 @@
+groups:
+  # ========================================================================
+  # 业务告警 - 调度任务失败
+  # ========================================================================
+  - name: scheduler_failures
+    interval: 30s
+    rules:
+      - alert: JobConsecutiveFailures
+        expr: stock_last_job_status{job_id=~"collect_futures|collect_stocks|collect_news_high|collect_news_mid|compute_hotness|generate_report"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          category: scheduler
+        annotations:
+          summary: "调度任务连续失败: {{ $labels.job_id }}"
+          description: "{{ $labels.job_id }} 上次执行状态为 error，已持续 2 分钟"
+
+      - alert: JobNotRunningRecently
+        expr: time() - stock_last_job_status{job_id=~"collect_futures|generate_report"} > 86400
+        for: 5m
+        labels:
+          severity: warning
+          category: scheduler
+        annotations:
+          summary: "调度任务 24h+ 未运行: {{ $labels.job_id }}"
+          description: "{{ $labels.job_id }} 已超过 24 小时未执行"
+
+      - alert: HighJobFailureRate
+        expr: |
+          sum by (job_id) (rate(stock_job_runs_total{status="error"}[1h]))
+            /
+          sum by (job_id) (rate(stock_job_runs_total[1h]))
+            > 0.5
+        for: 10m
+        labels:
+          severity: critical
+          category: scheduler
+        annotations:
+          summary: "任务失败率 > 50%: {{ $labels.job_id }}"
+          description: "过去 1 小时 {{ $labels.job_id }} 失败率超过 50%"
+
+  # ========================================================================
+  # 业务告警 - 数据采集
+  # ========================================================================
+  - name: data_collection
+    interval: 30s
+    rules:
+      - alert: NoNewNewsCollected
+        expr: increase(stock_news_collected_total[2h]) == 0
+        for: 30m
+        labels:
+          severity: warning
+          category: data
+        annotations:
+          summary: "新闻抓取 2h+ 无增量"
+          description: "过去 2 小时没有任何新新闻被抓取，可能抓取器故障"
+
+      - alert: NoNewEvents
+        expr: increase(stock_events_total[7d]) == 0
+        for: 1h
+        labels:
+          severity: warning
+          category: data
+        annotations:
+          summary: "事件增量 7d 无更新"
+          description: "过去 7 天事件总数无增长，可能抓取/检测逻辑异常"
+
+      - alert: EventDetectionStalled
+        expr: rate(stock_events_total{source="auto_detected"}[6h]) == 0
+        for: 3h
+        labels:
+          severity: info
+          category: data
+        annotations:
+          summary: "C 类自动检测 6h 无产出"
+          description: "过去 6 小时没有从新闻检测出新事件"
+
+  # ========================================================================
+  # 系统告警 - 数据库
+  # ========================================================================
+  - name: database
+    interval: 1m
+    rules:
+      - alert: DatabaseSizeHigh
+        expr: stock_db_size_bytes > 524288000
+        for: 5m
+        labels:
+          severity: warning
+          category: storage
+        annotations:
+          summary: "数据库 > 500MB"
+          description: "当前大小 {{ $value | humanize1024 }}B，接近容量上限"
+
+      - alert: DatabaseSizeCritical
+        expr: stock_db_size_bytes > 1073741824
+        for: 5m
+        labels:
+          severity: critical
+          category: storage
+        annotations:
+          summary: "数据库 > 1GB"
+          description: "当前大小 {{ $value | humanize1024 }}B，强烈建议清理或迁移到 PostgreSQL"
+
+      - alert: DatabaseSizeGrowthRate
+        expr: deriv(stock_db_size_bytes[1h]) > 10485760
+        for: 30m
+        labels:
+          severity: info
+          category: storage
+        annotations:
+          summary: "数据库增长 > 10MB/小时"
+          description: "过去 1 小时增长 {{ $value | humanize1024 }}B/秒"
+
+  # ========================================================================
+  # 系统告警 - 调度器
+  # ========================================================================
+  - name: scheduler_health
+    interval: 30s
+    rules:
+      - alert: SchedulerNotRunning
+        expr: stock_scheduler_running == 0
+        for: 5m
+        labels:
+          severity: critical
+          category: scheduler
+        annotations:
+          summary: "调度器已停止"
+          description: "APScheduler 未运行，所有定时任务都不会触发"
+
+      - alert: SchedulerRestarting
+        expr: changes(stock_scheduler_running[1h]) > 5
+        for: 1m
+        labels:
+          severity: warning
+          category: scheduler
+        annotations:
+          summary: "调度器频繁重启"
+          description: "过去 1 小时调度器重启 > 5 次，可能有稳定性问题"
+
+  # ========================================================================
+  # 系统告警 - API 性能
+  # ========================================================================
+  - name: api_performance
+    interval: 30s
+    rules:
+      - alert: HighAPILatency
+        expr: |
+          histogram_quantile(0.99, sum(rate(stock_api_request_duration_seconds_bucket[5m])) by (le))
+            > 2
+        for: 5m
+        labels:
+          severity: warning
+          category: api
+        annotations:
+          summary: "API p99 延迟 > 2s"
+          description: "API 请求 p99 延迟过高，可能影响用户体验"
+
+      - alert: VeryHighAPILatency
+        expr: |
+          histogram_quantile(0.99, sum(rate(stock_api_request_duration_seconds_bucket[5m])) by (le))
+            > 5
+        for: 2m
+        labels:
+          severity: critical
+          category: api
+        annotations:
+          summary: "API p99 延迟 > 5s"
+          description: "严重性能问题，需要立即排查"
+
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(stock_api_requests_total{status=~"5.."}[5m]))
+            /
+          sum(rate(stock_api_requests_total[5m]))
+            > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          category: api
+        annotations:
+          summary: "API 5xx 错误率 > 5%"
+          description: "API 5xx 错误率过高，可能影响系统可用性"
+
+      - alert: LowAPITraffic
+        expr: sum(rate(stock_api_requests_total[1h])) < 0.1
+        for: 30m
+        labels:
+          severity: info
+          category: api
+        annotations:
+          summary: "API 流量异常低"
+          description: "过去 1 小时几乎没有 API 请求，可能 UI 未启动或爬虫停了"
+
+  # ========================================================================
+  # 业务告警 - 飞书推送
+  # ========================================================================
+  - name: feishu_push
+    interval: 30s
+    rules:
+      - alert: HighFeishuFailureRate
+        expr: |
+          sum(rate(stock_feishu_pushes_total{status="failed"}[1h]))
+            /
+          sum(rate(stock_feishu_pushes_total[1h]))
+            > 0.3
+        for: 10m
+        labels:
+          severity: warning
+          category: feishu
+        annotations:
+          summary: "飞书推送失败率 > 30%"
+          description: "飞书 webhook 推送可能失败，检查 webhook URL 和凭证"
+
+      - alert: NoFeishuPushRecent
+        expr: sum(increase(stock_feishu_pushes_total[24h])) == 0
+        for: 1h
+        labels:
+          severity: info
+          category: feishu
+        annotations:
+          summary: "飞书 24h 无推送"
+          description: "飞书 webhook 24 小时没有推送，可能未启用或凭证未配"
+
+  # ========================================================================
+  # 录制规则 (预计算)
+  # ========================================================================
+  - name: recording_rules
+    interval: 30s
+    rules:
+      - record: stock:events_growth_24h
+        expr: increase(stock_events_total[24h])
+
+      - record: stock:news_growth_24h
+        expr: increase(stock_news_collected_total[24h])
+
+      - record: stock:job_success_rate_1h
+        expr: |
+          sum by (job_id) (rate(stock_job_runs_total{status="ok"}[1h]))
+            /
+          sum by (job_id) (rate(stock_job_runs_total[1h]))
+
+      - record: stock:api_requests_1h
+        expr: sum by (endpoint, status) (increase(stock_api_requests_total[1h]))
+
+      - record: stock:db_size_mb
+        expr: stock_db_size_bytes / 1048576

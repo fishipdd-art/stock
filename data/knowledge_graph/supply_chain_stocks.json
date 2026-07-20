@@ -1,0 +1,2976 @@
+{
+  "generated_at": "2026-06-14T09:31:03.538557",
+  "total": 148,
+  "stocks": [
+    {
+      "code": "688146",
+      "name": "中船特气",
+      "signals": [
+        "六氟化钨 WF6 供需缺口 涨价 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_grade": "A",
+      "best_strength": 5.0,
+      "tier": 1,
+      "price": 302.0,
+      "prev_close": 349.8,
+      "chg": -47.8,
+      "chg_pct": -13.66,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "002971",
+      "name": "和远气体",
+      "signals": [
+        "六氟化钨 WF6 供需缺口 涨价 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_grade": "A",
+      "best_strength": 5.0,
+      "tier": 1,
+      "price": 58.03,
+      "prev_close": 52.75,
+      "chg": 5.28,
+      "chg_pct": 10.01,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "688268",
+      "name": "华特气体",
+      "signals": [
+        "六氟化钨 WF6 供需缺口 涨价 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_grade": "A",
+      "best_strength": 5.0,
+      "tier": 1,
+      "price": 188.5,
+      "chg_pct": -17.62,
+      "supply_exposure": "低",
+      "prev_close": 228.82,
+      "chg": -40.32,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "688106",
+      "name": "金宏气体",
+      "signals": [
+        "六氟化钨 WF6 供需缺口 涨价 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_grade": "A",
+      "best_strength": 5.0,
+      "tier": 1,
+      "price": 28.17,
+      "chg_pct": -14.89,
+      "supply_exposure": "高",
+      "prev_close": 33.1,
+      "chg": -4.93,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600028",
+      "name": "中国石化",
+      "signals": [
+        "T1000级碳纤维 量产 上海石化 2026"
+      ],
+      "signals_strength": [
+        4.5
+      ],
+      "best_grade": "A",
+      "best_strength": 4.5,
+      "tier": 1,
+      "price": 4.94,
+      "chg_pct": 3.13,
+      "ma5_ma20": "空头",
+      "chg_1m": -3.7,
+      "supply_exposure": "低",
+      "prev_close": 4.79,
+      "chg": 0.15,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600688",
+      "name": "上海石化",
+      "signals": [
+        "T1000级碳纤维 量产 上海石化 2026"
+      ],
+      "signals_strength": [
+        4.5
+      ],
+      "best_grade": "A",
+      "best_strength": 4.5,
+      "tier": 1,
+      "price": 2.91,
+      "chg_pct": 0.69,
+      "supply_exposure": "低",
+      "prev_close": 2.89,
+      "chg": 0.02,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "000960",
+      "name": "锡业股份",
+      "signals": [
+        "锡价 涨价 AI服务器 算力金属 2026"
+      ],
+      "signals_strength": [
+        4.8
+      ],
+      "best_grade": "A",
+      "best_strength": 4.8,
+      "tier": 1,
+      "price": 37.65,
+      "prev_close": 34.86,
+      "chg": 2.79,
+      "chg_pct": 8.0,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "000426",
+      "name": "兴业银锡",
+      "signals": [
+        "锡价 涨价 AI服务器 算力金属 2026"
+      ],
+      "signals_strength": [
+        4.8
+      ],
+      "best_grade": "A",
+      "best_strength": 4.8,
+      "tier": 1,
+      "price": 36.82,
+      "prev_close": 36.05,
+      "chg": 0.77,
+      "chg_pct": 2.14,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600711",
+      "name": "华锡有色",
+      "signals": [
+        "锡价 涨价 AI服务器 算力金属 2026"
+      ],
+      "signals_strength": [
+        4.8
+      ],
+      "best_grade": "A",
+      "best_strength": 4.8,
+      "tier": 1,
+      "price": 13.0,
+      "prev_close": 11.83,
+      "chg": 1.17,
+      "chg_pct": 9.89,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601958",
+      "name": "金钼股份",
+      "signals": [
+        "镓锗钨钼 稀有金属 小金属 出口管制 2026"
+      ],
+      "signals_strength": [
+        4.8
+      ],
+      "best_grade": "A",
+      "best_strength": 4.8,
+      "tier": 1,
+      "price": 25.52,
+      "chg_pct": 10.0,
+      "supply_exposure": "中",
+      "prev_close": 23.2,
+      "chg": 2.32,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "002842",
+      "name": "翔鹭钨业",
+      "signals": [
+        "镓锗钨钼 稀有金属 小金属 出口管制 2026"
+      ],
+      "signals_strength": [
+        4.8
+      ],
+      "best_grade": "A",
+      "best_strength": 4.8,
+      "tier": 1,
+      "price": 39.69,
+      "prev_close": 39.34,
+      "chg": 0.35,
+      "chg_pct": 0.89,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "002428",
+      "name": "云南锗业",
+      "signals": [
+        "镓锗钨钼 稀有金属 小金属 出口管制 2026"
+      ],
+      "signals_strength": [
+        4.8
+      ],
+      "best_grade": "A",
+      "best_strength": 4.8,
+      "tier": 1,
+      "price": 92.26,
+      "prev_close": 88.24,
+      "chg": 4.02,
+      "chg_pct": 4.56,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "603993",
+      "name": "洛阳钼业",
+      "signals": [
+        "镓锗钨钼 稀有金属 小金属 出口管制 2026"
+      ],
+      "signals_strength": [
+        4.8
+      ],
+      "best_grade": "A",
+      "best_strength": 4.8,
+      "tier": 1,
+      "price": 19.11,
+      "chg_pct": 10.02,
+      "ma5_ma20": "空头",
+      "chg_1m": 2.8,
+      "supply_exposure": "高",
+      "prev_close": 17.37,
+      "chg": 1.74,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300812",
+      "name": "易天股份",
+      "signals": [
+        "CPO 硅光 先进封装 设备 国产替代 2026"
+      ],
+      "signals_strength": [
+        4.2
+      ],
+      "best_grade": "B",
+      "best_strength": 4.2,
+      "tier": 1,
+      "price": 26.33,
+      "prev_close": 28.57,
+      "chg": -2.24,
+      "chg_pct": -7.84,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300757",
+      "name": "罗博特科",
+      "signals": [
+        "CPO 硅光 先进封装 设备 国产替代 2026"
+      ],
+      "signals_strength": [
+        4.2
+      ],
+      "best_grade": "B",
+      "best_strength": 4.2,
+      "tier": 1,
+      "price": 600.0,
+      "prev_close": 620.0,
+      "chg": -20.0,
+      "chg_pct": -3.23,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "002463",
+      "name": "沪电股份",
+      "signals": [
+        "PCB 算力 供需偏紧 AI算力 涨价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_grade": "B",
+      "best_strength": 4.0,
+      "tier": 1,
+      "price": 125.2,
+      "prev_close": 126.91,
+      "chg": -1.71,
+      "chg_pct": -1.35,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "002916",
+      "name": "深南电路",
+      "signals": [
+        "PCB 算力 供需偏紧 AI算力 涨价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_grade": "B",
+      "best_strength": 4.0,
+      "tier": 1,
+      "price": 379.5,
+      "prev_close": 376.16,
+      "chg": 3.34,
+      "chg_pct": 0.89,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "002815",
+      "name": "崇达技术",
+      "signals": [
+        "PCB 算力 供需偏紧 AI算力 涨价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_grade": "B",
+      "best_strength": 4.0,
+      "tier": 1,
+      "price": 17.15,
+      "prev_close": 17.73,
+      "chg": -0.58,
+      "chg_pct": -3.27,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "603920",
+      "name": "世运电路",
+      "signals": [
+        "PCB 算力 供需偏紧 AI算力 涨价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_grade": "B",
+      "best_strength": 4.0,
+      "tier": 1,
+      "price": 52.71,
+      "prev_close": 53.25,
+      "chg": -0.54,
+      "chg_pct": -1.01,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "603986",
+      "name": "兆易创新",
+      "signals": [
+        "HBM存储芯片涨价",
+        "HBM 存储芯片 供需 涨价 2026 A股"
+      ],
+      "signals_strength": [
+        5.0,
+        5.0
+      ],
+      "best_signal": "2025年Q1美光/SK海力士HBM已售罄，2026年份额上半年敲定，HBM销量预计翻倍，产能被大客户锁死",
+      "best_grade": "A",
+      "price": 481.47,
+      "chg_pct": -0.42,
+      "ma5_ma20": "多头",
+      "chg_1m": 28.53,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 483.5,
+      "chg": -2.03,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300475",
+      "name": "洁美科技",
+      "signals": [
+        "HBM存储芯片涨价"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "2025年Q1美光/SK海力士HBM已售罄，2026年份额上半年敲定，HBM销量预计翻倍，产能被大客户锁死",
+      "best_grade": "A",
+      "price": 187.5,
+      "chg_pct": 2.93,
+      "ma5_ma20": "空头",
+      "chg_1m": -1.52,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 182.16,
+      "chg": 5.34,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "636",
+      "name": "风华高科",
+      "signals": [
+        "MLCC涨价",
+        "MLCC 供需 涨价 2026 缺口"
+      ],
+      "signals_strength": [
+        5.0,
+        5.0
+      ],
+      "best_signal": "村田发布涨价函，AI服务器和高端车规级MLCC涨价15%-35%，4月1日生效；2025年下半年至2026年已历经多轮涨价",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "300408",
+      "name": "三环集团",
+      "signals": [
+        "MLCC涨价",
+        "MLCC 供需 涨价 2026 缺口"
+      ],
+      "signals_strength": [
+        5.0,
+        5.0
+      ],
+      "best_signal": "村田发布涨价函，AI服务器和高端车规级MLCC涨价15%-35%，4月1日生效；2025年下半年至2026年已历经多轮涨价",
+      "best_grade": "A",
+      "price": 126.5,
+      "chg_pct": -3.9,
+      "ma5_ma20": "多头",
+      "chg_1m": 47.61,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 131.63,
+      "chg": -5.13,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2859",
+      "name": "洁美科技",
+      "signals": [
+        "MLCC涨价",
+        "MLCC 供需 涨价 2026 缺口"
+      ],
+      "signals_strength": [
+        5.0,
+        5.0
+      ],
+      "best_signal": "村田发布涨价函，AI服务器和高端车规级MLCC涨价15%-35%，4月1日生效；2025年下半年至2026年已历经多轮涨价",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "2285",
+      "name": "横店东磁",
+      "signals": [
+        "MLCC涨价"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "村田发布涨价函，AI服务器和高端车规级MLCC涨价15%-35%，4月1日生效；2025年下半年至2026年已历经多轮涨价",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2138",
+      "name": "顺络电子",
+      "signals": [
+        "MLCC涨价"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "村田发布涨价函，AI服务器和高端车规级MLCC涨价15%-35%，4月1日生效；2025年下半年至2026年已历经多轮涨价",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "603738",
+      "name": "泰晶科技",
+      "signals": [
+        "MLCC涨价"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "村田发布涨价函，AI服务器和高端车规级MLCC涨价15%-35%，4月1日生效；2025年下半年至2026年已历经多轮涨价",
+      "best_grade": "A",
+      "price": 51.74,
+      "chg_pct": 9.99,
+      "ma5_ma20": "空头",
+      "chg_1m": -6.91,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 47.04,
+      "chg": 4.7,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600549",
+      "name": "厦门钨业",
+      "signals": [
+        "钨价涨价",
+        "铜 钼 钨 有色金属 供需 缺口 涨价 2026"
+      ],
+      "signals_strength": [
+        4.0,
+        4.0
+      ],
+      "best_signal": "2025年钨精矿14.2万至45.6万每吨(累计上涨221%)，2026年3月突破100万每吨，5月底回调至41.6万每吨，已现企稳回升迹象",
+      "best_grade": "C",
+      "price": 64.8,
+      "chg_pct": -3.91,
+      "ma5_ma20": "多头",
+      "chg_1m": 22.26,
+      "tier": 2,
+      "supply_exposure": "中",
+      "prev_close": 67.44,
+      "chg": -2.64,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "657",
+      "name": "中钨高新",
+      "signals": [
+        "钨价涨价"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "2025年钨精矿14.2万至45.6万每吨(累计上涨221%)，2026年3月突破100万每吨，5月底回调至41.6万每吨，已现企稳回升迹象",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2378",
+      "name": "章源钨业",
+      "signals": [
+        "钨价涨价"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "2025年钨精矿14.2万至45.6万每吨(累计上涨221%)，2026年3月突破100万每吨，5月底回调至41.6万每吨，已现企稳回升迹象",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "510300",
+      "name": "沪深300",
+      "signals": [
+        "美债收益率 10年期 2年期 涨跌 2026",
+        "人民币汇率 在岸 离岸 贬值 升值 2026",
+        "美联储 利率决议 加息 降息 2026",
+        "美国 CPI 通胀 数据 美联储 2026",
+        "美国 非农 就业 数据 美联储 2026",
+        "中国 PMI 制造业 非制造业 2026"
+      ],
+      "signals_strength": [
+        3.5,
+        2.0,
+        3.5,
+        2.0,
+        3.5,
+        4.0
+      ],
+      "best_signal": "5月制造业PMI 50.0%降0.3个百分点,非制造业PMI 50.1%回升0.7个百分点",
+      "best_grade": "C",
+      "price": 4.818,
+      "chg_pct": 1.41,
+      "ma5_ma20": "空头",
+      "chg_1m": -1.23,
+      "tier": 1,
+      "supply_exposure": "高"
+    },
+    {
+      "code": "159915",
+      "name": "创业板",
+      "signals": [
+        "美债收益率 10年期 2年期 涨跌 2026",
+        "纳斯达克指数 纳指 涨跌 2026",
+        "美联储 利率决议 加息 降息 2026",
+        "美国 CPI 通胀 数据 美联储 2026",
+        "美国 非农 就业 数据 美联储 2026"
+      ],
+      "signals_strength": [
+        3.5,
+        5.0,
+        3.5,
+        2.0,
+        3.5
+      ],
+      "best_signal": "6月8日纳指报26174点,涨1.81%;纳指100期货涨1%",
+      "best_grade": "A",
+      "price": 3.846,
+      "chg_pct": 0.42,
+      "ma5_ma20": "空头",
+      "chg_1m": -3.12,
+      "tier": 1,
+      "supply_exposure": "高"
+    },
+    {
+      "code": "513100",
+      "name": "纳指ETF",
+      "signals": [
+        "美债收益率 10年期 2年期 涨跌 2026",
+        "纳斯达克指数 纳指 涨跌 2026",
+        "美联储 利率决议 加息 降息 2026",
+        "美国 CPI 通胀 数据 美联储 2026",
+        "美国 非农 就业 数据 美联储 2026"
+      ],
+      "signals_strength": [
+        3.5,
+        5.0,
+        3.5,
+        2.0,
+        3.5
+      ],
+      "best_signal": "6月8日纳指报26174点,涨1.81%;纳指100期货涨1%",
+      "best_grade": "A",
+      "price": 2.162,
+      "chg_pct": 1.5,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "高"
+    },
+    {
+      "code": "600519",
+      "name": "贵州茅台",
+      "signals": [
+        "美元指数 DXY 涨跌 人民币 2026",
+        "人民币汇率 在岸 离岸 贬值 升值 2026",
+        "高端白酒 批价 飞天茅台 五粮液 2026"
+      ],
+      "signals_strength": [
+        2.0,
+        2.0,
+        2.5
+      ],
+      "best_signal": "4月5日飞天茅台原箱1700元/瓶(跌10元),散瓶1565元/瓶(跌5元),价格持续低迷",
+      "best_grade": "C",
+      "price": 1291.91,
+      "chg_pct": 1.01,
+      "ma5_ma20": "空头",
+      "chg_1m": -3.08,
+      "tier": 1,
+      "supply_exposure": "高",
+      "prev_close": 1279.0,
+      "chg": 12.91,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601318",
+      "name": "中国平安",
+      "signals": [
+        "美元指数 DXY 涨跌 人民币 2026",
+        "人民币汇率 在岸 离岸 贬值 升值 2026",
+        "中国平安 新业务价值 NBV 2026"
+      ],
+      "signals_strength": [
+        2.0,
+        2.0,
+        5.0
+      ],
+      "best_signal": "平安寿险NBV 155.74亿,同比增20.8%,首年保费大增45.5%",
+      "best_grade": "B",
+      "price": 54.01,
+      "chg_pct": 2.6,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "高",
+      "prev_close": 52.64,
+      "chg": 1.37,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600036",
+      "name": "招行",
+      "signals": [
+        "美元指数 DXY 涨跌 人民币 2026",
+        "招行 财富管理 AUM 净息差 2026"
+      ],
+      "signals_strength": [
+        2.0,
+        3.5
+      ],
+      "best_signal": "招行2025年净息差1.87%降11BP,预计2026年降幅收窄",
+      "best_grade": "B",
+      "price": 39.34,
+      "chg_pct": 1.58,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 38.73,
+      "chg": 0.61,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600988",
+      "name": "赤峰黄金",
+      "signals": [
+        "黄金价格 涨跌 避险 2026",
+        "霍尔木兹海峡 封锁 石油 铜 运输 2026",
+        "特朗普 伊朗 协议 制裁 解除 霍尔木兹 2026"
+      ],
+      "signals_strength": [
+        3.0,
+        5.0,
+        3.5
+      ],
+      "best_signal": "霍尔木兹海峡遭美全面封锁,全球20%石油断流,油价飙升",
+      "best_grade": "A",
+      "price": 30.37,
+      "chg_pct": 7.47,
+      "ma5_ma20": "空头",
+      "chg_1m": -18.62,
+      "tier": 1,
+      "supply_exposure": "高",
+      "prev_close": 28.26,
+      "chg": 2.11,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "975",
+      "name": "银泰黄金",
+      "signals": [
+        "黄金价格 涨跌 避险 2026",
+        "黄金价格 涨跌 避险 2026"
+      ],
+      "signals_strength": [
+        3.0,
+        3.0
+      ],
+      "best_signal": "国际金价4514.24美元/盎司,涨0.66%,处历史高位附近",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "600029",
+      "name": "航空",
+      "signals": [
+        "WTI原油 布伦特原油 期货 涨跌 2026"
+      ],
+      "signals_strength": [
+        2.0
+      ],
+      "best_signal": "EIA预计2026年WTI 62.46美元/桶,布伦特66.46美元/桶,供过于求",
+      "best_grade": "D",
+      "price": 5.27,
+      "chg_pct": 4.98,
+      "ma5_ma20": "空头",
+      "chg_1m": -1.86,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 5.02,
+      "chg": 0.25,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601872",
+      "name": "招商轮船",
+      "signals": [
+        "WTI原油 布伦特原油 期货 涨跌 2026",
+        "BDI 波罗的海干散货指数 涨价 供需 2026"
+      ],
+      "signals_strength": [
+        2.0,
+        3.5
+      ],
+      "best_signal": "6月12日BDI报2729,近3月涨38.39%,近1年涨43.33%",
+      "best_grade": "A",
+      "price": 15.6,
+      "chg_pct": 8.18,
+      "ma5_ma20": "空头",
+      "chg_1m": -10.55,
+      "tier": 2,
+      "supply_exposure": "中",
+      "prev_close": 14.42,
+      "chg": 1.18,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600256",
+      "name": "广汇能源",
+      "signals": [
+        "天然气 液化天然气 LNG 价格 涨跌 2026",
+        "甲醇 港口库存 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        4.0,
+        3.0
+      ],
+      "best_signal": "2026年5月LNG市场:供应增加需求走弱,中东局势持续LNG价格高位运行",
+      "best_grade": "C",
+      "price": 6.6,
+      "chg_pct": 4.27,
+      "ma5_ma20": "空头",
+      "chg_1m": 3.12,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 6.33,
+      "chg": 0.27,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600803",
+      "name": "新奥股份",
+      "signals": [
+        "天然气 液化天然气 LNG 价格 涨跌 2026",
+        "甲醇 港口库存 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        4.0,
+        3.0
+      ],
+      "best_signal": "2026年5月LNG市场:供应增加需求走弱,中东局势持续LNG价格高位运行",
+      "best_grade": "C",
+      "price": 18.33,
+      "chg_pct": 0.55,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 18.23,
+      "chg": 0.1,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600026",
+      "name": "中远海能",
+      "signals": [
+        "天然气 液化天然气 LNG 价格 涨跌 2026",
+        "BDI 波罗的海干散货指数 涨价 供需 2026"
+      ],
+      "signals_strength": [
+        4.0,
+        3.5
+      ],
+      "best_signal": "2026年5月LNG市场:供应增加需求走弱,中东局势持续LNG价格高位运行",
+      "best_grade": "C",
+      "price": 17.5,
+      "chg_pct": 5.11,
+      "ma5_ma20": "空头",
+      "chg_1m": -19.98,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 16.65,
+      "chg": 0.85,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2",
+      "name": "万科A",
+      "signals": [
+        "央行 降准 降息 麻辣粉 MLF 政策 2026",
+        "地产销售 房价 新开工 政策 2026"
+      ],
+      "signals_strength": [
+        5.0,
+        2.5
+      ],
+      "best_signal": "央行MLF操作1000亿利率2.95%不变,降准已生效,政策宽松延续",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "600048",
+      "name": "保利发展",
+      "signals": [
+        "央行 降准 降息 麻辣粉 MLF 政策 2026",
+        "地产销售 房价 新开工 政策 2026"
+      ],
+      "signals_strength": [
+        5.0,
+        2.5
+      ],
+      "best_signal": "央行MLF操作1000亿利率2.95%不变,降准已生效,政策宽松延续",
+      "best_grade": "B",
+      "price": 5.21,
+      "chg_pct": 1.17,
+      "ma5_ma20": "空头",
+      "chg_1m": -16.1,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 5.15,
+      "chg": 0.06,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300059",
+      "name": "东方财富",
+      "signals": [
+        "央行 降准 降息 麻辣粉 MLF 政策 2026",
+        "主力资金净流入 板块 行业 涨跌 2026"
+      ],
+      "signals_strength": [
+        5.0,
+        2.5
+      ],
+      "best_signal": "央行MLF操作1000亿利率2.95%不变,降准已生效,政策宽松延续",
+      "best_grade": "B",
+      "price": 18.0,
+      "chg_pct": 3.69,
+      "ma5_ma20": "空头",
+      "chg_1m": -8.77,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 17.36,
+      "chg": 0.64,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300750",
+      "name": "宁德时代",
+      "signals": [
+        "央行 降准 降息 麻辣粉 MLF 政策 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "央行MLF操作1000亿利率2.95%不变,降准已生效,政策宽松延续",
+      "best_grade": "B",
+      "price": 394.85,
+      "chg_pct": 3.31,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 382.2,
+      "chg": 12.65,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600030",
+      "name": "中信证券",
+      "signals": [
+        "证监会 政策 IPO 并购重组 活跃 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "证监会2026年工作:活跃并购重组,中长期资金入市取得突破",
+      "best_grade": "B",
+      "price": 26.29,
+      "chg_pct": 3.06,
+      "ma5_ma20": "多头",
+      "chg_1m": 1.35,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 25.51,
+      "chg": 0.78,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601995",
+      "name": "中金公司",
+      "signals": [
+        "证监会 政策 IPO 并购重组 活跃 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "证监会2026年工作:活跃并购重组,中长期资金入市取得突破",
+      "best_grade": "B",
+      "price": 32.82,
+      "chg_pct": 3.44,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 31.73,
+      "chg": 1.09,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300033",
+      "name": "同花顺",
+      "signals": [
+        "证监会 政策 IPO 并购重组 活跃 2026",
+        "主力资金净流入 板块 行业 涨跌 2026",
+        "DeepSeek 大模型 AI应用 涨停 2026"
+      ],
+      "signals_strength": [
+        3.0,
+        2.5,
+        3.0
+      ],
+      "best_signal": "证监会2026年工作:活跃并购重组,中长期资金入市取得突破",
+      "best_grade": "B",
+      "price": 207.46,
+      "chg_pct": 7.47,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "高",
+      "prev_close": 193.04,
+      "chg": 14.42,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "588000",
+      "name": "科创50",
+      "signals": [
+        "纳斯达克指数 纳指 涨跌 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "6月8日纳指报26174点,涨1.81%;纳指100期货涨1%",
+      "best_grade": "A",
+      "price": 1.756,
+      "chg_pct": 0.0,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "513500",
+      "name": "港股ETF",
+      "signals": [
+        "日经225指数 港股恒生 亚太股市 涨跌 2026"
+      ],
+      "signals_strength": [
+        2.0
+      ],
+      "best_signal": "6月5日日经225报66588点跌1.31%,韩国KOSPI报8160点暴跌5.54%",
+      "best_grade": "D",
+      "price": 2.515,
+      "chg_pct": 0.68,
+      "ma5_ma20": "空头",
+      "chg_1m": 1.41,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "630",
+      "name": "铜陵有色",
+      "signals": [
+        "霍尔木兹海峡 封锁 石油 铜 运输 2026",
+        "特朗普 伊朗 协议 制裁 解除 霍尔木兹 2026",
+        "伊朗最高领袖 批准 美伊协议 霍尔木兹 最新 2026",
+        "铜 钼 钨 有色金属 供需 缺口 涨价 2026",
+        "国际铜价 LME 沪铜 涨跌 供需 2026"
+      ],
+      "signals_strength": [
+        5.0,
+        3.5,
+        2.0,
+        4.0,
+        5.0
+      ],
+      "best_signal": "霍尔木兹海峡遭美全面封锁,全球20%石油断流,油价飙升",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "高"
+    },
+    {
+      "code": "878",
+      "name": "云南铜业",
+      "signals": [
+        "霍尔木兹海峡 封锁 石油 铜 运输 2026",
+        "国际铜价 LME 沪铜 涨跌 供需 2026"
+      ],
+      "signals_strength": [
+        5.0,
+        5.0
+      ],
+      "best_signal": "霍尔木兹海峡遭美全面封锁,全球20%石油断流,油价飙升",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "737",
+      "name": "北方铜业",
+      "signals": [
+        "伊朗最高领袖 批准 美伊协议 霍尔木兹 最新 2026",
+        "国际铜价 LME 沪铜 涨跌 供需 2026"
+      ],
+      "signals_strength": [
+        2.0,
+        5.0
+      ],
+      "best_signal": "6月12日LME铜报13624美元/吨,涨1.05%;6月9日收涨96美元至13616美元",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "600362",
+      "name": "江西铜业",
+      "signals": [
+        "国际铜价 LME 沪铜 涨跌 供需 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "6月12日LME铜报13624美元/吨,涨1.05%;6月9日收涨96美元至13616美元",
+      "best_grade": "A",
+      "price": 43.05,
+      "chg_pct": 7.25,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 40.14,
+      "chg": 2.91,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "688010",
+      "name": "福光股份",
+      "signals": [
+        "SpaceX IPO 上市 纳斯达克 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "SpaceX 6月12日纳斯达克上市,代码SPCX,发行价135美元,估值1.77万亿美元,募资750亿美元史上最大IPO",
+      "best_grade": "D",
+      "price": 47.84,
+      "chg_pct": 19.99,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 39.87,
+      "chg": 7.97,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2085",
+      "name": "万丰奥威",
+      "signals": [
+        "SpaceX IPO 上市 纳斯达克 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "SpaceX 6月12日纳斯达克上市,代码SPCX,发行价135美元,估值1.77万亿美元,募资750亿美元史上最大IPO",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "300581",
+      "name": "晨曦航空",
+      "signals": [
+        "SpaceX IPO 上市 纳斯达克 2026",
+        "军工 国防预算 导弹 飞机 订单 2026"
+      ],
+      "signals_strength": [
+        3.0,
+        5.0
+      ],
+      "best_signal": "C919订单突破1200架,军工装备换代需求激增,国防科技工业规划支持",
+      "best_grade": "B",
+      "price": 13.16,
+      "chg_pct": 19.96,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 10.97,
+      "chg": 2.19,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600862",
+      "name": "中航高科",
+      "signals": [
+        "SpaceX IPO 上市 纳斯达克 2026",
+        "军工 国防预算 导弹 飞机 订单 2026"
+      ],
+      "signals_strength": [
+        3.0,
+        5.0
+      ],
+      "best_signal": "C919订单突破1200架,军工装备换代需求激增,国防科技工业规划支持",
+      "best_grade": "B",
+      "price": 18.87,
+      "chg_pct": 10.03,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 17.15,
+      "chg": 1.72,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "1696",
+      "name": "宗申动力",
+      "signals": [
+        "SpaceX IPO 上市 纳斯达克 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "SpaceX 6月12日纳斯达克上市,代码SPCX,发行价135美元,估值1.77万亿美元,募资750亿美元史上最大IPO",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "603131",
+      "name": "上海沪工",
+      "signals": [
+        "商业航天 卫星 火箭 发射 涨停 2026",
+        "卫星互联网 星链 低轨卫星 概念股 涨跌 2026"
+      ],
+      "signals_strength": [
+        3.0,
+        4.0
+      ],
+      "best_signal": "航空航天ETF换手18.89%成交5.65亿,航发科技涨停",
+      "best_grade": "C",
+      "price": 18.66,
+      "chg_pct": 3.15,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 18.09,
+      "chg": 0.57,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2025",
+      "name": "航天电器",
+      "signals": [
+        "商业航天 卫星 火箭 发射 涨停 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "SpaceX IPO催化商业航天板块大面积涨停,中天火箭等2连板",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2413",
+      "name": "雷科防务",
+      "signals": [
+        "商业航天 卫星 火箭 发射 涨停 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "SpaceX IPO催化商业航天板块大面积涨停,中天火箭等2连板",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "300123",
+      "name": "亚光科技",
+      "signals": [
+        "商业航天 卫星 火箭 发射 涨停 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "SpaceX IPO催化商业航天板块大面积涨停,中天火箭等2连板",
+      "best_grade": "D",
+      "price": 4.29,
+      "chg_pct": 4.38,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 4.11,
+      "chg": 0.18,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600760",
+      "name": "中航沈飞",
+      "signals": [
+        "军工 国防预算 导弹 飞机 订单 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "C919订单突破1200架,军工装备换代需求激增,国防科技工业规划支持",
+      "best_grade": "B",
+      "price": 44.61,
+      "chg_pct": 7.18,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 41.62,
+      "chg": 2.99,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "768",
+      "name": "中航西飞",
+      "signals": [
+        "军工 国防预算 导弹 飞机 订单 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "C919订单突破1200架,军工装备换代需求激增,国防科技工业规划支持",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600893",
+      "name": "航发动力",
+      "signals": [
+        "军工 国防预算 导弹 飞机 订单 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "C919订单突破1200架,军工装备换代需求激增,国防科技工业规划支持",
+      "best_grade": "B",
+      "price": 38.82,
+      "chg_pct": 1.65,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 38.19,
+      "chg": 0.63,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "1270",
+      "name": "铖昌科技",
+      "signals": [
+        "卫星互联网 星链 低轨卫星 概念股 涨跌 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "航空航天ETF换手18.89%成交5.65亿,航发科技涨停",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "688682",
+      "name": "霍莱沃",
+      "signals": [
+        "卫星互联网 星链 低轨卫星 概念股 涨跌 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "航空航天ETF换手18.89%成交5.65亿,航发科技涨停",
+      "best_grade": "C",
+      "price": 41.35,
+      "chg_pct": -1.57,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 42.01,
+      "chg": -0.66,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300455",
+      "name": "康拓红外",
+      "signals": [
+        "卫星互联网 星链 低轨卫星 概念股 涨跌 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "航空航天ETF换手18.89%成交5.65亿,航发科技涨停",
+      "best_grade": "C",
+      "price": 23.68,
+      "chg_pct": 7.15,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 22.1,
+      "chg": 1.58,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2714",
+      "name": "牧原股份",
+      "signals": [
+        "仔猪 价格 上涨 供需 养殖 2026",
+        "能繁母猪 存栏 生猪 供需 周期 2026"
+      ],
+      "signals_strength": [
+        3.5,
+        4.0
+      ],
+      "best_signal": "能繁母猪存栏4035万头仍高于3900万头合理保有量3.5%,供给压力未缓解",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "300498",
+      "name": "温氏股份",
+      "signals": [
+        "仔猪 价格 上涨 供需 养殖 2026",
+        "能繁母猪 存栏 生猪 供需 周期 2026"
+      ],
+      "signals_strength": [
+        3.5,
+        4.0
+      ],
+      "best_signal": "能繁母猪存栏4035万头仍高于3900万头合理保有量3.5%,供给压力未缓解",
+      "best_grade": "C",
+      "price": 12.93,
+      "chg_pct": 0.54,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 12.86,
+      "chg": 0.07,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "876",
+      "name": "新希望",
+      "signals": [
+        "仔猪 价格 上涨 供需 养殖 2026",
+        "豆粕 库存 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        3.5,
+        2.0
+      ],
+      "best_signal": "5月第1周仔猪/生猪价格环比上涨,但同比仍下跌32.8%",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "603363",
+      "name": "傲农生物",
+      "signals": [
+        "仔猪 价格 上涨 供需 养殖 2026"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "5月第1周仔猪/生猪价格环比上涨,但同比仍下跌32.8%",
+      "best_grade": "C",
+      "price": 2.95,
+      "chg_pct": 1.72,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 2.9,
+      "chg": 0.05,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2311",
+      "name": "海大集团",
+      "signals": [
+        "豆粕 库存 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        2.0
+      ],
+      "best_signal": "豆粕现货价持续下跌,6月4日2878元/吨,从3月高点3474元回落",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2385",
+      "name": "大北农",
+      "signals": [
+        "豆粕 库存 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        2.0
+      ],
+      "best_signal": "豆粕现货价持续下跌,6月4日2878元/吨,从3月高点3474元回落",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600346",
+      "name": "恒力石化",
+      "signals": [
+        "PTA 现货价 供需 涨价 2026",
+        "乙烯 丙烯 石化 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        4.5,
+        3.5
+      ],
+      "best_signal": "PTA期货涨超3%报6210元/吨;6月1日涨2%报6276元/吨",
+      "best_grade": "B",
+      "price": 17.46,
+      "chg_pct": 7.18,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 16.29,
+      "chg": 1.17,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2493",
+      "name": "荣盛石化",
+      "signals": [
+        "PTA 现货价 供需 涨价 2026",
+        "PTA涨价"
+      ],
+      "signals_strength": [
+        4.5,
+        3.5
+      ],
+      "best_signal": "PTA期货涨超3%报6210元/吨;6月1日涨2%报6276元/吨",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "601233",
+      "name": "桐昆股份",
+      "signals": [
+        "PTA 现货价 供需 涨价 2026"
+      ],
+      "signals_strength": [
+        4.5
+      ],
+      "best_signal": "PTA期货涨超3%报6210元/吨;6月1日涨2%报6276元/吨",
+      "best_grade": "B",
+      "price": 22.3,
+      "chg_pct": 10.01,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 20.27,
+      "chg": 2.03,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601225",
+      "name": "陕西煤业",
+      "signals": [
+        "甲醇 港口库存 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "甲醇出口量环比增长163.32%,外需亮眼,供需格局偏强",
+      "best_grade": "D",
+      "price": 27.0,
+      "chg_pct": 0.26,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 26.93,
+      "chg": 0.07,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2648",
+      "name": "卫星化学",
+      "signals": [
+        "乙烯 丙烯 石化 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "丙烯山东主流8770-8840元/吨,较3月底涨0.63%,供应缩减+油价支撑",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600309",
+      "name": "万华化学",
+      "signals": [
+        "乙烯 丙烯 石化 现货价 供需 2026"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "丙烯山东主流8770-8840元/吨,较3月底涨0.63%,供应缩减+油价支撑",
+      "best_grade": "A",
+      "price": 71.67,
+      "chg_pct": 6.73,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 67.15,
+      "chg": 4.52,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601919",
+      "name": "中远海控",
+      "signals": [
+        "SCFI 上海出口集装箱运价指数 涨价 2026",
+        "FBX 集装箱运费指数 美西 美东 航线 2026"
+      ],
+      "signals_strength": [
+        2.0,
+        3.5
+      ],
+      "best_signal": "美西航线1075.44美元/FEU,涨4.7%;美东航线1192.70,涨3.1%",
+      "best_grade": "C",
+      "price": 14.57,
+      "chg_pct": 2.39,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 14.23,
+      "chg": 0.34,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601022",
+      "name": "宁波远洋",
+      "signals": [
+        "SCFI 上海出口集装箱运价指数 涨价 2026"
+      ],
+      "signals_strength": [
+        2.0
+      ],
+      "best_signal": "SCFI报2218.15,上期2571.73,下跌353.58点;综合指数大幅回落",
+      "best_grade": "D",
+      "price": 7.72,
+      "chg_pct": 1.45,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 7.61,
+      "chg": 0.11,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2320",
+      "name": "海峡股份",
+      "signals": [
+        "SCFI 上海出口集装箱运价指数 涨价 2026"
+      ],
+      "signals_strength": [
+        2.0
+      ],
+      "best_signal": "SCFI报2218.15,上期2571.73,下跌353.58点;综合指数大幅回落",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "601398",
+      "name": "工商银行",
+      "signals": [
+        "国有大行 净息差 2026",
+        "中国 社融 M2 人民币贷款 新增 2026"
+      ],
+      "signals_strength": [
+        5.0,
+        4.5
+      ],
+      "best_signal": "六大行净息差:邮储1.66%/建行1.34%/农业1.28%/工商1.28%/中行1.26%/交行1.20%",
+      "best_grade": "B",
+      "price": 7.78,
+      "chg_pct": 1.57,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 7.66,
+      "chg": 0.12,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601939",
+      "name": "建设银行",
+      "signals": [
+        "国有大行 净息差 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "六大行净息差:邮储1.66%/建行1.34%/农业1.28%/工商1.28%/中行1.26%/交行1.20%",
+      "best_grade": "B",
+      "price": 10.7,
+      "chg_pct": 0.94,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 10.6,
+      "chg": 0.1,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601988",
+      "name": "中国银行",
+      "signals": [
+        "国有大行 净息差 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "六大行净息差:邮储1.66%/建行1.34%/农业1.28%/工商1.28%/中行1.26%/交行1.20%",
+      "best_grade": "B",
+      "price": 6.29,
+      "chg_pct": 1.45,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 6.2,
+      "chg": 0.09,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601288",
+      "name": "农业银行",
+      "signals": [
+        "国有大行 净息差 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "六大行净息差:邮储1.66%/建行1.34%/农业1.28%/工商1.28%/中行1.26%/交行1.20%",
+      "best_grade": "B",
+      "price": 6.8,
+      "chg_pct": 1.8,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 6.68,
+      "chg": 0.12,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601601",
+      "name": "中国太保",
+      "signals": [
+        "中国平安 新业务价值 NBV 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "平安寿险NBV 155.74亿,同比增20.8%,首年保费大增45.5%",
+      "best_grade": "B",
+      "price": 32.86,
+      "chg_pct": 2.5,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 32.06,
+      "chg": 0.8,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "601628",
+      "name": "中国人寿",
+      "signals": [
+        "中国平安 新业务价值 NBV 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "平安寿险NBV 155.74亿,同比增20.8%,首年保费大增45.5%",
+      "best_grade": "B",
+      "price": 35.81,
+      "chg_pct": 4.31,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 34.33,
+      "chg": 1.48,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "858",
+      "name": "五粮液",
+      "signals": [
+        "高端白酒 批价 飞天茅台 五粮液 2026"
+      ],
+      "signals_strength": [
+        2.5
+      ],
+      "best_signal": "4月5日飞天茅台原箱1700元/瓶(跌10元),散瓶1565元/瓶(跌5元),价格持续低迷",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "568",
+      "name": "泸州老窖",
+      "signals": [
+        "高端白酒 批价 飞天茅台 五粮液 2026"
+      ],
+      "signals_strength": [
+        2.5
+      ],
+      "best_signal": "4月5日飞天茅台原箱1700元/瓶(跌10元),散瓶1565元/瓶(跌5元),价格持续低迷",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2511",
+      "name": "中顺洁柔",
+      "signals": [
+        "纸巾 卫生巾 卫生纸 涨价 缺货 2026"
+      ],
+      "signals_strength": [
+        2.5
+      ],
+      "best_signal": "汉高中国3月17日起所有产品价格上调20%,卫生巾品牌称暂未收到通知",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600600",
+      "name": "青岛啤酒",
+      "signals": [
+        "啤酒 燕京 青岛 高端化 2026"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "燕京Q1净利润预增55%-65%,大单品U8保持双位数高增速",
+      "best_grade": "B",
+      "price": 60.56,
+      "chg_pct": -0.21,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 60.69,
+      "chg": -0.13,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "729",
+      "name": "燕京啤酒",
+      "signals": [
+        "啤酒 燕京 青岛 高端化 2026"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "燕京Q1净利润预增55%-65%,大单品U8保持双位数高增速",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600132",
+      "name": "重庆啤酒",
+      "signals": [
+        "啤酒 燕京 青岛 高端化 2026"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "燕京Q1净利润预增55%-65%,大单品U8保持双位数高增速",
+      "best_grade": "B",
+      "price": 50.46,
+      "chg_pct": 2.54,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 49.21,
+      "chg": 1.25,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600585",
+      "name": "海螺水泥",
+      "signals": [
+        "水泥 出库量 价格指数 华东 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "全国水泥出库量291万吨环比回升7.5%,同比仍降18.7%;华东P.O42.5散装320-350元/吨",
+      "best_grade": "C",
+      "price": 18.71,
+      "chg_pct": 0.75,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 18.57,
+      "chg": 0.14,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600801",
+      "name": "华新水泥",
+      "signals": [
+        "水泥 出库量 价格指数 华东 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "全国水泥出库量291万吨环比回升7.5%,同比仍降18.7%;华东P.O42.5散装320-350元/吨",
+      "best_grade": "C",
+      "price": 19.03,
+      "chg_pct": 1.39,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 18.77,
+      "chg": 0.26,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "789",
+      "name": "万年青",
+      "signals": [
+        "水泥 出库量 价格指数 华东 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "全国水泥出库量291万吨环比回升7.5%,同比仍降18.7%;华东P.O42.5散装320-350元/吨",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2110",
+      "name": "三钢闽光",
+      "signals": [
+        "螺纹钢 社会库存 现货价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "5月28日建筑钢材价格涨跌互现,受梅雨季节影响终端施工受限,商家以降库为主",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600507",
+      "name": "方大特钢",
+      "signals": [
+        "螺纹钢 社会库存 现货价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "5月28日建筑钢材价格涨跌互现,受梅雨季节影响终端施工受限,商家以降库为主",
+      "best_grade": "C",
+      "price": 4.29,
+      "chg_pct": 1.42,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 4.23,
+      "chg": 0.06,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "932",
+      "name": "华菱钢铁",
+      "signals": [
+        "螺纹钢 社会库存 现货价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "5月28日建筑钢材价格涨跌互现,受梅雨季节影响终端施工受限,商家以降库为主",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "338",
+      "name": "潍柴动力",
+      "signals": [
+        "重卡 销量 物流 供需 2026"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "5月新能源中重卡销量1095辆同比增21.40%,1-5月累计增66.28%",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "951",
+      "name": "中国重汽",
+      "signals": [
+        "重卡 销量 物流 供需 2026"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "5月新能源中重卡销量1095辆同比增21.40%,1-5月累计增66.28%",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2430",
+      "name": "杭氧股份",
+      "signals": [
+        "液氩 价格 现货 涨价 2026 钢铁"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "液氩全国均价800元/吨,主产区陕西/甘肃425元/吨,新疆440元/吨",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2549",
+      "name": "凯美特气",
+      "signals": [
+        "液氩 价格 现货 涨价 2026 钢铁",
+        "电子特气 三氟化氮 六氟化钨 供需 涨价 2026"
+      ],
+      "signals_strength": [
+        3.5,
+        5.0
+      ],
+      "best_signal": "六氟化钨1670-1810元/kg,同比涨232.7%,SK Specialty等拟2026年上调70%-90%",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "600276",
+      "name": "恒瑞医药",
+      "signals": [
+        "创新药 医保谈判 纳入 降价 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "国家医保局5月31日发布工作方案,6月1-10日网上申报,创新药谈判全面启动",
+      "best_grade": "B",
+      "price": 48.49,
+      "chg_pct": 3.21,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 46.98,
+      "chg": 1.51,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "688235",
+      "name": "百济神州",
+      "signals": [
+        "创新药 医保谈判 纳入 降价 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "国家医保局5月31日发布工作方案,6月1-10日网上申报,创新药谈判全面启动",
+      "best_grade": "B",
+      "price": 216.36,
+      "chg_pct": 4.02,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 208.0,
+      "chg": 8.36,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "688331",
+      "name": "荣昌生物",
+      "signals": [
+        "创新药 医保谈判 纳入 降价 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "国家医保局5月31日发布工作方案,6月1-10日网上申报,创新药谈判全面启动",
+      "best_grade": "B",
+      "price": 113.9,
+      "chg_pct": 8.28,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 105.19,
+      "chg": 8.71,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600436",
+      "name": "片仔癀",
+      "signals": [
+        "中药 政策 利好 涨价 集采 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "工信部等八部门印发《中药工业高质量发展实施方案(2026-2030年)》",
+      "best_grade": "B",
+      "price": 119.56,
+      "chg_pct": 1.02,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 118.35,
+      "chg": 1.21,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "538",
+      "name": "云南白药",
+      "signals": [
+        "中药 政策 利好 涨价 集采 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "工信部等八部门印发《中药工业高质量发展实施方案(2026-2030年)》",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600085",
+      "name": "同仁堂",
+      "signals": [
+        "中药 政策 利好 涨价 集采 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "工信部等八部门印发《中药工业高质量发展实施方案(2026-2030年)》",
+      "best_grade": "B",
+      "price": 24.95,
+      "chg_pct": 2.67,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 24.3,
+      "chg": 0.65,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300015",
+      "name": "爱尔眼科",
+      "signals": [
+        "老龄化 养老 医疗 器械 集采 2026"
+      ],
+      "signals_strength": [
+        2.5
+      ],
+      "best_signal": "CMEF聚焦老龄产业高质量发展,适老化产品/AI康复机器人/护理机器人等前沿展示",
+      "best_grade": "D",
+      "price": 8.46,
+      "chg_pct": 0.59,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 8.41,
+      "chg": 0.05,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600763",
+      "name": "通策医疗",
+      "signals": [
+        "老龄化 养老 医疗 器械 集采 2026"
+      ],
+      "signals_strength": [
+        2.5
+      ],
+      "best_signal": "CMEF聚焦老龄产业高质量发展,适老化产品/AI康复机器人/护理机器人等前沿展示",
+      "best_grade": "D",
+      "price": 34.56,
+      "chg_pct": 3.07,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 33.53,
+      "chg": 1.03,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300760",
+      "name": "迈瑞医疗",
+      "signals": [
+        "老龄化 养老 医疗 器械 集采 2026"
+      ],
+      "signals_strength": [
+        2.5
+      ],
+      "best_signal": "CMEF聚焦老龄产业高质量发展,适老化产品/AI康复机器人/护理机器人等前沿展示",
+      "best_grade": "D",
+      "price": 151.04,
+      "chg_pct": 2.83,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 146.88,
+      "chg": 4.16,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2230",
+      "name": "科大讯飞",
+      "signals": [
+        "DeepSeek 大模型 AI应用 涨停 2026",
+        "AI应用 商业化 落地 业绩 增长 2026"
+      ],
+      "signals_strength": [
+        3.0,
+        5.0
+      ],
+      "best_signal": "AI应用从技术演示向规模化商用转变,8500万项目数小时处理3.8万份合同,年收过亿元",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中"
+    },
+    {
+      "code": "300418",
+      "name": "昆仑万维",
+      "signals": [
+        "DeepSeek 大模型 AI应用 涨停 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "DeepSeek周末火爆出圈,AI应用产业链受资金热捧",
+      "best_grade": "D",
+      "price": 37.22,
+      "chg_pct": 0.76,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 36.94,
+      "chg": 0.28,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "688111",
+      "name": "金山办公",
+      "signals": [
+        "DeepSeek 大模型 AI应用 涨停 2026"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "DeepSeek周末火爆出圈,AI应用产业链受资金热捧",
+      "best_grade": "D",
+      "price": 215.0,
+      "chg_pct": 2.6,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 209.56,
+      "chg": 5.44,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2415",
+      "name": "海康威视",
+      "signals": [
+        "AI应用 商业化 落地 业绩 增长 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "AI应用从技术演示向规模化商用转变,8500万项目数小时处理3.8万份合同,年收过亿元",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2236",
+      "name": "大华股份",
+      "signals": [
+        "AI应用 商业化 落地 业绩 增长 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "AI应用从技术演示向规模化商用转变,8500万项目数小时处理3.8万份合同,年收过亿元",
+      "best_grade": "B",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "301236",
+      "name": "软通动力",
+      "signals": [
+        "AI应用 商业化 落地 业绩 增长 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "AI应用从技术演示向规模化商用转变,8500万项目数小时处理3.8万份合同,年收过亿元",
+      "best_grade": "B",
+      "price": 39.75,
+      "chg_pct": -3.36,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 41.13,
+      "chg": -1.38,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "977",
+      "name": "浪潮信息",
+      "signals": [
+        "英伟达 GPU H100 H200 供货 产能 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "英伟达GPU供应量削减15%-20%,2026年无新产品,GPU与内存捆绑供应",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "603019",
+      "name": "中科曙光",
+      "signals": [
+        "英伟达 GPU H100 H200 供货 产能 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "英伟达GPU供应量削减15%-20%,2026年无新产品,GPU与内存捆绑供应",
+      "best_grade": "C",
+      "price": 82.15,
+      "chg_pct": 0.96,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 81.37,
+      "chg": 0.78,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2261",
+      "name": "拓维信息",
+      "signals": [
+        "英伟达 GPU H100 H200 供货 产能 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "英伟达GPU供应量削减15%-20%,2026年无新产品,GPU与内存捆绑供应",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2271",
+      "name": "东方雨虹",
+      "signals": [
+        "地产销售 房价 新开工 政策 2026"
+      ],
+      "signals_strength": [
+        2.5
+      ],
+      "best_signal": "住建部部署2026房地产:稳市场/防风险/优供给/促转型,告别全域普涨进入高质量发展",
+      "best_grade": "D",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600031",
+      "name": "三一重工",
+      "signals": [
+        "地产销售 房价 新开工 政策 2026"
+      ],
+      "signals_strength": [
+        2.5
+      ],
+      "best_signal": "住建部部署2026房地产:稳市场/防风险/优供给/促转型,告别全域普涨进入高质量发展",
+      "best_grade": "D",
+      "price": 18.91,
+      "chg_pct": 3.79,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": null,
+      "supply_exposure": "低",
+      "prev_close": 18.22,
+      "chg": 0.69,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "688008",
+      "name": "澜起科技",
+      "signals": [
+        "HBM 存储芯片 供需 涨价 2026 A股"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "2026年5月6日HBM价格暴涨500%,A股存储股批量涨停",
+      "best_grade": "A",
+      "price": 224.88,
+      "chg_pct": -1.67,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低",
+      "prev_close": 228.7,
+      "chg": -3.82,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600584",
+      "name": "长电科技",
+      "signals": [
+        "CoWoS 先进封装 供需缺口 涨价 2026",
+        "CoWoS先进封装涨价"
+      ],
+      "signals_strength": [
+        5.0,
+        3.5
+      ],
+      "best_signal": "CoWoS需求2024年37万片升至2026年100万片(+170%),台积电报价涨10%-20%",
+      "best_grade": "A",
+      "price": 68.92,
+      "chg_pct": -4.21,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "中",
+      "prev_close": 71.95,
+      "chg": -3.03,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2156",
+      "name": "通富微电",
+      "signals": [
+        "CoWoS 先进封装 供需缺口 涨价 2026"
+      ],
+      "signals_strength": [
+        5.0
+      ],
+      "best_signal": "CoWoS需求2024年37万片升至2026年100万片(+170%),台积电报价涨10%-20%",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2436",
+      "name": "兴森科技",
+      "signals": [
+        "ABF载板 供需 涨价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "ABF载板供应紧张,生产工艺复杂产能受限,市场供不应求格局延续",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2916",
+      "name": "深南电路",
+      "signals": [
+        "ABF载板 供需 涨价 2026"
+      ],
+      "signals_strength": [
+        4.0
+      ],
+      "best_signal": "ABF载板供应紧张,生产工艺复杂产能受限,市场供不应求格局延续",
+      "best_grade": "C",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 1,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2466",
+      "name": "赣锋锂业(002460),天齐锂业",
+      "signals": [
+        "碳酸锂涨价"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "2026年锂需求预计增长25%，供需格局紧平衡，碳酸锂价格从1万美元每吨将升至2万美元每吨",
+      "best_grade": "A",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600259",
+      "name": "北方稀土(600111),广晟有色",
+      "signals": [
+        "稀土氧化镨钕涨价"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "2026年2月氧化镨钕价格80.5万元/吨，周环比涨9.9%，月环比涨28.8%，年同比涨86.3%，今年以来累计涨幅34%",
+      "best_grade": "A",
+      "price": 93.94,
+      "chg_pct": 2.01,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 92.09,
+      "chg": 1.85,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "603002",
+      "name": "康达新材(002669),宏昌电子",
+      "signals": [
+        "环氧树脂涨价"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "住友电木宣布上调半导体封装用环氧树脂成形材料价格10%-20%，自2026年6月1日起执行；康达新材涨停",
+      "best_grade": "A",
+      "price": 17.43,
+      "chg_pct": -2.57,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 17.89,
+      "chg": -0.46,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "603186",
+      "name": "生益科技(600183),华正新材",
+      "signals": [
+        "覆铜板涨价"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "Resonac宣布调涨覆铜层压板(CCL)和黏合胶片价格30%以上，2026年3月1日起生效，因铜箔、玻璃纤维布原料供需紧张",
+      "best_grade": "A",
+      "price": 170.3,
+      "chg_pct": -0.05,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 170.38,
+      "chg": -0.08,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600089",
+      "name": "三变科技(002112),特变电工",
+      "signals": [
+        "变压器涨价"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "2025年中国变压器出口总值646亿元，同比增36%；出口均价升至20.5万元每台(涨三分之一)；北美电力变压器缺口30%，配电变压器缺口6%",
+      "best_grade": "A",
+      "price": 23.03,
+      "chg_pct": 1.23,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 22.75,
+      "chg": 0.28,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "300821",
+      "name": "合盛硅业(603260),东岳硅材",
+      "signals": [
+        "工业硅涨价"
+      ],
+      "signals_strength": [
+        3.0
+      ],
+      "best_signal": "多晶硅N型复投料和颗粒硅成交均价环比分别上涨6.92%和6.27%，报价整体上调幅度达25%-35%；云南工业硅通氧553报8950-9150元每吨",
+      "best_grade": "B",
+      "price": 16.52,
+      "chg_pct": -7.55,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 17.87,
+      "chg": -1.35,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "600216",
+      "name": "新和成(002001),浙江医药",
+      "signals": [
+        "维生素涨价"
+      ],
+      "signals_strength": [
+        3.5
+      ],
+      "best_signal": "维生素原料药价格涨价前处于历史低位，成本端化工原料涨价加运费上涨刺激控产涨价意愿，下游对价格不敏感提价顺畅；维生素D3达660元每公斤创今年新高",
+      "best_grade": "A",
+      "price": 12.01,
+      "chg_pct": 2.3,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 11.74,
+      "chg": 0.27,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2460",
+      "name": "赣锋锂业",
+      "signals": [],
+      "signals_strength": [],
+      "best_signal": "碳酸锂涨价",
+      "best_grade": "",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600111",
+      "name": "北方稀土",
+      "signals": [],
+      "signals_strength": [],
+      "best_signal": "稀土氧化镨钕涨价",
+      "best_grade": "",
+      "price": 49.43,
+      "chg_pct": 4.02,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 47.52,
+      "chg": 1.91,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2669",
+      "name": "康达新材",
+      "signals": [],
+      "signals_strength": [],
+      "best_signal": "环氧树脂涨价",
+      "best_grade": "",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "600183",
+      "name": "生益科技",
+      "signals": [],
+      "signals_strength": [],
+      "best_signal": "覆铜板涨价",
+      "best_grade": "",
+      "price": 151.28,
+      "chg_pct": 1.04,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 149.73,
+      "chg": 1.55,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "2112",
+      "name": "三变科技",
+      "signals": [],
+      "signals_strength": [],
+      "best_signal": "变压器涨价",
+      "best_grade": "",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "603260",
+      "name": "合盛硅业",
+      "signals": [],
+      "signals_strength": [],
+      "best_signal": "工业硅涨价",
+      "best_grade": "",
+      "price": 43.36,
+      "chg_pct": 4.73,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低",
+      "prev_close": 41.4,
+      "chg": 1.96,
+      "price_updated": "2026-06-14T13:50:30.606220"
+    },
+    {
+      "code": "703",
+      "name": "恒逸石化",
+      "signals": [],
+      "signals_strength": [],
+      "best_signal": "PTA涨价",
+      "best_grade": "",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    },
+    {
+      "code": "2001",
+      "name": "新和成",
+      "signals": [],
+      "signals_strength": [],
+      "best_signal": "维生素涨价",
+      "best_grade": "",
+      "price": null,
+      "chg_pct": null,
+      "ma5_ma20": null,
+      "chg_1m": null,
+      "tier": 2,
+      "supply_exposure": "低"
+    }
+  ],
+  "price_updated": "2026-06-14T13:50:30.606220"
+}

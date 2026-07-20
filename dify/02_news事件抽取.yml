@@ -1,0 +1,213 @@
+{
+  "app": {
+    "description": "WF-02 — Python 完成候选筛选后调 MiniMax 做结构化事件抽取，校验 JSON Schema 并写入 storage_events。",
+    "icon": "📰",
+    "icon_background": "#E8F3FF",
+    "icon_type": "emoji",
+    "mode": "workflow",
+    "name": "02_news事件抽取",
+    "use_icon_as_answer_icon": false
+  },
+  "dependencies": [],
+  "kind": "app",
+  "version": "0.6.0",
+  "workflow": {
+    "conversation_variables": [],
+    "environment_variables": [],
+    "features": {
+      "file_upload": {
+        "enabled": false
+      },
+      "opening_statement": "",
+      "retriever_resource": {
+        "enabled": false
+      },
+      "sensitive_word_avoidance": {
+        "enabled": false
+      },
+      "speech_to_text": {
+        "enabled": false
+      },
+      "suggested_questions": [],
+      "suggested_questions_after_answer": {
+        "enabled": false
+      },
+      "text_to_speech": {
+        "enabled": false
+      }
+    },
+    "graph": {
+      "edges": [
+        {
+          "data": {
+            "isInIteration": false,
+            "isInLoop": false,
+            "sourceType": "start",
+            "targetType": "http-request"
+          },
+          "id": "start-submit",
+          "source": "start",
+          "sourceHandle": "source",
+          "target": "submit",
+          "targetHandle": "target",
+          "type": "custom",
+          "zIndex": 0
+        },
+        {
+          "data": {
+            "isInIteration": false,
+            "isInLoop": false,
+            "sourceType": "http-request",
+            "targetType": "end"
+          },
+          "id": "submit-end",
+          "source": "submit",
+          "sourceHandle": "source",
+          "target": "end",
+          "targetHandle": "target",
+          "type": "custom",
+          "zIndex": 0
+        }
+      ],
+      "nodes": [
+        {
+          "data": {
+            "desc": "幂等键建议使用日期+批次+Pipeline 名；Pipeline 由总控工作流统一调用。",
+            "selected": false,
+            "title": "调度参数",
+            "type": "start",
+            "variables": [
+              {
+                "default": "extract_events",
+                "label": "pipeline",
+                "options": [
+                  "extract_events"
+                ],
+                "required": true,
+                "type": "select",
+                "variable": "pipeline"
+              },
+              {
+                "default": "dify:wf02:{{#sys.date#}}",
+                "label": "idempotency_key",
+                "required": true,
+                "type": "text-input",
+                "variable": "idempotency_key"
+              }
+            ]
+          },
+          "height": 130,
+          "id": "start",
+          "position": {
+            "x": 80,
+            "y": 260
+          },
+          "positionAbsolute": {
+            "x": 80,
+            "y": 260
+          },
+          "selected": false,
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "type": "custom",
+          "width": 280
+        },
+        {
+          "data": {
+            "authorization": {
+              "type": "no-auth"
+            },
+            "body": {
+              "type": "json",
+              "data": "{\"idempotency_key\": \"{{#start.idempotency_key#}}\", \"trigger_source\": \"dify\", \"pipeline\": \"{{#start.pipeline#}}\"}"
+            },
+            "desc": "返回 202 + run_id；后台执行；监控通过 /api/v1/runs/{run_id} 查询。",
+            "headers": "Content-Type:application/json",
+            "method": "POST",
+            "params": "",
+            "retry_config": {
+              "enabled": true,
+              "max_retries": 2,
+              "retry_interval": 1000,
+              "exponential_backoff": {
+                "enabled": true,
+                "multiplier": 2,
+                "max_interval": 5000
+              }
+            },
+            "timeout": {
+              "connect": 5,
+              "read": 60,
+              "write": 30
+            },
+            "title": "提交幂等 Pipeline",
+            "type": "http-request",
+            "url": "http://host.docker.internal:8000/api/v1/pipeline/{{#start.pipeline#}}"
+          },
+          "height": 130,
+          "id": "submit",
+          "position": {
+            "x": 430,
+            "y": 260
+          },
+          "positionAbsolute": {
+            "x": 430,
+            "y": 260
+          },
+          "selected": false,
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "type": "custom",
+          "width": 280
+        },
+        {
+          "data": {
+            "desc": "总控工作流根据 HTTP 状态和返回的 run_id 进入监控阶段。",
+            "outputs": [
+              {
+                "value_selector": [
+                  "submit",
+                  "status_code"
+                ],
+                "value_type": "number",
+                "variable": "http_status"
+              },
+              {
+                "value_selector": [
+                  "submit",
+                  "body"
+                ],
+                "value_type": "string",
+                "variable": "run_receipt"
+              }
+            ],
+            "selected": false,
+            "title": "提交结果",
+            "type": "end"
+          },
+          "height": 130,
+          "id": "end",
+          "position": {
+            "x": 1500,
+            "y": 260
+          },
+          "positionAbsolute": {
+            "x": 1500,
+            "y": 260
+          },
+          "selected": false,
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "type": "custom",
+          "width": 280
+        }
+      ],
+      "viewport": {
+        "x": 0,
+        "y": 0,
+        "zoom": 0.9
+      }
+    },
+    "rag_pipeline_variables": []
+  }
+}

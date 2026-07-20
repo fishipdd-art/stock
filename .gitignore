@@ -1,0 +1,56 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+
+# ===== Virtual env =====
+.venv/
+venv/
+env/
+
+# ===== IDE / dev tool state =====
+.idea/
+.vscode/
+.codegraph/
+.omo/
+.playwright-mcp/
+*.swp
+*.swo
+
+# ===== Env (keep .env.example!) =====
+.env
+.env.local
+.env.*.local
+
+# ===== Runtime data (excluded) =====
+data/db/
+data/cache/
+data/logs/
+data/reports/
+data/stock.db
+notifier/feishu_runs/
+
+# ===== Knowledge graph runtime state =====
+data/knowledge_graph/_user_scripts_archive/
+data/knowledge_graph/_pending_terms.json
+data/knowledge_graph/supply_chain_signals.json
+data/knowledge_graph/supply_chain_signals_*.md
+
+# ===== Logs =====
+*.log
+logs/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Debug screenshots at project root =====
+/*.png

@@ -1,0 +1,3017 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>供应链情报台 · Stock Analysis System</title>
+  <script>const _HTML_VER = '2026-07-14-v4';</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+  <script src="/static/vendor/vis-network.min.js"></script>
+  <link href="/static/vendor/vis-network.min.css" rel="stylesheet" />
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+    .tab-active { background: #eff6ff !important; color: #2563eb !important; font-weight: 600 !important; }
+    .tab-btn:not(.tab-active):hover { background: #f3f4f6; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    .markdown-body h1 { font-size: 1.75rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+    .markdown-body h2 { font-size: 1.35rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: #1e40af; }
+    .markdown-body h3 { font-size: 1.1rem; font-weight: 600; margin: 1rem 0 0.5rem; }
+    .markdown-body p { margin: 0.5rem 0; line-height: 1.6; }
+    .markdown-body ul { margin: 0.5rem 0; padding-left: 1.5rem; }
+    .markdown-body li { margin: 0.25rem 0; }
+    .markdown-body table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; }
+    .markdown-body th, .markdown-body td { border: 1px solid #e5e7eb; padding: 0.4rem 0.6rem; text-align: left; font-size: 0.9rem; }
+    .markdown-body th { background: #f3f4f6; font-weight: 600; }
+    .markdown-body code { background: #f3f4f6; padding: 0.1rem 0.3rem; border-radius: 0.2rem; font-family: ui-monospace, monospace; font-size: 0.85em; }
+    .markdown-body blockquote { border-left: 3px solid #cbd5e1; padding-left: 0.75rem; color: #64748b; margin: 0.5rem 0; }
+    .markdown-body hr { border: 0; border-top: 1px solid #e5e7eb; margin: 1rem 0; }
+    .markdown-body a { color: #2563eb; text-decoration: underline; }
+    .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block; animation: pulse 2s infinite; }
+    .pulse-dot.off { background: #ef4444; animation: none; }
+    .pulse-dot.warn { background: #f59e0b; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .grade-A { background: #ef4444; color: white; }
+    .grade-B { background: #f59e0b; color: white; }
+    .grade-C { background: #3b82f6; color: white; }
+    .grade-D { background: #6b7280; color: white; }
+    .tight-tag { background: #fee2e2; color: #991b1b; }
+    .surplus-tag { background: #d1fae5; color: #065f46; }
+    .mixed-tag { background: #fef3c7; color: #92400e; }
+    .status-ok { background: #d1fae5; color: #065f46; }
+    .status-error { background: #fee2e2; color: #991b1b; }
+    .status-running { background: #dbeafe; color: #1e40af; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 0.375rem; font-size: 0.875rem; cursor: pointer; transition: all 0.15s; }
+    .cal-day:hover:not(.empty) { background: #e0e7ff; }
+    .cal-day.has-report { background: #3b82f6; color: white; font-weight: 600; }
+    .cal-day.today { border: 2px solid #f59e0b; }
+    .cal-day.empty { cursor: default; }
+    .cal-day.selected { background: #1e40af !important; color: white; }
+    :root { --ink: #10213f; --muted: #71809a; --line: #e6ebf3; --brand: #2563eb; --panel: #ffffff; }
+    body { background: #f4f7fb; color: var(--ink); }
+    header { background: rgba(10, 22, 45, .97) !important; border-bottom-color: #1d3155 !important; box-shadow: 0 8px 24px rgba(15, 35, 70, .12) !important; }
+    header .text-gray-500 { color: #a9b8d0 !important; }
+    header .tab-btn { color: #b9c6dc; border-radius: 8px; }
+    header .tab-btn:not(.tab-active):hover { background: rgba(255,255,255,.09); color: #fff; }
+    header .tab-active { background: #2f6df6 !important; color: #fff !important; box-shadow: 0 4px 12px rgba(47,109,246,.32); }
+    main { max-width: 1480px !important; }
+    main .bg-white { border-color: var(--line) !important; box-shadow: 0 8px 22px rgba(25, 49, 86, .055) !important; border-radius: 14px !important; }
+    #stats-cards > div { min-height: 76px; padding: 14px !important; border-radius: 14px !important; }
+    #stats-cards > div:nth-child(1) { border-top: 3px solid #ef4444 !important; }
+    #stats-cards > div:nth-child(2) { border-top: 3px solid #f59e0b !important; }
+    #stats-cards > div:nth-child(3) { border-top: 3px solid #3b82f6 !important; }
+    #stats-cards > div:nth-child(4) { border-top: 3px solid #10b981 !important; }
+    .intel-hero { background: linear-gradient(120deg, #0f2346 0%, #163b72 56%, #1c5db7 100%); color: #fff; border-radius: 18px; padding: 22px 24px; box-shadow: 0 14px 32px rgba(16, 48, 96, .22); }
+    .intel-hero .eyebrow { color: #9fc1ff; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+    .health-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: 6px 10px; font-size: 11px; color: #dbeafe; }
+    .health-chip.ok { color: #bbf7d0; } .health-chip.warn { color: #fde68a; } .health-chip.fail { color: #fecaca; background: rgba(127,29,29,.45); }
+    .section-kicker { color: #8190a8; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    @media (max-width: 768px) { .intel-hero { padding: 18px; } #stats-cards { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+    @media (max-width: 768px) { .desktop-only { display: none; } }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 flex items-center gap-2 py-1.5">
+      <div class="flex items-center gap-2 shrink-0">
+        <div class="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center text-white font-bold text-xs">SA</div>
+        <span class="text-sm font-bold whitespace-nowrap">供应链情报台</span>
+      </div>
+      <nav class="flex items-center gap-0.5 overflow-x-auto flex-1 min-w-0 scrollbar-hide">
+        <button data-tab="dashboard" class="tab-btn tab-active px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">📊 概览</button>
+        <button data-tab="reports" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">📄 报告</button>
+        <button data-tab="scheduler" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">⏰ 调度</button>
+        <button data-tab="signals" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">🚨 信号</button>
+        <button data-tab="hotness" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">🔥 热度</button>
+        <button data-tab="news" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">📰 新闻</button>
+        <button data-tab="stocks" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">📈 股票</button>
+        <button data-tab="futures" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">💹 期货</button>
+        <button data-tab="events" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">📅 大事件</button>
+        <button data-tab="graph" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">🕸️ 图谱</button>
+        <button data-tab="profiles" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">👤 组合</button>
+        <button data-tab="qa" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">💬 问答</button>
+        <button data-tab="live" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">📡 实时</button>
+        <button data-tab="me" class="tab-btn px-2.5 py-1.5 text-xs font-medium rounded hover:bg-gray-100 whitespace-nowrap">👤 我的</button>
+      </nav>
+      <div class="flex items-center gap-2 shrink-0">
+        <span id="status-dot" class="pulse-dot"></span>
+        <span class="text-xs text-gray-500 hidden sm:inline" id="server-status">连接中...</span>
+        <button onclick="refreshAll()" class="text-xs px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded transition">↻</button>
+        <button onclick="triggerReportNow()" class="text-xs px-2 py-1 bg-blue-600 text-white hover:bg-blue-700 rounded transition">▶ 生成</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-3 sm:px-4 py-3">
+    <section data-section="dashboard">
+      <div class="intel-hero mb-4">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+          <div>
+            <div class="eyebrow">Supply Chain Intelligence Desk</div>
+            <h1 class="text-2xl sm:text-3xl font-bold mt-1 tracking-tight">今天看什么，明天做什么</h1>
+            <p class="text-sm text-blue-100/80 mt-2 max-w-2xl">把新闻、价格、错配和组合动作放到同一条证据链里。先看数据是否新，再看机会是否成立。</p>
+          </div>
+          <div class="flex flex-wrap gap-2 lg:justify-end">
+            <span id="hero-health" class="health-chip">● 检查数据质量…</span>
+            <span id="hero-market" class="health-chip">行情加载中…</span>
+            <button onclick="loadTodayReport()" class="px-3 py-2 rounded-lg bg-white text-blue-800 text-xs font-semibold hover:bg-blue-50">查看今日结论 →</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-4 md:grid-cols-4 gap-2 mb-3" id="stats-cards"></div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3 mb-3">
+        <div class="flex items-center justify-between">
+          <div><div class="section-kicker">Decision brief</div><h3 class="text-base font-bold mt-0.5">📅 今日研究入口</h3></div>
+          <span class="text-xs text-gray-500" id="today-date"></span>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 mt-2">
+          <button onclick="loadTodayReport()" class="px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-xs font-medium">📊 查看今日完整报告</button>
+          <button onclick="showTab('reports')" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-md text-xs">📚 浏览历史报告</button>
+          <button onclick="triggerJob('generate_report')" class="px-3 py-1.5 bg-green-600 text-white hover:bg-green-700 rounded-md text-xs">🔄 重新生成今日</button>
+        </div>
+        <div id="latest-report-summary" class="mt-1.5 text-xs text-gray-600"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3">
+          <h3 class="text-sm font-semibold mb-1">🔥 行业热度排名</h3>
+          <p class="text-[10px] text-gray-400 mb-2">基于新闻舆情、资金流向、价格波动的综合评分，反映当日各供应链环节的关注度</p>
+          <div id="hotness-list" class="space-y-1 text-xs max-h-60 overflow-y-auto"></div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3">
+          <h3 class="text-sm font-semibold mb-2">🚨 强信号预览</h3>
+          <div id="signal-preview" class="space-y-1 text-xs max-h-64 overflow-y-auto"></div>
+          <div id="signal-activity-dashboard" class="mt-1.5 pt-1.5 border-t border-gray-100"></div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3">
+          <h3 class="text-sm font-semibold mb-2">📰 最新新闻</h3>
+          <div id="news-preview" class="space-y-1 text-xs max-h-64 overflow-y-auto"></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-3">
+        <div class="flex items-center justify-between mb-3">
+          <div><div class="section-kicker">Coverage monitor</div><h3 class="text-base font-bold mt-0.5">📰 每日新闻量</h3></div>
+          <div class="text-[11px] text-gray-400">近14天 · 0 条代表当天未采到新闻</div>
+        </div>
+        <div id="news-daily-counts" class="grid grid-cols-7 md:grid-cols-14 gap-1.5"></div>
+      </div>
+    </section>
+
+    <section data-section="reports" class="hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 lg:col-span-1">
+          <div class="flex items-center justify-between mb-3">
+            <button onclick="prevMonth()" class="text-sm px-2 py-1 hover:bg-gray-100 rounded">‹</button>
+            <h3 id="cal-title" class="font-semibold text-sm"></h3>
+            <button onclick="nextMonth()" class="text-sm px-2 py-1 hover:bg-gray-100 rounded">›</button>
+          </div>
+          <div class="grid grid-cols-7 gap-1 text-xs text-center text-gray-500 mb-2">
+            <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+          </div>
+          <div id="calendar" class="grid grid-cols-7 gap-1"></div>
+          <div class="mt-3 text-xs text-gray-500">
+            <div>🟦 蓝色 = 有报告</div>
+            <div>🟧 边框 = 今天</div>
+            <div>点击日期查看报告</div>
+          </div>
+          <div class="mt-4 pt-4 border-t">
+            <label class="text-sm text-gray-600 block mb-1">或选择历史报告：</label>
+            <select id="report-date-select" class="w-full px-3 py-2 border rounded-md text-sm bg-white"></select>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 markdown-body lg:col-span-2" id="report-content">
+          <div class="text-gray-400 text-center py-8">← 在左侧选择日期查看报告</div>
+        </div>
+      </div>
+    </section>
+
+    <section data-section="scheduler" class="hidden">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">⏰ 调度器状态</h3>
+          <span id="scheduler-state-badge" class="text-sm px-3 py-1 rounded-full bg-gray-100">未知</span>
+        </div>
+        <div id="scheduler-info" class="text-sm text-gray-600 space-y-1"></div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">📋 定时任务 (手动触发按钮可立即跑)</h3>
+          <button onclick="loadSchedulerStatus()" class="text-xs px-2 py-1 hover:bg-gray-100 rounded">↻ 刷新</button>
+        </div>
+        <table class="w-full text-sm">
+          <thead class="text-xs text-gray-500 border-b">
+            <tr><th class="text-left py-2">任务</th><th class="text-left">调度</th><th class="text-left">上次状态</th><th class="text-left">上次运行</th><th class="text-left">输出</th><th class="text-right">耗时</th><th class="text-right">操作</th></tr>
+          </thead>
+          <tbody id="scheduled-jobs-body"></tbody>
+        </table>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">📜 运行历史 (最近 20 次)</h3>
+          <button onclick="loadSchedulerStatus()" class="text-xs px-2 py-1 hover:bg-gray-100 rounded">↻</button>
+        </div>
+        <table class="w-full text-sm">
+          <thead class="text-xs text-gray-500 border-b">
+            <tr><th class="text-left py-2">任务</th><th class="text-left">触发</th><th class="text-left">开始</th><th class="text-left">完成</th><th class="text-right">耗时</th><th class="text-left">状态</th></tr>
+          </thead>
+          <tbody id="job-runs-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section data-section="signals" class="hidden">
+      <div id="signal-categories" class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-4"></div>
+
+      <!-- Recent signal activity (from news matching) -->
+      <details class="bg-white rounded-lg shadow-sm border border-gray-200 mb-4" id="signal-activity-section">
+        <summary class="px-5 py-3 cursor-pointer hover:bg-gray-50 text-sm font-semibold text-blue-700">
+          📡 最近信号匹配 (近期新闻命中)
+          <span id="signal-activity-badge" class="ml-2 text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">加载中...</span>
+        </summary>
+        <div id="signal-activity-list" class="px-5 pb-4 max-h-96 overflow-y-auto space-y-2 text-sm">
+          <div class="text-gray-400 py-2">暂无匹配数据</div>
+        </div>
+      </details>
+
+      <div class="flex flex-wrap gap-3 mb-4">
+        <input id="signal-search" placeholder="搜索..." class="px-3 py-2 border rounded-md text-sm flex-1 min-w-[200px]" />
+        <select id="signal-grade" class="px-3 py-2 border rounded-md text-sm">
+          <option value="">所有等级</option>
+          <option value="A">A级</option>
+          <option value="B">B级</option>
+          <option value="C">C级</option>
+        </select>
+        <select id="signal-direction" class="px-3 py-2 border rounded-md text-sm">
+          <option value="">所有方向</option>
+          <option value="supply_tight">紧缺</option>
+          <option value="supply_surplus">过剩</option>
+        </select>
+        <input id="signal-min-strength" type="number" placeholder="最低强度" value="0" min="0" max="5" step="0.5" class="px-3 py-2 border rounded-md text-sm w-32" />
+        <button onclick="loadSignals(1)" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">查询</button>
+      </div>
+      <div id="signals-list" class="space-y-3"></div>
+      <div id="signals-pagination" class="flex justify-center gap-2 mt-4"></div>
+    </section>
+
+    <section data-section="hotness" class="hidden">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <h3 class="font-semibold mb-3">热度趋势 (近 14 日)</h3>
+        <canvas id="hotness-chart" height="80"></canvas>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <h3 class="font-semibold mb-3">热度明细</h3>
+        <div id="hotness-detail"></div>
+      </div>
+    </section>
+
+    <section data-section="news" class="hidden">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <div class="flex flex-wrap gap-2 mb-3 items-center">
+          <span class="text-xs text-gray-500 mr-1">来源</span>
+          <div id="news-source-chips" class="flex flex-wrap gap-1.5">
+            <button data-src="" class="news-src-chip px-2.5 py-1 text-xs rounded-full border bg-blue-600 text-white border-blue-600" onclick="setNewsSource(this, '')">全部</button>
+            <button data-src="sina" class="news-src-chip px-2.5 py-1 text-xs rounded-full border bg-white text-gray-600 border-gray-300 hover:border-blue-400" onclick="setNewsSource(this, 'sina')">新浪</button>
+            <button data-src="cls" class="news-src-chip px-2.5 py-1 text-xs rounded-full border bg-white text-gray-600 border-gray-300 hover:border-blue-400" onclick="setNewsSource(this, 'cls')">财联社</button>
+            <button data-src="eastmoney" class="news-src-chip px-2.5 py-1 text-xs rounded-full border bg-white text-gray-600 border-gray-300 hover:border-blue-400" onclick="setNewsSource(this, 'eastmoney')">东方财富</button>
+          </div>
+          <span class="text-xs text-gray-500 ml-3 mr-1">时间</span>
+          <div id="news-hours-chips" class="flex flex-wrap gap-1.5">
+            <button data-h="24" class="news-hours-chip px-2.5 py-1 text-xs rounded-full border bg-white text-gray-600 border-gray-300 hover:border-blue-400" onclick="setNewsHours(this, 24)">24h</button>
+            <button data-h="48" class="news-hours-chip px-2.5 py-1 text-xs rounded-full border bg-blue-600 text-white border-blue-600" onclick="setNewsHours(this, 48)">48h</button>
+            <button data-h="72" class="news-hours-chip px-2.5 py-1 text-xs rounded-full border bg-white text-gray-600 border-gray-300 hover:border-blue-400" onclick="setNewsHours(this, 72)">72h</button>
+            <button data-h="168" class="news-hours-chip px-2.5 py-1 text-xs rounded-full border bg-white text-gray-600 border-gray-300 hover:border-blue-400" onclick="setNewsHours(this, 168)">一周</button>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-xs text-gray-500">行业</span>
+          <button id="news-cat-all" data-cat="" class="news-cat-chip px-2.5 py-1 text-xs rounded-full border bg-blue-600 text-white border-blue-600" onclick="setNewsCategory(this, '')">全部</button>
+          <div id="news-cat-chips" class="flex flex-wrap gap-1.5 overflow-x-auto"></div>
+        </div>
+      </div>
+      <div id="news-list" class="space-y-3"></div>
+    </section>
+
+    <section data-section="stocks" class="hidden">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4 flex flex-wrap gap-2">
+        <input id="stock-search" placeholder="搜索股票代码/名称..." class="px-3 py-2 border rounded-md text-sm flex-1 min-w-[200px]" />
+        <select id="stock-sort" class="px-3 py-2 border rounded-md text-sm">
+          <option value="code">按代码</option>
+          <option value="change_pct_desc">涨幅榜 ↓</option>
+          <option value="change_pct_asc">跌幅榜 ↑</option>
+          <option value="volume_desc">成交活跃</option>
+        </select>
+      </div>
+      <div id="stocks-list" class="bg-white rounded-lg shadow-sm border border-gray-200"></div>
+    </section>
+
+    <div id="stock-modal" class="hidden fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onclick="if(event.target===this) closeStockModal()">
+      <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 relative">
+        <button onclick="closeStockModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-2xl leading-none w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100">×</button>
+        <div id="stock-modal-body"></div>
+      </div>
+    </div>
+
+    <section data-section="futures" class="hidden">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <div class="flex items-baseline justify-between mb-3 flex-wrap gap-2">
+          <h3 class="font-semibold">💹 期货价格（按涨跌幅度排序）</h3>
+          <div class="flex items-center gap-2">
+            <input id="futures-date-picker" type="date" class="px-2 py-1 border rounded-md text-xs" />
+            <button onclick="loadFutures()" class="px-3 py-1 bg-blue-600 text-white rounded-md text-xs hover:bg-blue-700">查询</button>
+            <div id="futures-meta" class="text-xs text-gray-500"></div>
+          </div>
+        </div>
+        <div id="futures-list"></div>
+      </div>
+    </section>
+
+    <section data-section="profiles" class="hidden">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">👤 投资组合 Profile 对比</h3>
+          <button onclick="loadProfiles()" class="text-xs px-2 py-1 bg-white border hover:bg-gray-50 rounded">↻ 刷新</button>
+        </div>
+        <div id="profiles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <h3 class="font-semibold mb-3">🔍 Profile 详情</h3>
+        <select id="profile-detail-select" class="px-3 py-2 border rounded-md text-sm mb-3"></select>
+        <div id="profile-detail" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg shadow-sm border border-indigo-200 p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">🤖 AI 深度学习预测 (PyTorch Transformer)</h3>
+          <button onclick="trainDLModel()" class="text-xs px-2 py-1 bg-indigo-600 text-white hover:bg-indigo-700 rounded">▶ 训练</button>
+        </div>
+        <div id="dl-predictions" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-lg shadow-sm border border-emerald-200 p-5 mt-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">💰 事件驱动回测引擎</h3>
+          <button onclick="runEngineBacktest()" class="text-xs px-2 py-1 bg-emerald-600 text-white hover:bg-emerald-700 rounded">▶ 运行回测</button>
+        </div>
+        <div id="engine-backtest" class="text-sm text-gray-600">点击"▶ 运行"启动回测（180 天历史）</div>
+      </div>
+    </section>
+
+    <section data-section="qa" class="hidden">
+      <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-lg shadow-sm border border-cyan-200 p-5 mb-4">
+        <h3 class="font-semibold mb-3">💬 智能问答 (无需 LLM，模式匹配)</h3>
+        <div class="flex gap-2 mb-3">
+          <input id="qa-input" type="text" placeholder="试试: 明天有什么事件 / 航天军工最近 / 今天报告 / 最强的信号"
+            class="flex-1 px-3 py-2 border rounded-md text-sm" onkeypress="if(event.key==='Enter') askQuestion()" />
+          <button onclick="askQuestion()" class="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700 text-sm">提问</button>
+        </div>
+        <div id="qa-result" class="text-sm whitespace-pre-wrap bg-white p-3 rounded border min-h-[100px]">问题答案会显示在这里</div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <h3 class="font-semibold mb-3">💡 推荐问题</h3>
+        <div id="qa-suggestions" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div class="bg-gradient-to-r from-fuchsia-50 to-purple-50 rounded-lg shadow-sm border border-fuchsia-200 p-5 mt-4">
+        <h3 class="font-semibold mb-3">🤖 LLM NLU 测试 (Qwen/GLM/DeepSeek)</h3>
+        <div class="flex gap-2 mb-3">
+          <input id="llm-input" type="text" placeholder="试试 LLM 解析 (无 API key 时用本地)"
+            class="flex-1 px-3 py-2 border rounded-md text-sm" onkeypress="if(event.key==='Enter') testLLMParse()" />
+          <button onclick="testLLMParse()" class="px-4 py-2 bg-fuchsia-600 text-white rounded-md hover:bg-fuchsia-700 text-sm">解析</button>
+        </div>
+        <div id="llm-result" class="text-sm whitespace-pre-wrap bg-white p-3 rounded border min-h-[80px]">LLM 解析结果会显示在这里</div>
+      </div>
+    </section>
+
+    <section data-section="live" class="hidden">
+      <div class="bg-gradient-to-r from-emerald-50 to-cyan-50 rounded-lg shadow-sm border border-emerald-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">📡 实时事件流 (Server-Sent Events)</h3>
+          <div class="flex gap-2">
+            <span id="sse-status" class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-500">未连接</span>
+            <button onclick="connectSSE()" class="text-xs px-2 py-1 bg-emerald-600 text-white hover:bg-emerald-700 rounded">连接</button>
+            <button onclick="disconnectSSE()" class="text-xs px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded">断开</button>
+            <button onclick="testPublish()" class="text-xs px-2 py-1 bg-purple-600 text-white hover:bg-purple-700 rounded">测试发布</button>
+          </div>
+        </div>
+        <div id="sse-log" class="bg-white border rounded p-3 max-h-64 overflow-y-auto text-xs font-mono space-y-1">
+          <div class="text-gray-400">SSE 消息流会显示在这里 (连接后)</div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-indigo-50 to-violet-50 rounded-lg shadow-sm border border-indigo-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">🔌 WebSocket 测试 (双向通信)</h3>
+          <div class="flex gap-2">
+            <span id="ws-status" class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-500">未连接</span>
+            <button onclick="connectWS()" class="text-xs px-2 py-1 bg-indigo-600 text-white hover:bg-indigo-700 rounded">连接</button>
+            <button onclick="disconnectWS()" class="text-xs px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded">断开</button>
+          </div>
+        </div>
+        <div class="flex gap-2 mb-3">
+          <input id="ws-input" type="text" placeholder="输入消息 (回车发送)" class="flex-1 px-3 py-2 border rounded-md text-sm" onkeypress="if(event.key==='Enter') sendWSMessage()" />
+          <button onclick="sendWSMessage()" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm">发送</button>
+        </div>
+        <div id="ws-log" class="bg-white border rounded p-3 max-h-48 overflow-y-auto text-xs font-mono space-y-1">
+          <div class="text-gray-400">WebSocket 消息会显示在这里</div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg shadow-sm border border-slate-200 p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">📊 Prometheus 监控 (系统指标)</h3>
+          <div class="flex gap-2">
+            <a href="/metrics" target="_blank" class="text-xs px-2 py-1 bg-slate-700 text-white rounded hover:bg-slate-800">/metrics (Prometheus 格式)</a>
+            <a href="/api/metrics/dashboard" download="stock_dashboard.json" class="text-xs px-2 py-1 bg-orange-600 text-white rounded hover:bg-orange-700">📊 下载 Grafana Dashboard</a>
+            <button onclick="loadMetricsSummary()" class="text-xs px-2 py-1 bg-slate-600 text-white hover:bg-slate-700 rounded">↻ 刷新</button>
+          </div>
+        </div>
+        <div id="metrics-summary" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+          <div class="text-gray-500">点击"↻ 刷新"加载指标</div>
+        </div>
+        <details class="mt-3"><summary class="text-xs text-gray-500 cursor-pointer">📋 Grafana 一键导入步骤</summary>
+        <div class="text-xs text-gray-600 mt-2 p-2 bg-gray-50 rounded">
+          <div>1. 启动监控: <code>docker-compose --profile monitoring up -d</code></div>
+          <div>2. 打开 Grafana: <code>http://localhost:3000</code> (admin/admin)</div>
+          <div>3. 左侧菜单 → Dashboards → Import</div>
+          <div>4. 上传下载的 <code>stock_dashboard.json</code>，选择 Prometheus 数据源</div>
+          <div>5. 完成！15 个图表立即可用</div>
+        </div>
+        </details>
+      </div>
+
+      <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg shadow-sm border border-pink-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">📰 新闻情绪分析 (近 24h)</h3>
+          <button onclick="loadSentiment()" class="text-xs px-2 py-1 bg-white border hover:bg-gray-50 rounded">↻ 刷新</button>
+        </div>
+        <div id="sentiment-summary" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <h3 class="font-semibold mb-3">📤 数据导出</h3>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="exportReport('excel')" class="px-3 py-2 bg-green-600 text-white rounded text-sm hover:bg-green-700">📊 导出今日报告 (Excel)</button>
+          <button onclick="exportReport('pdf')" class="px-3 py-2 bg-red-600 text-white rounded text-sm hover:bg-red-700">📄 导出今日报告 (PDF)</button>
+          <button onclick="exportReport('docx')" class="px-3 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">📝 导出今日报告 (Word)</button>
+          <button onclick="exportReport('markdown')" class="px-3 py-2 bg-gray-600 text-white rounded text-sm hover:bg-gray-700">📋 导出今日报告 (Markdown)</button>
+          <button onclick="exportEvents('excel')" class="px-3 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">📅 导出事件列表 (Excel)</button>
+          <button onclick="exportEvents('markdown')" class="px-3 py-2 bg-gray-700 text-white rounded text-sm hover:bg-gray-800">📅 导出事件列表 (MD)</button>
+        </div>
+        <div id="export-status" class="mt-2 text-xs text-gray-500"></div>
+      </div>
+    </section>
+
+    <section data-section="me" class="hidden">
+      <div class="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg shadow-sm border border-indigo-200 p-5 mb-4">
+        <h3 class="font-semibold mb-3">👤 我的个性化 Dashboard</h3>
+        <div class="flex gap-3 mb-3 flex-wrap items-end">
+          <div>
+            <label class="text-xs text-gray-500 block">用户 ID</label>
+            <input id="user-id" type="text" value="default" class="px-3 py-1.5 border rounded text-sm" />
+          </div>
+          <div>
+            <label class="text-xs text-gray-500 block">显示名</label>
+            <input id="user-name" type="text" value="Default User" class="px-3 py-1.5 border rounded text-sm" />
+          </div>
+          <button onclick="loadUserDashboard()" class="px-4 py-1.5 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700">加载</button>
+        </div>
+        <div class="text-sm mb-3">
+          <label class="text-xs text-gray-500 block mb-1">行业关注 (逗号分隔, 留空=全部)</label>
+          <input id="user-industries" type="text" placeholder="航天军工, 半导体, AI" class="w-full px-3 py-1.5 border rounded text-sm" />
+        </div>
+        <div class="text-sm mb-3 flex gap-3">
+          <div class="flex-1">
+            <label class="text-xs text-gray-500 block mb-1">风险等级</label>
+            <select id="user-risk" class="w-full px-3 py-1.5 border rounded text-sm">
+              <option value="low">低</option>
+              <option value="medium" selected>中</option>
+              <option value="high">高</option>
+            </select>
+          </div>
+          <div class="flex-1">
+            <label class="text-xs text-gray-500 block mb-1">时间窗 (天)</label>
+            <input id="user-horizon" type="number" value="30" min="1" max="365" class="w-full px-3 py-1.5 border rounded text-sm" />
+          </div>
+          <div class="flex-1">
+            <label class="text-xs text-gray-500 block mb-1">最低影响</label>
+            <input id="user-min-impact" type="number" value="3" min="1" max="5" class="w-full px-3 py-1.5 border rounded text-sm" />
+          </div>
+        </div>
+        <button onclick="saveUserPreferences()" class="px-4 py-2 bg-green-600 text-white rounded text-sm hover:bg-green-700">💾 保存偏好</button>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <h3 class="font-semibold mb-3">⭐ 我的收藏</h3>
+        <div id="user-favorites" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <h3 class="font-semibold mb-3">📋 我的事件流 (按偏好过滤)</h3>
+        <div id="user-events" class="space-y-2"></div>
+      </div>
+    </section>
+
+    <section data-section="events" class="hidden">
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg shadow-sm border border-orange-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <h3 class="font-semibold">🗓️ 未来 30 天事件时间轴 (impact ≥ 3)</h3>
+          <span class="text-xs text-gray-500">横向滚动 · 颜色越深 = 影响越大</span>
+        </div>
+        <div id="events-timeline" class="overflow-x-auto pb-2"></div>
+      </div>
+
+      <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg shadow-sm border border-orange-300 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">⏰ 48h 提醒 (今日 + 明日)</h3>
+          <div class="flex gap-2">
+            <button onclick="loadReminders()" class="text-xs px-2 py-1 bg-white border hover:bg-gray-50 rounded">↻ 刷新</button>
+            <button onclick="triggerReminders()" class="text-xs px-2 py-1 bg-orange-600 text-white hover:bg-orange-700 rounded">▶ 推送</button>
+          </div>
+        </div>
+        <div id="events-reminders" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg shadow-sm border border-green-300 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">📈 事件影响预测 (heuristic + 历史)</h3>
+          <button onclick="loadPredictions()" class="text-xs px-2 py-1 bg-white border hover:bg-gray-50 rounded">↻ 刷新</button>
+        </div>
+        <div id="events-predictions" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-gradient-to-r from-violet-50 to-purple-50 rounded-lg shadow-sm border border-violet-300 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">🧠 高级预测 (贝叶斯 + 时间衰减 + 置信区间)</h3>
+          <button onclick="loadAdvancedPredictions()" class="text-xs px-2 py-1 bg-white border hover:bg-gray-50 rounded">↻ 刷新</button>
+        </div>
+        <div id="events-advanced-predictions" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg shadow-sm border border-amber-300 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">🔥 多事件叠加分析 (同行业 7 日聚合)</h3>
+          <button onclick="loadClusters()" class="text-xs px-2 py-1 bg-white border hover:bg-gray-50 rounded">↻ 刷新</button>
+        </div>
+        <div id="events-clusters" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-sm border border-blue-300 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">📊 事件 vs 价格异动回测 (365天)</h3>
+          <button onclick="runBacktestNow()" class="text-xs px-2 py-1 bg-blue-600 text-white hover:bg-blue-700 rounded">▶ 运行</button>
+        </div>
+        <div id="events-backtest" class="text-sm text-gray-600">点击"▶ 运行"启动回测（约 5-10 秒）</div>
+      </div>
+
+      <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg shadow-sm border border-purple-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-semibold">📅 未来 7 日重点事件</h3>
+          <button onclick="loadEvents()" class="text-xs px-2 py-1 bg-white border hover:bg-gray-50 rounded">↻ 刷新</button>
+        </div>
+        <div id="events-upcoming" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <div class="flex flex-wrap gap-3 mb-4">
+          <select id="events-industry" class="px-3 py-2 border rounded-md text-sm">
+            <option value="">所有行业</option>
+          </select>
+          <select id="events-window" class="px-3 py-2 border rounded-md text-sm">
+            <option value="7">未来 7 天</option>
+            <option value="30" selected>未来 30 天</option>
+            <option value="90">未来 90 天</option>
+            <option value="180">未来半年</option>
+            <option value="all">全部未来</option>
+          </select>
+          <select id="events-impact" class="px-3 py-2 border rounded-md text-sm">
+            <option value="1">所有影响</option>
+            <option value="3" selected>影响 ≥ 3</option>
+            <option value="4">影响 ≥ 4</option>
+            <option value="5">仅关键 (5)</option>
+          </select>
+          <select id="events-future" class="px-3 py-2 border rounded-md text-sm">
+            <option value="true" selected>仅未来</option>
+            <option value="false">仅过去</option>
+            <option value="">全部</option>
+          </select>
+          <button onclick="loadEvents()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">查询</button>
+        </div>
+        <div id="events-list" class="space-y-2"></div>
+      </div>
+    </section>
+
+    <section data-section="graph" class="hidden">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-4">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div>
+            <h3 class="font-semibold">🕸️ 供应链知识图谱</h3>
+            <p class="text-xs text-gray-500 mt-1">同一份数据 · 4 种视图 · 按需切换</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <div id="graph-view-tabs" class="inline-flex rounded-md border border-gray-300 overflow-hidden">
+              <button data-view="network" class="graph-view-btn px-3 py-1.5 bg-blue-600 text-white">🌐 网络图</button>
+              <button data-view="cards" class="graph-view-btn px-3 py-1.5 bg-white hover:bg-gray-50">📂 分类卡片</button>
+              <button data-view="tree" class="graph-view-btn px-3 py-1.5 bg-white hover:bg-gray-50">🌳 层级树</button>
+              <button data-view="heatmap" class="graph-view-btn px-3 py-1.5 bg-white hover:bg-gray-50">🔥 热力矩阵</button>
+            </div>
+            <button onclick="loadSupplyChainGraph()" class="px-3 py-1 hover:bg-gray-100 rounded">↻ 刷新</button>
+          </div>
+        </div>
+        <div id="graph-stats" class="text-xs text-gray-500 mb-2"></div>
+
+        <div data-view-pane="network">
+          <div class="flex items-center gap-3 text-xs mb-2">
+            <span class="px-2 py-1 rounded bg-blue-50 text-blue-700">● 分类</span>
+            <span class="px-2 py-1 rounded bg-emerald-50 text-emerald-700">● Term</span>
+            <span class="px-2 py-1 rounded bg-amber-50 text-amber-700">● A股/港股</span>
+            <span class="text-gray-500">拖拽节点 · 滚轮缩放 · 悬停看详情</span>
+          </div>
+          <div id="supply-chain-graph" class="border rounded bg-gray-50" style="height: 620px;"></div>
+        </div>
+
+        <div data-view-pane="cards" class="hidden">
+          <div class="flex items-center gap-3 mb-3 text-xs">
+            <input id="cards-filter" placeholder="过滤分类或股票..." class="px-3 py-1.5 border rounded w-64" oninput="renderCardsView()" />
+            <span class="text-gray-500">展开/收起 term 列表 · 点击股票跳转</span>
+          </div>
+          <div id="cards-container" class="space-y-3"></div>
+        </div>
+
+        <div data-view-pane="tree" class="hidden">
+          <p class="text-xs text-gray-500 mb-2">点击分类 / term 展开/收起 · 显示每层的传导逻辑与覆盖股票</p>
+          <div id="tree-container" class="border rounded bg-gray-50 p-3" style="max-height: 620px; overflow:auto;"></div>
+        </div>
+
+        <div data-view-pane="heatmap" class="hidden">
+          <p class="text-xs text-gray-500 mb-2">横轴股票（覆盖度 Top 30）· 纵轴分类 · 格子颜色越深表示该股票被越多 term 覆盖</p>
+          <div id="heatmap-container" class="border rounded bg-gray-50 p-3 overflow-auto" style="max-height: 620px;"></div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <h3 class="font-semibold">📊 分类汇总表</h3>
+          <input id="graph-category-filter" placeholder="过滤分类..." class="px-3 py-1.5 border rounded text-xs w-48" oninput="renderGraphCategoryTable()" />
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="text-xs text-gray-500 border-b bg-gray-50">
+              <tr>
+                <th class="text-left py-2 px-2 cursor-pointer hover:text-blue-600" onclick="sortGraphTable('category')">分类 ↕</th>
+                <th class="text-left py-2 px-2 cursor-pointer hover:text-blue-600" onclick="sortGraphTable('signal_type')">类型 ↕</th>
+                <th class="text-right py-2 px-2 cursor-pointer hover:text-blue-600" onclick="sortGraphTable('term_count')">Term 数 ↕</th>
+                <th class="text-right py-2 px-2 cursor-pointer hover:text-blue-600" onclick="sortGraphTable('stock_count')">股票数 ↕</th>
+                <th class="text-right py-2 px-2 cursor-pointer hover:text-blue-600" onclick="sortGraphTable('signal_count')">信号数 ↕</th>
+              </tr>
+            </thead>
+            <tbody id="graph-category-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-7xl mx-auto px-6 py-6 text-center text-xs text-gray-500">
+    Stock Analysis System · 数据新鲜度由质量门禁实时判定 · <span id="footer-ts"></span>
+  </footer>
+
+  <div id="toast" class="fixed bottom-4 right-4 hidden z-50"></div>
+
+<script>
+// The dashboard is often opened directly from file:// in the desktop app.
+// Relative /api URLs then resolve to file:///api and every action appears to
+// fail.  Route file-based pages explicitly to the running stock service.
+const API = location.protocol === 'file:' ? 'http://localhost:8000' : '';
+let hotnessChart = null;
+let signalsPage = 1;
+let calendarDate = new Date();
+let reportsByDate = {};
+const SIGNALS_PER_PAGE = 30;
+
+function toast(msg, kind = 'info') {
+  const t = document.getElementById('toast');
+  const colors = { info: 'bg-blue-600', success: 'bg-green-600', error: 'bg-red-600' };
+  t.className = `fixed bottom-4 right-4 z-50 px-4 py-2 rounded-md text-white text-sm shadow-lg ${colors[kind] || colors.info}`;
+  t.textContent = msg;
+  t.classList.remove('hidden');
+  setTimeout(() => t.classList.add('hidden'), 3000);
+}
+
+async function api(path) {
+  const r = await fetch(API + path);
+  if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
+  return r.json();
+}
+
+async function post(path, body) {
+  const opts = { method: 'POST', headers: {} };
+  if (body !== undefined) {
+    opts.headers['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(body);
+  }
+  const r = await fetch(API + path, opts);
+  if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
+  return r.json();
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
+    btn.classList.add('tab-active');
+    document.querySelectorAll('[data-section]').forEach(s => s.classList.add('hidden'));
+    document.querySelector(`[data-section="${btn.dataset.tab}"]`).classList.remove('hidden');
+    onTabChange(btn.dataset.tab);
+  });
+});
+
+function showTab(name) { document.querySelector(`[data-tab="${name}"]`).click(); }
+
+function onTabChange(tab) {
+  if (tab === 'dashboard') refreshDashboard();
+  else if (tab === 'reports') loadReportCalendar();
+  else if (tab === 'scheduler') loadSchedulerStatus();
+  else if (tab === 'signals') { loadSignalCategories(); loadSignalActivity(); loadSignals(1); }
+  else if (tab === 'hotness') loadHotnessChart();
+  else if (tab === 'news') loadNews();
+  else if (tab === 'stocks') loadStocks();
+  else if (tab === 'futures') loadFutures();
+  else if (tab === 'events') { loadEvents(); loadReminders(); loadPredictions(); loadAdvancedPredictions(); loadClusters(); }
+  else if (tab === 'graph') loadSupplyChainGraph();
+  else if (tab === 'profiles') { loadProfiles(); loadDLPredictions(); }
+  else if (tab === 'qa') { loadSuggestions(); }
+  else if (tab === 'live') { loadSentiment(); loadMetricsSummary(); }
+  else if (tab === 'me') { loadUserDashboard(); }
+}
+
+async function checkHealth() {
+  const statusEl = document.getElementById('server-status');
+  const dot = document.getElementById('status-dot');
+  const parts = [];
+  let ok = true;
+  try {
+    const r = await fetch('/api/health', { cache: 'no-store' });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    parts.push('API✓');
+  } catch (e) {
+    parts.push(`API✗(${e.message})`);
+    ok = false;
+  }
+  if (typeof vis !== 'undefined' && vis.Network) parts.push('vis✓');
+  else { parts.push('vis✗(本地库未加载)'); ok = false; }
+  try {
+    const r = await fetch('/static/vendor/vis-network.min.js', { method: 'HEAD', cache: 'no-store' });
+    parts.push(r.ok ? '库✓' : `库✗(HTTP ${r.status})`);
+    if (!r.ok) ok = false;
+  } catch (e) {
+    parts.push(`库✗(${e.message})`);
+    ok = false;
+  }
+  statusEl.textContent = parts.join(' · ');
+  statusEl.title = '实时自检: ' + parts.join(' | ');
+  dot.classList.remove('off', 'warn');
+  if (!ok) dot.classList.add('off');
+
+  if (window._diagOnce) return;
+  window._diagOnce = true;
+  console.group('%c[StockAnalysis] 自检诊断', 'color:#3b82f6;font-weight:bold;font-size:13px');
+  console.log('URL:', location.href);
+  console.log('User-Agent:', navigator.userAgent);
+  console.log('API health:', parts[0]);
+  console.log('vis-network 全局变量:', typeof vis === 'undefined' ? '未定义 ❌' : (vis.Network ? '已加载 ✓' : '不完整 ❌'));
+  console.log('本地库文件:', parts[2]);
+  console.log('vis-network script src:', document.querySelector('script[src*="vis-network"]')?.src);
+  try {
+    const r = await fetch('/api/supply-chain/graph', { cache: 'no-store' });
+    const j = await r.json();
+    console.log('图谱 API:', r.status, '| 节点', j?.nodes?.length, '| 边', j?.edges?.length, '| 分类', j?.categories?.length);
+  } catch (e) {
+    console.log('图谱 API:', '失败 ❌', e.message);
+  }
+  console.groupEnd();
+}
+
+async function loadStats() {
+  try {
+    const s = await api('/api/stats');
+    const latestFutures = s.FuturesPrice_latest ? s.FuturesPrice_latest.slice(0,10) : '';
+    const latestNews = s.NewsRaw_latest ? s.NewsRaw_latest.slice(0,10) : '';
+    const latestStocks = s.StockQuote_latest ? s.StockQuote_latest.slice(0,10) : '';
+    const cards = [
+      ['信号', `近7日 ${s.SignalRecent || 0} 个 · 近72h ${s.SignalTodayHits || 0} 次匹配`, '🚨', ''],
+      ['期货', `${s.FuturesPrice || 0} 条${latestFutures ? ' · 最新 ' + latestFutures : ''}`, '💹', latestFutures],
+      ['A股', `${s.StockQuote || 0} 条${latestStocks ? ' · 最新 ' + latestStocks : ''}`, '📈', latestStocks],
+      ['新闻', `近48h ${s.NewsRecent48 || 0} 条 / 总 ${s.NewsRaw || 0}${latestNews ? ' · 最新 ' + latestNews : ''}`, '📰', latestNews],
+    ];
+    document.getElementById('stats-cards').innerHTML = cards.map(([t, v, i]) => `
+      <div class="bg-white rounded shadow-sm border border-gray-200 p-2 flex items-center gap-2">
+        <span class="text-lg shrink-0">${i}</span>
+        <div class="min-w-0">
+          <div class="text-[10px] text-gray-400 truncate">${t}</div>
+          <div class="text-xs font-semibold truncate">${v}</div>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) { console.error(e); }
+}
+
+async function refreshDashboard() {
+  await Promise.all([
+    loadStats(), loadHealthSummary(), loadHotnessTop(), loadSignalPreview(),
+    loadNewsPreview(), loadNewsDailyCounts(), loadLatestReportSummary(), loadSignalActivityDashboard(),
+  ]);
+  document.getElementById('today-date').textContent = new Date().toLocaleDateString('zh-CN');
+}
+
+async function loadNewsDailyCounts() {
+  try {
+    const rows = await api('/api/news/daily-counts?days=14');
+    const el = document.getElementById('news-daily-counts');
+    if (!el) return;
+    const max = Math.max(1, ...rows.map(r => r.count));
+    el.innerHTML = rows.map(r => {
+      const h = r.count ? Math.max(8, Math.round((r.count / max) * 54)) : 5;
+      const zero = r.count === 0;
+      const label = r.date.slice(5).replace('-', '/');
+      return `<div class="group min-w-0" title="${r.date}：${r.count} 条新闻，${r.matched} 条匹配关键词，${r.sources} 个来源">
+        <div class="h-16 flex items-end justify-center"><div class="w-full max-w-8 rounded-t ${zero ? 'bg-red-200' : 'bg-blue-500 group-hover:bg-blue-600'}" style="height:${h}px"></div></div>
+        <div class="text-center text-[10px] ${zero ? 'text-red-600 font-bold' : 'text-gray-500'}">${r.count}</div>
+        <div class="text-center text-[9px] text-gray-400 whitespace-nowrap">${label}</div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    const el = document.getElementById('news-daily-counts');
+    if (el) el.innerHTML = '<div class="col-span-full text-xs text-gray-400 py-3">新闻量统计加载失败</div>';
+  }
+}
+
+async function loadHealthSummary() {
+  try {
+    const h = await api('/api/v1/health/data');
+    const health = document.getElementById('hero-health');
+    const market = document.getElementById('hero-market');
+    const stock = h.freshness?.stock_quotes;
+    const futures = h.freshness?.futures;
+    const stateText = { pass: '数据质量通过', warn: '数据质量警告：仅供观察', fail: '数据质量阻断：禁止强建议', unknown: '数据质量未知' };
+    health.className = `health-chip ${h.overall === 'pass' ? 'ok' : h.overall === 'fail' ? 'fail' : 'warn'}`;
+    health.textContent = `● ${stateText[h.overall] || stateText.unknown}`;
+    market.textContent = `A股 ${stock?.latest_trade_date || '-'} · 期货 ${futures?.latest_trade_date || '-'}`;
+    market.className = `health-chip ${stock?.status === 'pass' && futures?.status === 'pass' ? 'ok' : 'warn'}`;
+  } catch (e) {
+    const health = document.getElementById('hero-health');
+    if (health) { health.className = 'health-chip warn'; health.textContent = '● 数据质量检查失败'; }
+  }
+}
+
+async function loadLatestReportSummary() {
+  try {
+    const rows = await api('/api/reports?limit=1');
+    if (rows.length === 0) {
+      document.getElementById('latest-report-summary').innerHTML = '<div class="text-orange-600">⚠️ 还没有报告。点击上方按钮生成。</div>';
+      return;
+    }
+    const r = rows[0];
+    const age = ((Date.now() - new Date(r.created_at).getTime()) / 3600000).toFixed(1);
+    const pushText = r.push_status === 'sent' ? '✅飞书已发'
+      : r.push_status === 'suppressed' ? '🛡️质量门禁未推送'
+      : '⏳飞书待发';
+    const qualityText = r.quality_status === 'warn' ? ' · 仅供观察'
+      : r.quality_status === 'fail' ? ' · 质量阻断' : '';
+    document.getElementById('latest-report-summary').innerHTML = `
+      <div class="text-sm">
+        ✅ 最新报告: <strong>${r.report_date}</strong> (${r.report_type})
+        · ${age}小时前生成
+        · ${r.summary || `${r.n_signals} 信号 / ${r.n_news} 新闻 / ${r.n_top_categories} 类别`}
+        ${qualityText} · ${pushText}
+      </div>
+    `;
+  } catch (e) { console.error(e); }
+}
+
+async function loadTodayReport() {
+  const today = new Date().toISOString().slice(0, 10);
+  showTab('reports');
+  setTimeout(() => loadReportByDate(today), 200);
+}
+
+async function triggerReportNow() {
+  if (!confirm('立即重新生成今日报告？')) return;
+  try {
+    toast('正在生成...', 'info');
+    const result = await post('/api/run/generate_report?report_type=manual');
+    if (!result || result.status !== 'ok') {
+      throw new Error(result?.error || result?.output || '后端未返回成功状态');
+    }
+    toast('报告已生成！', 'success');
+    setTimeout(() => { showTab('dashboard'); refreshAll(); }, 1500);
+  } catch (e) { toast('生成失败: ' + e.message, 'error'); }
+}
+
+// 任务 ID → 中文名（与 web/server.py 的 /api/scheduler/jobs 保持一致）
+const JOB_NAME_ZH = {
+  collect_futures: '抓取期货价格',
+  collect_stocks: '抓取 A 股行情',
+  collect_news_high: '抓取高优新闻',
+  collect_news_mid: '抓取中优新闻',
+  compute_hotness: '计算行业热度',
+  generate_report: '生成日报',
+  weekly_backfill: '每周回填',
+};
+
+async function triggerJob(name) {
+  const label = JOB_NAME_ZH[name] || name;
+  if (!confirm(`触发任务: ${label}?`)) return;
+  toast(`触发 ${label}...`, 'info');
+  try {
+    const result = await post(`/api/run/${name}`);
+    const out = (result && result.output) ? ` · ${result.output}` : '';
+    toast(`${label} 已完成${out}`, 'success');
+    // Refresh immediately on completion — no setTimeout, because long jobs
+    // (e.g. collect_news_high takes 6+ seconds) would push the refresh past
+    // the user's patience. The /api/scheduler/jobs endpoint reads the latest
+    // JobRun row, so calling it right after the job returns always picks up
+    // the new last_run_at.
+    await loadSchedulerStatus();
+    refreshAll();
+  } catch (e) { toast(`失败: ${e.message}`, 'error'); }
+}
+
+async function loadHotnessTop() {
+  try {
+    let rows = await api('/api/hotness?days_back=1');
+    const latestDate = rows.length ? rows.reduce((m, r) => r.trade_date > m ? r.trade_date : m, '') : null;
+    const list = latestDate ? rows.filter(r => r.trade_date === latestDate) : rows;
+    list.sort((a, b) => a.rank - b.rank);
+    const businessToday = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+    const stale = !latestDate || latestDate !== businessToday;
+    const banner = latestDate
+      ? `<div class="text-xs ${stale ? 'text-red-600 font-semibold' : 'text-gray-500'} mb-2">${stale ? `⚠️ 今日 ${businessToday} 热度缺失；当前仅显示 ` : '数据日期: '}<code>${latestDate}</code></div>`
+      : `<div class="text-xs text-red-600 font-semibold mb-2">⚠️ 今日 ${businessToday} 没有热度数据</div>`;
+    document.getElementById('hotness-list').innerHTML = banner + list.slice(0, 10).map(h => {
+      const maxScore = Math.max(...list.map(x => x.hotness_score), 1);
+      const barW = Math.max(6, (h.hotness_score / maxScore) * 100);
+      const isDeep = h.processed_level === 'deep';
+      return `<div class="flex items-center gap-1.5 text-xs">
+        <span class="font-bold text-gray-400 w-4 text-right shrink-0">#${h.rank}</span>
+        <div class="flex-1 min-w-0 relative h-5 flex items-center">
+          <div class="absolute left-0 top-1/2 -translate-y-1/2 h-2.5 rounded-sm ${isDeep ? 'bg-blue-500' : 'bg-gray-300'}" style="width:${barW}%"></div>
+          <span class="relative z-10 pl-1.5 truncate font-medium text-gray-800">${h.category_name}</span>
+        </div>
+        <span class="text-gray-500 shrink-0 text-[10px]">${h.hotness_score.toFixed(1)}</span>
+      </div>`;
+    }).join('') || '<div class="text-xs text-gray-400 py-4 text-center">暂无热度数据</div>';
+  } catch (e) { console.error(e); }
+}
+
+
+async function loadNewsPreview() {
+  try {
+    const rows = await api('/api/news?hours_back=48&limit=10');
+    document.getElementById('news-preview').innerHTML = rows.map(n => {
+      const age = ((Date.now() - new Date(n.published_at).getTime()) / 3600000).toFixed(1);
+      const kw = n.keywords_matched ? `<span class="text-xs text-blue-600">[${n.keywords_matched.split(',')[0]}]</span> ` : '';
+      return `
+        <a href="${n.url}" target="_blank" class="block hover:bg-gray-50 p-1 rounded -mx-1 leading-tight">
+          <div class="text-xs truncate">${kw}${n.title}</div>
+          <div class="text-[10px] text-gray-500">${n.source_label || n.source} · ${age}h前</div>
+        </a>
+      `;
+    }).join('') || '<div class="text-xs text-gray-400">暂无新闻</div>';
+  } catch (e) { console.error(e); }
+}
+
+async function loadSignalActivity() {
+  try {
+    const [hits, stats] = await Promise.all([
+      api('/api/signal-hits/recent?hours_back=72&recent_signal_days=7&limit=50'),
+      api('/api/signal-hits/stats?hours_back=72'),
+    ]);
+    const badge = document.getElementById('signal-activity-badge');
+    if (badge) badge.textContent = `${hits.length} 条匹配 · ${stats.length} 信号活跃`;
+    const container = document.getElementById('signal-activity-list');
+    if (!container) return;
+    if (!hits.length) {
+      container.innerHTML = '<div class="text-gray-400 py-2 text-sm">暂无匹配数据 — 新闻采集运行后会自动生成</div>';
+      return;
+    }
+    container.innerHTML = '<div class="text-xs text-gray-400 mb-2">更新时间: ' + new Date().toLocaleString('zh-CN', {hour12: false}) + '</div>' +
+      hits.map(h => {
+      const sigLabel = h.signal
+        ? `<a href="#" onclick="showSignal(${h.signal.id});return false;" class="font-medium text-blue-700 hover:underline">${h.signal.title}</a>`
+        : `<span class="text-gray-500">${h.term}</span>`;
+      const gradeBadge = h.signal ? `<span class="grade-${h.signal.grade} text-xs font-bold px-1.5 py-0.5 rounded ml-1">${h.signal.grade}</span>` : '';
+      const age = ((Date.now() - new Date(h.hit_at).getTime()) / 3600000).toFixed(1);
+      return `<div class="flex items-start gap-2 py-1.5 border-b border-gray-100 last:border-0">
+        <span class="text-xs text-gray-400 whitespace-nowrap mt-0.5">${age}h前</span>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-1 flex-wrap">
+            ${sigLabel} ${gradeBadge}
+            <span class="text-xs text-gray-400">→</span>
+            <a href="${h.news_url}" target="_blank" class="text-sm text-gray-700 hover:text-blue-600 truncate max-w-[400px] inline-block align-bottom">${h.news_title}</a>
+          </div>
+          <div class="text-xs text-gray-400 mt-0.5">
+            匹配度: ${(h.match_score * 100).toFixed(0)}% · 综合评分: ${h.final_score.toFixed(1)}
+            ${h.news_source ? `· ${h.news_source}` : ''}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) { console.error('loadSignalActivity:', e); }
+}
+
+async function loadSignalPreview() {
+  try {
+    const [rows, stats] = await Promise.all([
+      api('/api/signals?min_strength=4&recent_days=7&limit=10&sort_by=signal_date&order=desc'),
+      api('/api/signal-hits/stats?hours_back=72'),
+    ]);
+    const activityHtml = stats.length
+      ? `<div class="text-xs text-blue-600 mb-2">📡 近72h ${stats.reduce((a, s) => a + s.hit_count, 0)} 次信号匹配，${stats.length} 个信号活跃</div>`
+      : '';
+    document.getElementById('signal-preview').innerHTML = activityHtml + (rows.length
+      ? rows.map(s => `
+      <a href="#" onclick="showSignal(${s.id}); return false;" class="block hover:bg-gray-50 p-1.5 rounded -mx-1.5">
+        <div class="flex items-start gap-1.5">
+          <span class="text-[10px] font-bold px-1 py-0.5 rounded grade-${s.grade} shrink-0">${s.grade}</span>
+          <span class="flex-1 text-xs leading-tight truncate">${s.title}</span>
+          <span class="text-[10px] text-gray-400 shrink-0">${s.strength.toFixed(1)}</span>
+        </div>
+        <div class="text-[10px] text-gray-400 mt-0.5 ml-6">${s.direction || ''}${s.signal_date ? ' · ' + s.signal_date : ''}</div>
+      </a>
+    `).join('')
+      : '<div class="text-xs text-gray-400 py-4 text-center">暂无强信号 (strength≥4)</div>');
+  } catch (e) { console.error(e); }
+}
+
+async function loadSignalActivityDashboard() {
+  try {
+    const hits = await api('/api/signal-hits/recent?hours_back=72&recent_signal_days=7&limit=5');
+    const container = document.getElementById('signal-activity-dashboard');
+    if (!container) return;
+    if (!hits.length) { container.innerHTML = ''; return; }
+    container.innerHTML = '<div class="text-xs font-medium text-blue-600 mb-1.5">📡 最近信号匹配</div>' +
+      hits.map(h => {
+        const sigLabel = h.signal ? h.signal.title : h.term;
+        const age = ((Date.now() - new Date(h.hit_at).getTime()) / 3600000).toFixed(1);
+        return `<div class="text-xs text-gray-600 truncate">${age}h前 · <span class="text-blue-700">${sigLabel}</span> → ${h.news_title}</div>`;
+      }).join('');
+  } catch (e) { /* silent */ }
+}
+
+async function showSignal(id) {
+  try {
+    const s = await api(`/api/signals/${id}`);
+    const md = `# ${s.title}\n\n` +
+      `**等级**: ${s.grade} | **强度**: ${s.strength} | **方向**: ${s.direction} | **阶段**: ${s.phase}\n\n` +
+      (s.description ? `## 描述\n${s.description}\n\n` : '') +
+      (s.price_info ? `## 价格信息\n${s.price_info}\n\n` : '') +
+      (s.note ? `## 备注\n${s.note}\n\n` : '') +
+      `## 关联股票 (${s.stocks.length})\n` +
+      s.stocks.map(st => `- ${st.code} ${st.name || ''} (强度 ${st.strength})`).join('\n');
+    showTab('reports');
+    document.getElementById('report-content').innerHTML = marked.parse(md);
+  } catch (e) { console.error(e); }
+}
+
+async function loadReportCalendar() {
+  try {
+    const rows = await api('/api/reports?limit=200');
+    reportsByDate = {};
+    rows.forEach(r => {
+      if (!reportsByDate[r.report_date]) reportsByDate[r.report_date] = [];
+      reportsByDate[r.report_date].push(r);
+    });
+    const sel = document.getElementById('report-date-select');
+    sel.innerHTML = rows.map(r => `<option value="${r.report_date}|${r.report_type}">${r.report_date} · ${r.report_type}</option>`).join('');
+    sel.onchange = () => {
+      const v = sel.value;
+      if (v) {
+        const [d, t] = v.split('|');
+        loadReportByDate(d, t);
+      }
+    };
+    renderCalendar();
+    if (rows.length) loadReportByDate(rows[0].report_date, rows[0].report_type);
+  } catch (e) { console.error(e); }
+}
+
+function renderCalendar() {
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+  document.getElementById('cal-title').textContent = `${year}年${month + 1}月`;
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const startDow = firstDay.getDay();
+  const daysInMonth = lastDay.getDate();
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+
+  let html = '';
+  for (let i = 0; i < startDow; i++) html += `<div class="cal-day empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const classes = ['cal-day'];
+    if (reportsByDate[dateStr]) classes.push('has-report');
+    if (dateStr === todayStr) classes.push('today');
+    html += `<div class="${classes.join(' ')}" onclick="loadReportByDate('${dateStr}')">${d}</div>`;
+  }
+  document.getElementById('calendar').innerHTML = html;
+}
+
+function prevMonth() { calendarDate.setMonth(calendarDate.getMonth() - 1); renderCalendar(); }
+function nextMonth() { calendarDate.setMonth(calendarDate.getMonth() + 1); renderCalendar(); }
+
+async function loadReportByDate(d, t = null) {
+  try {
+    let url = `/api/reports/${d}`;
+    if (t) url += `?report_type=${t}`;
+    const r = await api(url);
+    document.getElementById('report-content').innerHTML = marked.parse(r.markdown);
+  } catch (e) {
+    document.getElementById('report-content').innerHTML = `<div class="text-red-500">报告加载失败: ${e.message}</div>`;
+  }
+}
+
+async function loadSchedulerStatus() {
+  try {
+    const [status, jobs] = await Promise.all([
+      api('/api/scheduler/status'),
+      api('/api/scheduler/jobs'),
+    ]);
+    const stateMap = { running: { text: '运行中', class: 'status-ok' }, stopped: { text: '已停止', class: 'status-error' }, disabled: { text: 'Dify 托管运行', class: 'status-ok' } };
+    const st = status.effective_mode === 'dify_production'
+      ? { text: 'Dify 托管运行', class: 'status-ok' }
+      : (stateMap[status.state?.state] || { text: status.state?.state || '未知', class: 'bg-gray-100' });
+    document.getElementById('scheduler-state-badge').className = `text-sm px-3 py-1 rounded-full ${st.class}`;
+    document.getElementById('scheduler-state-badge').textContent = st.text;
+    document.getElementById('scheduler-info').innerHTML = `
+      <div>最后更新: <code>${status.state?.last_update || '-'}</code></div>
+      <div>备注: ${status.state?.note || '-'}</div>
+      <div>生产调度: ${status.message || '-'}</div>
+      <div>总运行次数: ${status.total_runs}</div>
+    `;
+    const STATUS_LABEL = { ok: '成功', error: '失败', running: '运行中', never: '从未' };
+    const TRIGGER_LABEL = { scheduled: '自动', manual: '手动', backfill: '回填' };
+    const JOB_DESC = Object.fromEntries(jobs.map(j => [j.id, j.description || '']));
+    document.getElementById('scheduled-jobs-body').innerHTML = jobs.map(j => {
+      const statusKey = j.last_status || 'never';
+      const statusBadge = j.last_status === 'ok' ? 'status-ok' : j.last_status === 'error' ? 'status-error' : j.last_status === 'never' ? 'bg-gray-100' : 'status-running';
+      const lastRun = j.last_run_at ? new Date(j.last_run_at).toLocaleString('zh-CN') : '从未';
+      const lastOutput = j.last_output_summary || (j.last_status === 'never' ? '-' : '');
+      return `
+        <tr class="border-b hover:bg-gray-50">
+          <td class="py-2.5">
+            <div class="font-medium" title="${j.description || ''}">${j.name}</div>
+            <div class="text-xs text-gray-500 mt-0.5">${j.description || ''}</div>
+          </td>
+          <td class="text-gray-600">${j.schedule}</td>
+          <td><span class="text-xs px-2 py-0.5 rounded ${statusBadge}">${STATUS_LABEL[statusKey] || statusKey}</span></td>
+          <td class="text-gray-500 text-xs">${lastRun}</td>
+          <td class="text-gray-600 text-xs font-mono" title="${lastOutput}">${lastOutput || '-'}</td>
+          <td class="text-right text-xs text-gray-500">${j.last_duration_sec ? j.last_duration_sec.toFixed(1) + 's' : '-'}</td>
+          <td class="text-right">
+            ${j.manual_enabled === false
+              ? '<span class="text-xs text-gray-400">Dify 托管</span>'
+              : `<button onclick="triggerJob('${j.id}')" class="text-xs px-2 py-0.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded">▶ 手动</button>`}
+          </td>
+        </tr>
+      `;
+    }).join('');
+    document.getElementById('job-runs-body').innerHTML = status.recent_runs.map(r => {
+      const statusKey = r.status || 'running';
+      const triggerKey = r.trigger_type || 'scheduled';
+      const statusBadge = r.status === 'ok' ? 'status-ok' : r.status === 'error' ? 'status-error' : 'status-running';
+      const triggerBadge = r.trigger_type === 'manual' ? 'bg-purple-100 text-purple-700' : r.trigger_type === 'backfill' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-700';
+      const started = r.started_at ? new Date(r.started_at).toLocaleString('zh-CN') : '-';
+      const finished = r.finished_at ? new Date(r.finished_at).toLocaleTimeString('zh-CN') : '-';
+      const descTip = JOB_DESC[r.job_id] ? ` title="${JOB_DESC[r.job_id]}"` : '';
+      return `
+        <tr class="border-b hover:bg-gray-50">
+          <td class="py-2 font-medium"${descTip}>${r.job_name}</td>
+          <td><span class="text-xs px-2 py-0.5 rounded ${triggerBadge}">${TRIGGER_LABEL[triggerKey] || triggerKey}</span></td>
+          <td class="text-gray-500 text-xs">${started}</td>
+          <td class="text-gray-500 text-xs">${finished}</td>
+          <td class="text-right text-xs">${r.duration_sec.toFixed(1)}s</td>
+          <td><span class="text-xs px-2 py-0.5 rounded ${statusBadge}">${STATUS_LABEL[statusKey] || statusKey}</span></td>
+        </tr>
+      `;
+    }).join('') || '<tr><td colspan="6" class="text-center text-gray-400 py-4">暂无运行记录</td></tr>';
+  } catch (e) { console.error(e); }
+}
+
+let _signalCat = '';
+
+async function loadSignalCategories() {
+  const wrap = document.getElementById('signal-categories');
+  if (!wrap) return;
+  try {
+    const [all, gradeA, gradeB, tight, surplus] = await Promise.all([
+      api('/api/signals?limit=2000'),
+      api('/api/signals?grade=A&limit=2000'),
+      api('/api/signals?grade=B&limit=2000'),
+      api('/api/signals?direction=supply_tight&limit=2000'),
+      api('/api/signals?direction=supply_surplus&limit=2000'),
+    ]);
+    const cards = [
+      { key: '',          label: '全部',     desc: '所有 active 信号',   count: all.length,     tone: 'gray',  grade: null, direction: null },
+      { key: 'A',         label: 'A级',      desc: '最高优先级',         count: gradeA.length,  tone: 'red',   grade: 'A', direction: null },
+      { key: 'B',         label: 'B级',      desc: '中等优先级',         count: gradeB.length,  tone: 'amber', grade: 'B', direction: null },
+      { key: 'tight',     label: '供应紧缺', desc: '供需 → 涨价',         count: tight.length,   tone: 'red',   grade: null, direction: 'supply_tight' },
+      { key: 'surplus',   label: '供应过剩', desc: '供需 → 跌价',         count: surplus.length, tone: 'green', grade: null, direction: 'supply_surplus' },
+    ];
+    const toneCls = {
+      gray:  { bd: 'border-gray-300',   bg: 'bg-gray-50',   tx: 'text-gray-700' },
+      red:   { bd: 'border-red-300',    bg: 'bg-red-50',    tx: 'text-red-700' },
+      amber: { bd: 'border-amber-300',  bg: 'bg-amber-50',  tx: 'text-amber-700' },
+      green: { bd: 'border-green-300',  bg: 'bg-green-50',  tx: 'text-green-700' },
+    };
+    const activeKey = _signalCat;
+    wrap.innerHTML = cards.map(c => {
+      const isActive = c.key === activeKey;
+      const t = toneCls[c.tone];
+      const activeRing = isActive ? 'ring-2 ring-blue-500 border-blue-500' : `border ${t.bd} ${t.bg}`;
+      return `
+        <div class="rounded-lg p-3 cursor-pointer hover:shadow-md transition ${activeRing}" onclick="selectSignalCategory('${c.key}')">
+          <div class="flex items-baseline justify-between">
+            <div class="text-sm font-semibold ${t.tx}">${c.label}</div>
+            <div class="text-2xl font-bold ${t.tx}">${c.count}</div>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">${c.desc}</div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) { console.error('signal cats failed', e); }
+}
+
+function selectSignalCategory(key) {
+  _signalCat = key;
+  let grade = '', direction = '';
+  if (key === 'A' || key === 'B') grade = key;
+  else if (key === 'tight') direction = 'supply_tight';
+  else if (key === 'surplus') direction = 'supply_surplus';
+  document.getElementById('signal-grade').value = grade;
+  document.getElementById('signal-direction').value = direction;
+  loadSignalCategories();
+  loadSignals(1);
+}
+
+async function loadSignals(page) {
+  signalsPage = page || 1;
+  try {
+    const search = document.getElementById('signal-search').value;
+    const grade = document.getElementById('signal-grade').value;
+    const direction = document.getElementById('signal-direction').value;
+    const minStr = document.getElementById('signal-min-strength').value;
+    const offset = (signalsPage - 1) * SIGNALS_PER_PAGE;
+    const params = new URLSearchParams({
+      search: search || '', grade: grade || '', direction: direction || '',
+      min_strength: minStr, limit: SIGNALS_PER_PAGE, offset,
+      sort_by: 'signal_date', order: 'desc'
+    });
+    const rows = await api(`/api/signals?${params}`);
+    document.getElementById('signals-list').innerHTML = rows.map(s => {
+      const stocks = s.stocks.join(', ');
+      const hasBoost = s.event_boost && s.event_boost > 0;
+      const boostBadge = hasBoost
+        ? `<span class="px-2 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">📅 +${Math.round(s.event_boost*100)}%</span>`
+        : '';
+      const eventHint = hasBoost
+        ? `<div class="text-xs text-orange-600 mt-1">📅 临近: ${(s.event_titles || []).slice(0, 2).join(' · ').slice(0, 100)}</div>`
+        : '';
+      return `
+        <div class="bg-white rounded-lg shadow-sm border ${hasBoost ? 'border-orange-300' : 'border-gray-200'} p-4 hover:border-blue-300 cursor-pointer" onclick="showSignal(${s.id})">
+          <div class="flex items-start gap-3">
+            <span class="text-sm font-bold px-2 py-1 rounded grade-${s.grade}">${s.grade}</span>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <div class="font-medium flex-1">${s.title}</div>
+                ${boostBadge}
+              </div>
+              <div class="text-sm text-gray-600 mt-1">${(s.description || '').slice(0, 200)}</div>
+              ${eventHint}
+              <div class="flex flex-wrap items-center gap-2 mt-2 text-xs">
+                <span class="px-2 py-0.5 rounded ${s.direction === 'supply_tight' ? 'tight-tag' : s.direction === 'supply_surplus' ? 'surplus-tag' : 'mixed-tag'}">${s.direction || 'unknown'}</span>
+                <span class="text-gray-500">⭐ 强度 ${s.strength.toFixed(1)}</span>
+                <span class="text-gray-500">📅 ${s.signal_date}</span>
+                ${stocks ? `<span class="text-blue-600">📈 ${stocks}</span>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('') || '<div class="text-center text-gray-400 py-8">无匹配信号</div>';
+    const hasMore = rows.length === SIGNALS_PER_PAGE;
+    document.getElementById('signals-pagination').innerHTML = `
+      <button onclick="loadSignals(${signalsPage - 1})" ${signalsPage === 1 ? 'disabled' : ''} class="px-3 py-1 border rounded ${signalsPage === 1 ? 'opacity-50' : 'hover:bg-gray-100'}">上一页</button>
+      <span class="px-3 py-1">第 ${signalsPage} 页</span>
+      <button onclick="loadSignals(${signalsPage + 1})" ${!hasMore ? 'disabled' : ''} class="px-3 py-1 border rounded ${!hasMore ? 'opacity-50' : 'hover:bg-gray-100'}">下一页</button>
+    `;
+  } catch (e) { console.error(e); }
+}
+
+async function loadHotnessChart() {
+  try {
+    // X-axis is always a continuous 14-day calendar window
+    // (today-13 .. today), regardless of which dates actually have
+    // SectorHeat backing. Missing days render as null and spanGaps
+    // connects the curve across them so the timeline stays whole.
+    const rows = await api('/api/hotness?days_back=14');
+    if (!rows.length) { document.getElementById('hotness-detail').innerHTML = '<div class="text-gray-400 text-sm">暂无热度数据</div>'; return; }
+
+    const today = new Date();
+    const dates = [];
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      dates.push(d.toISOString().slice(0, 10));
+    }
+
+    const presentDates = [...new Set(rows.map(r => r.trade_date))].sort();
+    if (!presentDates.length) {
+      document.getElementById('hotness-detail').innerHTML = '<div class="text-gray-400 text-sm">近 14 日暂无真实热度数据</div>';
+      if (hotnessChart) { hotnessChart.destroy(); hotnessChart = null; }
+      return;
+    }
+
+    // Pick the most recent date that actually has data so the detail
+    // table is informative even if the literal last calendar day is empty.
+    const latestWithData = presentDates[presentDates.length - 1];
+    const latestRows = rows.filter(r => r.trade_date === latestWithData).sort((a, b) => a.rank - b.rank);
+    const categories = latestRows.map(r => r.category_name);
+    const lookup = new Map(rows.map(r => [`${r.trade_date}|${r.category_name}`, r.hotness_score]));
+    const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#6366f1', '#84cc16'];
+    const datasets = categories.slice(0, 10).map((cat, i) => {
+      const data = dates.map(d => lookup.has(`${d}|${cat}`) ? lookup.get(`${d}|${cat}`) : null);
+      return {
+        label: cat, data,
+        borderColor: colors[i % colors.length],
+        backgroundColor: colors[i % colors.length] + '20',
+        tension: 0.3, pointRadius: 4, spanGaps: true,
+      };
+    });
+    if (hotnessChart) hotnessChart.destroy();
+    hotnessChart = new Chart(document.getElementById('hotness-chart'), {
+      type: 'line', data: { labels: dates, datasets },
+      options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, scales: { y: { beginAtZero: true } } },
+    });
+
+    const businessToday = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+    const missingToday = latestWithData !== businessToday;
+    document.getElementById('hotness-detail').innerHTML = `
+      <div class="text-sm ${missingToday ? 'text-red-600 font-semibold' : 'text-gray-500'} mb-2">${missingToday ? `⚠️ 今日 ${businessToday} 热度缺失；` : ''}📅 当前最新 ${latestWithData} · ${presentDates.length} 个交易日有数据 · 窗口 ${dates[0]} ~ ${dates[dates.length - 1]}</div>
+      <table class="w-full text-sm">
+        <thead class="text-xs text-gray-500 border-b">
+          <tr><th class="text-left py-2">#</th><th class="text-left">类别</th><th>综合</th><th>关注</th><th>市场</th><th>证据</th><th>级别</th></tr>
+        </thead>
+        <tbody>
+          ${latestRows.map(r => `
+            <tr class="border-b hover:bg-gray-50">
+              <td class="py-2 font-mono">${r.rank}</td>
+              <td>${r.category_name}</td>
+              <td class="text-center font-semibold">${r.hotness_score.toFixed(1)}</td>
+              <td class="text-center">${(r.attention_score || 0).toFixed(0)}</td>
+              <td class="text-center">${(r.market_score || 0).toFixed(0)}</td>
+              <td class="text-center">${(r.evidence_score || 0).toFixed(0)}</td>
+              <td class="text-center">${r.processed_level === 'deep' ? '🎯深度' : '📋浅度'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch (e) { console.error(e); }
+}
+
+let _newsSource = '';
+let _newsHours = 48;
+let _newsCategory = '';
+
+async function _ensureNewsCategories() {
+  const wrap = document.getElementById('news-cat-chips');
+  if (!wrap || wrap.dataset.loaded === '1') return;
+  try {
+    const cats = await api('/api/news/categories?hours_back=168');
+    const sorted = [...cats].sort((a, b) => b.count - a.count);
+    wrap.innerHTML = sorted.map(c => {
+      const countTxt = c.count > 0 ? `<span class="ml-1.5 px-1.5 py-0.5 text-[10px] rounded-full bg-blue-100 text-blue-700">${c.count}</span>` : `<span class="ml-1.5 text-[10px] text-gray-400">0</span>`;
+      return `<button data-cat="${encodeURIComponent(c.category)}" class="news-cat-chip px-2.5 py-1 text-xs rounded-full border bg-white text-gray-600 border-gray-300 hover:border-blue-400 inline-flex items-center" onclick="setNewsCategory(this, decodeURIComponent(this.dataset.cat))">${c.label}${countTxt}</button>`;
+    }).join('');
+    wrap.dataset.loaded = '1';
+  } catch (e) { console.error('load news cats failed', e); }
+}
+
+function _highlightChips(group, value, attr) {
+  const TOKENS_ACTIVE = ['bg-blue-600', 'text-white', 'border-blue-600'];
+  const TOKENS_INACTIVE = ['bg-white', 'text-gray-600', 'border-gray-300', 'hover:border-blue-400'];
+  const TOKENS_ALL = [...TOKENS_ACTIVE, ...TOKENS_INACTIVE];
+  document.querySelectorAll(`.${group}`).forEach(b => {
+    const v = attr === 'data-cat' ? decodeURIComponent(b.dataset.cat || '') : (b.dataset[attr] || '');
+    const active = v === String(value);
+    TOKENS_ALL.forEach(t => b.classList.remove(...t.split(' ').filter(Boolean)));
+    if (active) {
+      b.classList.add(...TOKENS_ACTIVE);
+    } else {
+      b.classList.add(...TOKENS_INACTIVE);
+    }
+  });
+}
+
+function setNewsSource(btn, src) {
+  _newsSource = src;
+  _highlightChips('news-src-chip', src, 'data-src');
+  loadNews();
+}
+
+function setNewsHours(btn, h) {
+  _newsHours = h;
+  _highlightChips('news-hours-chip', h, 'data-h');
+  loadNews();
+}
+
+function setNewsCategory(btn, cat) {
+  _newsCategory = cat;
+  _highlightChips('news-cat-chip', cat, 'data-cat');
+  loadNews();
+}
+
+async function loadNews() {
+  try {
+    await _ensureNewsCategories();
+    const params = new URLSearchParams({ source: _newsSource, hours_back: _newsHours, limit: 100 });
+    if (_newsCategory) params.set('category', _newsCategory);
+    const rows = await api(`/api/news?${params}`);
+    const banner = _newsCategory ? `<div class="text-xs text-gray-500 mb-2">行业筛选: <b class="text-blue-700">${_newsCategory}</b> · 命中 ${rows.length} 条</div>` : '';
+    document.getElementById('news-list').innerHTML = banner + rows.map(n => {
+      const age = ((Date.now() - new Date(n.published_at).getTime()) / 3600000).toFixed(1);
+      const kw = n.keywords_matched ? `<div class="text-xs text-blue-600 mt-1">[关键词] ${n.keywords_matched}</div>` : '';
+      return `
+        <a href="${n.url}" target="_blank" class="block bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:border-blue-300">
+          <div class="flex items-start gap-2">
+            <span class="text-xs bg-gray-100 px-2 py-0.5 rounded">${n.source_label || n.source}</span>
+            <div class="flex-1">
+              <div class="font-medium">${n.title}</div>
+              ${n.summary ? `<div class="text-sm text-gray-600 mt-1">${n.summary.slice(0, 200)}</div>` : ''}
+              ${kw}
+              <div class="text-xs text-gray-500 mt-2">${age}小时前 · ${new Date(n.published_at).toLocaleString('zh-CN')}</div>
+            </div>
+          </div>
+        </a>
+      `;
+    }).join('') || '<div class="text-center text-gray-400 py-8">该筛选条件下暂无新闻</div>';
+  } catch (e) { console.error(e); }
+}
+
+async function loadStocks() {
+  try {
+    const rows = await api('/api/stocks?limit=200');
+    window._allStocks = rows;
+    const searchEl = document.getElementById('stock-search');
+    const sortEl = document.getElementById('stock-sort');
+    if (searchEl && !searchEl._wired) {
+      searchEl.addEventListener('input', applyStockSortAndRender);
+      searchEl._wired = true;
+    }
+    if (sortEl && !sortEl._wired) {
+      sortEl.addEventListener('change', applyStockSortAndRender);
+      sortEl._wired = true;
+    }
+    applyStockSortAndRender();
+  } catch (e) { console.error(e); }
+}
+
+function applyStockSortAndRender() {
+  const q = (document.getElementById('stock-search')?.value || '').toLowerCase();
+  const sortKey = document.getElementById('stock-sort')?.value || 'code';
+  let rows = (window._allStocks || []).filter(s =>
+    s.code.toLowerCase().includes(q) || (s.name || '').toLowerCase().includes(q)
+  );
+  rows = sortStocks(rows, sortKey);
+  renderStocks(rows);
+}
+
+function sortStocks(rows, key) {
+  const arr = rows.slice();
+  const getChg = s => (s.latest_quote && typeof s.latest_quote.change_pct === 'number') ? s.latest_quote.change_pct : null;
+  const getVol = s => (s.latest_quote && typeof s.latest_quote.volume === 'number') ? s.latest_quote.volume : 0;
+  if (key === 'change_pct_desc') {
+    arr.sort((a, b) => (getChg(b) ?? -Infinity) - (getChg(a) ?? -Infinity));
+  } else if (key === 'change_pct_asc') {
+    arr.sort((a, b) => (getChg(a) ?? Infinity) - (getChg(b) ?? Infinity));
+  } else if (key === 'volume_desc') {
+    arr.sort((a, b) => getVol(b) - getVol(a));
+  }
+  return arr;
+}
+
+function renderStocks(stocks) {
+  const dates = [...new Set(stocks.map(s => s.latest_quote && s.latest_quote.trade_date).filter(Boolean))].sort().reverse();
+  const latestDate = dates[0] || null;
+  const quoteCount = stocks.filter(s => s.latest_quote).length;
+  document.getElementById('stocks-list').innerHTML = `
+    <div class="px-4 py-2 text-xs text-gray-500 bg-gray-50 border-b flex items-center justify-between">
+      <span>共 <b class="text-gray-700">${stocks.length}</b> 只股票 · <b class="text-gray-700">${quoteCount}</b> 只有最新行情${latestDate ? ` · 数据日期: <code class="text-gray-700">${latestDate}</code>` : ''}</span>
+      <span class="text-gray-400">点击行查看关联信号详情</span>
+    </div>
+    <table class="w-full text-sm">
+      <thead class="text-xs text-gray-500 border-b bg-gray-50">
+        <tr>
+          <th class="text-left px-4 py-3">代码</th>
+          <th class="text-left">名称</th>
+          <th class="text-right">收盘价</th>
+          <th class="text-right">涨跌幅</th>
+          <th class="text-right">成交量(万)</th>
+          <th class="text-center">供应暴露</th>
+          <th class="text-center">层级</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${stocks.map(s => {
+          const q = s.latest_quote;
+          const chg = q && typeof q.change_pct === 'number' ? q.change_pct : null;
+          const chgClass = chg == null ? 'text-gray-400' : chg > 0 ? 'text-red-600' : chg < 0 ? 'text-green-600' : 'text-gray-500';
+          const chgSign = chg == null ? '-' : (chg > 0 ? '+' : '') + chg.toFixed(2) + '%';
+          const closeStr = q && typeof q.close === 'number' ? q.close.toFixed(2) : '-';
+          const volStr = q && q.volume ? (q.volume / 10000).toFixed(0) : '-';
+          return `
+            <tr class="border-b hover:bg-gray-50 cursor-pointer" onclick="showStockDetail('${s.code}')">
+              <td class="px-4 py-2.5 font-mono">${s.code}</td>
+              <td>${s.name || '-'}</td>
+              <td class="text-right font-mono">${closeStr}</td>
+              <td class="text-right font-mono font-medium ${chgClass}">${chgSign}</td>
+              <td class="text-right text-gray-600 text-xs">${volStr}</td>
+              <td class="text-center">${s.supply_exposure || '-'}</td>
+              <td class="text-center">${s.tier || '-'}</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function closeStockModal() {
+  document.getElementById('stock-modal').classList.add('hidden');
+}
+
+async function showStockDetail(code) {
+  try {
+    const s = await api(`/api/stocks/${code}`);
+    const q = s.latest_quote;
+    const chg = q && typeof q.change_pct === 'number' ? q.change_pct : null;
+    const chgClass = chg == null ? 'text-gray-400' : chg > 0 ? 'text-red-600' : chg < 0 ? 'text-green-600' : 'text-gray-500';
+    const chgSign = chg == null ? '-' : (chg > 0 ? '+' : '') + chg.toFixed(2) + '%';
+    const fmt = (n, d) => (n == null || isNaN(n)) ? '-' : Number(n).toFixed(d);
+    const volStr = q && q.volume ? (q.volume / 10000).toFixed(0) + ' 万' : '-';
+    const turnoverStr = q && q.turnover ? (q.turnover / 100000000).toFixed(2) + ' 亿' : '-';
+    const html = `
+      <div class="flex items-baseline gap-3 mb-1 pr-8">
+        <h2 class="text-xl font-bold">${s.name || s.code}</h2>
+        <span class="font-mono text-gray-500 text-sm">${s.code}</span>
+      </div>
+      <div class="text-xs text-gray-500 mb-4">供应暴露: <b class="text-gray-700">${s.supply_exposure || 'N/A'}</b> · 层级: <b class="text-gray-700">${s.tier || 'N/A'}</b></div>
+
+      ${q ? `
+        <div class="text-xs text-gray-500 mb-2">📊 最新行情 · <code>${q.trade_date}</code></div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-5">
+          <div class="bg-gray-50 p-2.5 rounded">
+            <div class="text-xs text-gray-500">收盘</div>
+            <div class="text-lg font-mono font-semibold">${fmt(q.close, 2)}</div>
+          </div>
+          <div class="bg-gray-50 p-2.5 rounded">
+            <div class="text-xs text-gray-500">涨跌幅</div>
+            <div class="text-lg font-mono font-semibold ${chgClass}">${chgSign}</div>
+          </div>
+          <div class="bg-gray-50 p-2.5 rounded">
+            <div class="text-xs text-gray-500">成交量</div>
+            <div class="text-lg font-mono">${volStr}</div>
+          </div>
+          <div class="bg-gray-50 p-2.5 rounded">
+            <div class="text-xs text-gray-500">成交额</div>
+            <div class="text-lg font-mono">${turnoverStr}</div>
+          </div>
+          <div class="bg-gray-50 p-2.5 rounded">
+            <div class="text-xs text-gray-500">开盘</div>
+            <div class="text-base font-mono">${fmt(q.open, 2)}</div>
+          </div>
+          <div class="bg-gray-50 p-2.5 rounded">
+            <div class="text-xs text-gray-500">最高</div>
+            <div class="text-base font-mono text-red-600">${fmt(q.high, 2)}</div>
+          </div>
+          <div class="bg-gray-50 p-2.5 rounded">
+            <div class="text-xs text-gray-500">最低</div>
+            <div class="text-base font-mono text-green-600">${fmt(q.low, 2)}</div>
+          </div>
+          <div class="bg-gray-50 p-2.5 rounded">
+            <div class="text-xs text-gray-500">涨跌额</div>
+            <div class="text-base font-mono">${fmt(q.change_amt, 2)}</div>
+          </div>
+        </div>
+      ` : '<div class="text-gray-400 text-sm mb-5 p-3 bg-gray-50 rounded">暂无最新行情数据</div>'}
+
+      <div class="text-xs text-gray-500 mb-2">🚨 关联信号 (${s.signals.length})</div>
+      ${s.signals.length === 0
+        ? '<div class="text-gray-400 text-sm p-3 bg-gray-50 rounded">该股票暂无关联信号</div>'
+        : `<div class="space-y-2">${s.signals.map(sig => `
+            <div class="border border-gray-200 rounded p-2.5 hover:border-blue-300 cursor-pointer" onclick="closeStockModal(); showSignal(${sig.id});">
+              <span class="inline-block text-xs font-bold px-2 py-0.5 rounded grade-${sig.grade}">${sig.grade}</span>
+              <span class="ml-2 text-sm">${sig.title}</span>
+              <span class="float-right text-xs text-gray-500">强度 ${sig.strength.toFixed(1)}</span>
+            </div>
+          `).join('')}</div>`
+      }
+    `;
+    document.getElementById('stock-modal-body').innerHTML = html;
+    document.getElementById('stock-modal').classList.remove('hidden');
+  } catch (e) { console.error(e); }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !document.getElementById('stock-modal').classList.contains('hidden')) {
+    closeStockModal();
+  }
+});
+
+async function loadFutures() {
+  try {
+    // Populate date picker with available dates on first load
+    const datePicker = document.getElementById('futures-date-picker');
+    if (datePicker && !datePicker.dataset.populated) {
+      const dates = await api('/api/futures/dates?limit=30');
+      if (dates.length) {
+        datePicker.max = dates[0];
+        datePicker.min = dates[dates.length - 1];
+        if (!datePicker.value) datePicker.value = dates[0];
+        datePicker.dataset.populated = '1';
+      }
+    }
+    const selectedDate = datePicker?.value || '';
+    const url = selectedDate ? `/api/futures?trade_date=${selectedDate}&limit=80` : '/api/futures?limit=80';
+    const rows = await api(url);
+    const exColors = { SHFE: 'red', DCE: 'blue', CZCE: 'green', INE: 'yellow', CFFEX: 'purple', GFEX: 'pink' };
+    if (rows.length === 0) {
+      document.getElementById('futures-list').innerHTML = '<div class="text-center text-gray-400 py-8">暂无期货数据</div>';
+      document.getElementById('futures-meta').textContent = '';
+      return;
+    }
+    const latestTs = new Date(Math.max(...rows.map(r => r.fetched_at ? new Date(r.fetched_at).getTime() : 0)));
+    const fetchedCN = latestTs.getTime() > 0 ? latestTs.toLocaleString('zh-CN', { hour12: false }) : '-';
+    const tradeDates = [...new Set(rows.map(r => r.trade_date))].sort();
+    const exchanges = [...new Set(rows.map(r => r.exchange))].sort();
+    const meta = document.getElementById('futures-meta');
+    meta.innerHTML = `数据日期 <code class="text-gray-700">${tradeDates.join(', ')}</code> · 抓取时间 <code class="text-gray-700">${fetchedCN}</code> · <b class="text-gray-700">${rows.length}</b> 条 · 交易所 ${exchanges.join('/')}`;
+    document.getElementById('futures-list').innerHTML = `
+      <table class="w-full text-sm">
+        <thead class="text-xs text-gray-500 border-b">
+          <tr>
+            <th class="text-left py-2">交易所</th>
+            <th class="text-left">代码</th>
+            <th class="text-left">名称</th>
+            <th class="text-right">开盘</th>
+            <th class="text-right">最高</th>
+            <th class="text-right">最低</th>
+            <th class="text-right">收盘</th>
+            <th class="text-right">结算</th>
+            <th class="text-right">涨跌</th>
+            <th class="text-right">持仓</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(f => `
+            <tr class="border-b hover:bg-gray-50">
+              <td class="py-2"><span class="text-xs px-1.5 py-0.5 rounded bg-${exColors[f.exchange] || 'gray'}-100 text-${exColors[f.exchange] || 'gray'}-700">${f.exchange}</span></td>
+              <td class="font-mono">${f.symbol}</td>
+              <td>${f.name}</td>
+              <td class="text-right font-mono">${f.open.toFixed(2)}</td>
+              <td class="text-right font-mono">${f.high.toFixed(2)}</td>
+              <td class="text-right font-mono">${f.low.toFixed(2)}</td>
+              <td class="text-right font-mono font-semibold">${f.close.toFixed(2)}</td>
+              <td class="text-right font-mono text-gray-500">${f.settle.toFixed(2)}</td>
+              <td class="text-right font-mono font-bold ${f.change_pct > 0 ? 'text-red-600' : f.change_pct < 0 ? 'text-green-600' : ''}">${f.change_pct > 0 ? '+' : ''}${f.change_pct.toFixed(2)}%</td>
+              <td class="text-right font-mono text-gray-500 text-xs">${(f.position / 1000).toFixed(1)}k</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch (e) { console.error(e); }
+}
+
+// ==================== Events ====================
+const TYPE_ICONS = {
+  launch: '🚀', earnings: '💰', conference: '🎪', data_release: '📊',
+  policy: '📋', regulatory: '⚖️', macro: '🌐', other: '📌'
+};
+
+function eventItemHtml(e) {
+  const today = new Date(e.event_date);
+  const daysFromNow = Math.round((today - new Date()) / 86400000);
+  const daysLabel = daysFromNow === 0 ? '今天' : (daysFromNow > 0 ? `+${daysFromNow}天` : `${daysFromNow}天前`);
+  const icon = TYPE_ICONS[e.event_type] || '📌';
+  const impactBar = '⭐'.repeat(e.impact_level) + '·'.repeat(5 - e.impact_level);
+  const stocks = e.related_stocks ? `📈 ${e.related_stocks.split(',').slice(0, 5).join(', ')}` : '';
+  const sourceBadge = e.source === 'macro_auto' ? '<span class="text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">自动</span>'
+    : e.source === 'curated' ? '<span class="text-xs px-1.5 py-0.5 rounded bg-purple-100 text-purple-700">策划</span>'
+    : `<span class="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">${e.source}</span>`;
+  return `
+    <div class="bg-white border border-gray-200 rounded-lg p-3 hover:border-blue-300 hover:shadow-sm">
+      <div class="flex items-start gap-3">
+        <div class="text-2xl">${icon}</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start gap-2 flex-wrap">
+            <div class="font-medium flex-1">${e.title}</div>
+            <div class="text-xs ${daysFromNow >= 0 && daysFromNow <= 7 ? 'text-orange-600 font-semibold' : 'text-gray-500'} whitespace-nowrap">${e.event_date} · ${daysLabel}</div>
+          </div>
+          <div class="text-sm text-gray-600 mt-1">${e.description || ''}</div>
+          <div class="flex flex-wrap items-center gap-2 mt-2 text-xs">
+            <span class="text-gray-500">${e.industry_label}</span>
+            <span class="text-gray-400">·</span>
+            <span class="text-yellow-600">${impactBar}</span>
+            <span class="text-gray-400">·</span>
+            ${sourceBadge}
+            ${stocks ? `<span class="text-blue-600 ml-2">${stocks}</span>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function loadReminders() {
+  try {
+    const rows = await api('/api/events/reminders?days_ahead=2&min_impact=2');
+    if (rows.length === 0) {
+      document.getElementById('events-reminders').innerHTML = '<div class="text-sm text-gray-500">未来 48h 无重要事件</div>';
+      return;
+    }
+    const today = new Date().toISOString().slice(0, 10);
+    const todayRows = rows.filter(r => r.event_date === today);
+    const tomorrowRows = rows.filter(r => r.days_until === 1);
+    const weekRows = rows.filter(r => r.days_until > 1);
+
+    const renderItem = (r) => {
+      const icon = TYPE_ICONS[r.event_type] || '📌';
+      const impactBar = '⭐'.repeat(r.impact_level) + '·'.repeat(5 - r.impact_level);
+      const sourceBadge = r.source === 'macro_auto' ? '<span class="text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700">自动</span>'
+        : r.source === 'curated' ? '<span class="text-xs px-1.5 py-0.5 rounded bg-purple-100 text-purple-700">策划</span>'
+        : r.source === 'auto_detected' ? '<span class="text-xs px-1.5 py-0.5 rounded bg-orange-100 text-orange-700">新闻发现</span>'
+        : `<span class="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">${r.source}</span>`;
+      return `
+        <div class="bg-white border border-orange-200 rounded p-2 flex items-start gap-2">
+          <div class="text-xl">${icon}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <div class="text-sm font-medium flex-1">${r.title}</div>
+              <div class="text-xs text-orange-600 font-semibold">${r.event_date}</div>
+            </div>
+            <div class="flex items-center gap-2 mt-1 text-xs">
+              <span class="text-gray-500">${r.industry_label}</span>
+              <span class="text-yellow-600">${impactBar}</span>
+              ${sourceBadge}
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    const sections = [];
+    if (todayRows.length) {
+      sections.push(`<div class="text-xs font-semibold text-red-600 mb-1">🚨 今日 (${todayRows.length})</div>`);
+      sections.push(todayRows.map(renderItem).join(''));
+    }
+    if (tomorrowRows.length) {
+      sections.push(`<div class="text-xs font-semibold text-orange-600 mt-3 mb-1">⏰ 明日 (${tomorrowRows.length})</div>`);
+      sections.push(tomorrowRows.map(renderItem).join(''));
+    }
+    if (weekRows.length) {
+      sections.push(`<div class="text-xs font-semibold text-gray-500 mt-3 mb-1">📅 后续 (${weekRows.length})</div>`);
+      sections.push(weekRows.slice(0, 5).map(renderItem).join(''));
+      if (weekRows.length > 5) sections.push(`<div class="text-xs text-gray-400 mt-1">还有 ${weekRows.length - 5} 个事件...</div>`);
+    }
+    document.getElementById('events-reminders').innerHTML = sections.join('');
+  } catch (e) { console.error(e); }
+}
+
+async function triggerReminders() {
+  if (!confirm('推送今日/明日事件到飞书？')) return;
+  try {
+    toast('推送中...', 'info');
+    await post('/api/events/remind');
+    toast('已推送！', 'success');
+    setTimeout(loadReminders, 1000);
+  } catch (e) { toast('失败: ' + e.message, 'error'); }
+}
+
+async function loadPredictions() {
+  try {
+    const rows = await api('/api/events/predictions?days_ahead=30&min_impact=3');
+    if (rows.length === 0) {
+      document.getElementById('events-predictions').innerHTML = '<div class="text-sm text-gray-500">未来 30 天无高影响事件</div>';
+      return;
+    }
+    const sorted = rows.sort((a, b) => Math.abs(b.predicted_change_pct) - Math.abs(a.predicted_change_pct));
+    document.getElementById('events-predictions').innerHTML = sorted.slice(0, 12).map(p => {
+      const arrow = p.predicted_change_pct > 0 ? '↑' : '↓';
+      const color = p.predicted_change_pct > 0 ? 'text-red-600' : 'text-green-600';
+      const confColor = p.confidence === 'high' ? 'bg-green-100 text-green-700' :
+                        p.confidence === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                        p.confidence === 'low' ? 'bg-orange-100 text-orange-700' :
+                        'bg-gray-100 text-gray-500';
+      const basis = p.basis === 'historical' ? '📊 历史' : '🧠 启发';
+      return `
+        <div class="bg-white border border-green-200 rounded p-2 flex items-center gap-2">
+          <span class="text-xl ${color} font-bold">${arrow}</span>
+          <span class="text-sm font-mono font-semibold ${color} w-16">${p.predicted_change_pct >= 0 ? '+' : ''}${p.predicted_change_pct.toFixed(2)}%</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-medium">${p.event_title}</div>
+            <div class="text-xs text-gray-500">${p.event_date} · ${p.industry_label} · ⭐${p.impact_level}</div>
+          </div>
+          <span class="text-xs px-2 py-0.5 rounded ${confColor}">${p.confidence}</span>
+          <span class="text-xs text-gray-500">${basis}</span>
+        </div>
+      `;
+    }).join('');
+  } catch (e) { console.error(e); }
+}
+
+async function loadAdvancedPredictions() {
+  try {
+    const rows = await api('/api/events/predictions/advanced?days_ahead=30&min_impact=3&limit=12');
+    if (rows.length === 0) {
+      document.getElementById('events-advanced-predictions').innerHTML = '<div class="text-sm text-gray-500">无预测</div>';
+      return;
+    }
+    const sorted = rows.sort((a, b) => Math.abs(b.posterior_change_pct) - Math.abs(a.posterior_change_pct));
+    document.getElementById('events-advanced-predictions').innerHTML = sorted.slice(0, 10).map(p => {
+      const arrow = p.posterior_change_pct > 0 ? '↑' : '↓';
+      const color = p.posterior_change_pct > 0 ? 'text-red-600' : 'text-green-600';
+      const ci = p.confidence_interval || [0, 0];
+      const confBadge = p.confidence === 'high' ? 'bg-green-100 text-green-700' :
+                        p.confidence === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                        p.confidence === 'low' ? 'bg-orange-100 text-orange-700' :
+                        'bg-gray-100 text-gray-500';
+      return `
+        <div class="bg-white border border-violet-200 rounded p-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl ${color} font-bold">${arrow}</span>
+            <span class="text-sm font-mono font-semibold ${color} w-16">${p.posterior_change_pct >= 0 ? '+' : ''}${p.posterior_change_pct.toFixed(2)}%</span>
+            <span class="text-xs text-gray-400 font-mono">[${ci[0] >= 0 ? '+' : ''}${ci[0].toFixed(2)}, ${ci[1] >= 0 ? '+' : ''}${ci[1].toFixed(2)}]</span>
+            <span class="text-xs px-2 py-0.5 rounded ${confBadge}">${p.confidence}</span>
+            <div class="flex-1"></div>
+            <span class="text-xs text-gray-400">α=${p.prior_weight} β=${p.likelihood_weight.toFixed(1)}</span>
+          </div>
+          <div class="text-sm font-medium mt-1">${p.event_title}</div>
+          <div class="text-xs text-gray-500">${p.event_date} · ${p.industry_label} · ⭐${p.impact_level} · prior=${p.prior_change_pct >= 0 ? '+' : ''}${p.prior_change_pct.toFixed(2)} lk=${p.likelihood_change_pct >= 0 ? '+' : ''}${p.likelihood_change_pct.toFixed(2)}</div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) { console.error(e); }
+}
+
+async function loadClusters() {
+  try {
+    const rows = await api('/api/events/clusters?days_ahead=30&min_impact=3');
+    if (rows.length === 0) {
+      document.getElementById('events-clusters').innerHTML = '<div class="text-sm text-gray-500">未来 30 天无多事件叠加</div>';
+      return;
+    }
+    document.getElementById('events-clusters').innerHTML = rows.slice(0, 10).map(c => {
+      const arrow = c.combined_change_pct > 0 ? '↑' : '↓';
+      const color = c.combined_change_pct > 0 ? 'text-red-600' : 'text-green-600';
+      const dirIcon = c.direction === 'bullish' ? '🟢' : c.direction === 'bearish' ? '🔴' : '🟡';
+      const attnBadge = c.attention_level === 'critical' ? 'bg-red-100 text-red-700' :
+                        c.attention_level === 'high' ? 'bg-orange-100 text-orange-700' :
+                        c.attention_level === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-gray-100 text-gray-600';
+      const eventsList = c.events.slice(0, 4).map(e => {
+        const ea = e.predicted_change_pct > 0 ? '↑' : '↓';
+        return `<div class="text-xs text-gray-600 ml-4">${ea} ${e.predicted_change_pct >= 0 ? '+' : ''}${e.predicted_change_pct.toFixed(2)}%  ${e.event_date}  ${e.event_title.slice(0, 50)}</div>`;
+      }).join('');
+      return `
+        <div class="bg-white border border-amber-200 rounded p-3">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xl ${color} font-bold">${arrow}</span>
+            <span class="text-sm font-mono font-semibold ${color} w-20">${c.combined_change_pct >= 0 ? '+' : ''}${c.combined_change_pct.toFixed(2)}%</span>
+            <span class="text-sm font-medium">${c.industry_label}</span>
+            <span class="text-xs text-gray-500">${c.window_start} ~ ${c.window_end}</span>
+            <span class="text-xs px-2 py-0.5 rounded ${attnBadge}">${c.attention_level}</span>
+            <div class="flex-1"></div>
+            <span class="text-xs text-gray-500">${c.n_events} events · ${c.dominant_event_type}</span>
+          </div>
+          ${c.risk_note ? `<div class="text-xs text-orange-600 mt-1">${c.risk_note}</div>` : ''}
+          ${eventsList}
+        </div>
+      `;
+    }).join('');
+  } catch (e) { console.error(e); }
+}
+
+async function runBacktestNow() {
+  const target = document.getElementById('events-backtest');
+  target.innerHTML = '<div class="text-sm text-blue-600">⏳ 回测中... (分析历史事件 vs 股价反应)</div>';
+  try {
+    const result = await post('/api/events/backtest?days=365');
+    const lines = [];
+    lines.push(`<div class="text-sm mb-3">`);
+    lines.push(`<span class="font-semibold">📊 分析结果:</span> `);
+    lines.push(`${result.n_events_analyzed} 事件 → ${result.n_measurable} 有价格数据 → ${result.n_correlations} 个有效相关性`);
+    lines.push(`</div>`);
+
+    if (result.top_correlations && result.top_correlations.length > 0) {
+      lines.push(`<div class="text-sm font-semibold mt-2 mb-1">强相关性 (事件类型 × 行业):</div>`);
+      lines.push(`<table class="w-full text-xs">`);
+      lines.push(`<thead class="text-gray-500 border-b"><tr><th class="text-left py-1">事件类型</th><th class="text-left">行业</th><th>平均</th><th>样本</th><th>方向</th><th>置信</th></tr></thead>`);
+      lines.push(`<tbody>`);
+      for (const c of result.top_correlations.slice(0, 10)) {
+        const arrow = c.avg_change_pct > 0 ? '↑' : '↓';
+        const color = c.avg_change_pct > 0 ? 'text-red-600' : 'text-green-600';
+        lines.push(`<tr class="border-b hover:bg-gray-50">
+          <td class="py-1">${c.event_type}</td>
+          <td>${c.industry_label}</td>
+          <td class="text-center ${color} font-mono">${arrow} ${Math.abs(c.avg_change_pct).toFixed(2)}%</td>
+          <td class="text-center">${c.sample_size}</td>
+          <td class="text-center">${c.direction}</td>
+          <td class="text-center">${c.confidence}</td>
+        </tr>`);
+      }
+      lines.push(`</tbody></table>`);
+    } else {
+      lines.push(`<div class="text-sm text-gray-500 mt-2">⚠️ 历史数据不足，无法计算相关性。运行 <code>./start.sh backfill --days 30</code> 补全数据后重试。</div>`);
+    }
+
+    if (result.individual_backtests && result.individual_backtests.length > 0) {
+      lines.push(`<details class="mt-3"><summary class="text-sm font-semibold cursor-pointer">个别事件反应 (${result.individual_backtests.length})</summary>`);
+      lines.push(`<div class="mt-2 max-h-48 overflow-y-auto">`);
+      lines.push(`<table class="w-full text-xs">`);
+      for (const b of result.individual_backtests.slice(0, 30)) {
+        const arrow = b.price_change_pct > 0 ? '↑' : '↓';
+        const color = b.price_change_pct > 0 ? 'text-red-600' : 'text-green-600';
+        lines.push(`<tr class="border-b"><td class="py-1">${b.event_date}</td><td>${b.event_title.slice(0, 40)}</td><td>${b.industry_label}</td><td class="text-center ${color} font-mono">${arrow} ${Math.abs(b.price_change_pct).toFixed(2)}%</td></tr>`);
+      }
+      lines.push(`</table></div></details>`);
+    }
+
+    target.innerHTML = lines.join('');
+  } catch (e) {
+    target.innerHTML = `<div class="text-sm text-red-600">回测失败: ${e.message}</div>`;
+  }
+}
+
+const IMPACT_BORDER = {
+  5: 'border-red-500 bg-red-50',
+  4: 'border-orange-500 bg-orange-50',
+  3: 'border-yellow-500 bg-yellow-50',
+  2: 'border-blue-500 bg-blue-50',
+  1: 'border-gray-400 bg-gray-50',
+};
+const IMPACT_DOT = {
+  5: 'bg-red-600',
+  4: 'bg-orange-500',
+  3: 'bg-yellow-500',
+  2: 'bg-blue-500',
+  1: 'bg-gray-400',
+};
+const WEEKDAY = ['日', '一', '二', '三', '四', '五', '六'];
+
+async function loadEventTimeline() {
+  const target = document.getElementById('events-timeline');
+  if (!target) return;
+  try {
+    const rows = await api('/api/events?days_ahead=30&min_impact=3&limit=120');
+    if (!rows.length) {
+      target.innerHTML = '<div class="text-gray-400 text-sm py-4 text-center">未来 30 天无重大事件 (impact ≥ 3)</div>';
+      return;
+    }
+    const byDate = new Map();
+    for (const e of rows) {
+      if (!byDate.has(e.event_date)) byDate.set(e.event_date, []);
+      byDate.get(e.event_date).push(e);
+    }
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const sortedDates = [...byDate.keys()].sort();
+    const html = `
+      <div class="flex gap-3 items-stretch" style="min-width: max-content;">
+        ${sortedDates.map(d => {
+          const dt = new Date(d);
+          const isToday = dt.getTime() === today.getTime();
+          const isPast = dt.getTime() < today.getTime();
+          const events = byDate.get(d).sort((a, b) => (b.impact_level || 0) - (a.impact_level || 0));
+          return `
+            <div class="flex-shrink-0 w-44 flex flex-col">
+              <div class="text-center mb-2 pb-2 border-b ${isToday ? 'border-orange-400' : 'border-gray-200'}">
+                <div class="text-xs ${isToday ? 'text-orange-600 font-bold' : isPast ? 'text-gray-400' : 'text-gray-500'}">
+                  ${isToday ? '今天 · ' : ''}周${WEEKDAY[dt.getDay()]}
+                </div>
+                <div class="text-base ${isToday ? 'font-bold text-orange-600' : isPast ? 'text-gray-400' : 'text-gray-700'} font-mono">${d.slice(5)}</div>
+                <div class="text-[10px] text-gray-400 mt-0.5">${events.length} 个事件</div>
+              </div>
+              <div class="space-y-1.5 flex-1">
+                ${events.map(e => {
+                  const lvl = Math.max(1, Math.min(5, e.impact_level || 1));
+                  const borderCls = IMPACT_BORDER[lvl];
+                  const dotCls = IMPACT_DOT[lvl];
+                  const icon = TYPE_ICONS[e.event_type] || '📌';
+                  const titleShort = (e.title || '').length > 22 ? e.title.slice(0, 22) + '…' : e.title;
+                  return `
+                    <div class="border-l-4 ${borderCls} rounded-r p-1.5 text-xs hover:shadow-sm cursor-pointer" title="${e.title}&#10;${e.industry_label || e.industry || ''} · impact ${lvl}/5" onclick="document.getElementById('events-impact').value='${lvl}'; showTab('events'); loadEvents();">
+                      <div class="flex items-start gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full ${dotCls} mt-1 flex-shrink-0"></span>
+                        <div class="flex-1 min-w-0">
+                          <div class="font-medium leading-tight">${icon} ${titleShort}</div>
+                          <div class="text-[10px] text-gray-500 mt-0.5 truncate">${e.industry_label || e.industry || ''}</div>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+    target.innerHTML = html;
+  } catch (e) {
+    target.innerHTML = `<div class="text-sm text-red-600">时间轴加载失败: ${e.message}</div>`;
+  }
+}
+
+async function loadEvents() {
+  try {
+    loadEventTimeline();
+    // Load industries for dropdown
+    const industries = await api('/api/events/industries');
+    const sel = document.getElementById('events-industry');
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">所有行业</option>' + industries.map(i =>
+      `<option value="${i.industry}" ${i.industry === cur ? 'selected' : ''}>${i.label} (${i.industry})</option>`
+    ).join('');
+
+    // Load upcoming 7 days for the highlight box
+    const upcoming = await api('/api/events?days_ahead=7&min_impact=3');
+    if (upcoming.length === 0) {
+      document.getElementById('events-upcoming').innerHTML = '<div class="text-gray-400 text-sm">未来 7 天无重大事件</div>';
+    } else {
+      document.getElementById('events-upcoming').innerHTML = upcoming.map(e => eventItemHtml(e)).join('');
+    }
+
+    // Load full list with filters
+    const industry = document.getElementById('events-industry').value;
+    const window = document.getElementById('events-window').value;
+    const minImpact = document.getElementById('events-impact').value;
+    const future = document.getElementById('events-future').value;
+
+    let url = `/api/events?min_impact=${minImpact}&limit=200`;
+    if (industry) url += `&industry=${encodeURIComponent(industry)}`;
+    if (future !== '') url += `&future_only=${future}`;
+    if (window !== 'all') {
+      const days = parseInt(window);
+      url += `&days_ahead=${days}`;
+    }
+    const rows = await api(url);
+    document.getElementById('events-list').innerHTML = rows.length === 0
+      ? '<div class="text-center text-gray-400 py-8">无匹配事件</div>'
+      : rows.map(e => eventItemHtml(e)).join('');
+  } catch (e) { console.error(e); }
+}
+
+async function refreshAll() {
+  await checkHealth();
+  await refreshDashboard();
+}
+
+document.getElementById('footer-ts').textContent = new Date().toLocaleString('zh-CN');
+refreshAll();
+setInterval(checkHealth, 30000);
+setInterval(() => {
+  if (document.querySelector('[data-section="dashboard"]') && !document.querySelector('[data-section="dashboard"]').classList.contains('hidden')) {
+    refreshDashboard();
+  }
+}, 5 * 60 * 1000);
+setInterval(() => {
+  if (document.querySelector('[data-section="scheduler"]') && !document.querySelector('[data-section="scheduler"]').classList.contains('hidden')) {
+    loadSchedulerStatus();
+  }
+}, 30 * 1000);
+
+
+// ============================================================================
+// Profiles
+// ============================================================================
+
+let allProfiles = [];
+
+async function loadProfiles() {
+  try {
+    allProfiles = await api('/api/profiles');
+    const grid = document.getElementById('profiles-grid');
+    grid.innerHTML = allProfiles.map(p => {
+      const riskColor = p.risk_level === 'high' ? 'border-red-300 bg-red-50' :
+                        p.risk_level === 'low' ? 'border-green-300 bg-green-50' :
+                        'border-yellow-300 bg-yellow-50';
+      return `
+        <div class="border-2 ${riskColor} rounded-lg p-3 cursor-pointer hover:shadow-md" onclick="selectProfile('${p.code}')">
+          <div class="font-semibold text-sm">${p.name}</div>
+          <div class="text-xs text-gray-500 mt-1">${p.description}</div>
+          <div class="text-xs mt-2">
+            <span class="px-1.5 py-0.5 rounded ${p.risk_level === 'high' ? 'bg-red-200 text-red-800' : p.risk_level === 'low' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'}">${p.risk_level}</span>
+            <span class="text-gray-400 ml-1">${p.industries.length} industries</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const sel = document.getElementById('profile-detail-select');
+    sel.innerHTML = allProfiles.map(p => `<option value="${p.code}">${p.name}</option>`).join('');
+    sel.onchange = () => loadProfileDetail(sel.value);
+    if (allProfiles.length) loadProfileDetail(allProfiles[0].code);
+  } catch (e) { console.error(e); }
+}
+
+async function selectProfile(code) {
+  document.getElementById('profile-detail-select').value = code;
+  await loadProfileDetail(code);
+}
+
+async function loadProfileDetail(code) {
+  try {
+    const result = await api(`/api/profiles/${code}?days_ahead=30`);
+    const detail = document.getElementById('profile-detail');
+    const profile = result.profile;
+    const events = result.events;
+    detail.innerHTML = `
+      <div class="text-sm mb-2">
+        <strong>${profile.name}</strong> · ${profile.industries.length} industries · ${profile.risk_level} risk · ${events.length} events (next 30d)
+      </div>
+      ${events.length === 0 ? '<div class="text-gray-500 text-sm">无匹配事件</div>' :
+        events.slice(0, 10).map(e => `
+          <div class="bg-gray-50 border border-gray-200 rounded p-2 text-sm">
+            <div class="font-medium">${e.title}</div>
+            <div class="text-xs text-gray-500">${e.event_date} · ${e.industry_label} · ⭐${e.impact_level} · ${e.event_type}</div>
+          </div>
+        `).join('')
+      }
+    `;
+  } catch (e) { console.error(e); }
+}
+
+
+// ============================================================================
+// Deep Learning Predictions
+// ============================================================================
+
+async function loadDLPredictions() {
+  try {
+    const rows = await api('/api/ml/predictions?days_ahead=30&min_impact=3&limit=10');
+    const target = document.getElementById('dl-predictions');
+    if (rows.length === 0) {
+      target.innerHTML = '<div class="text-sm text-gray-500">无预测 (先点"▶ 训练")</div>';
+      return;
+    }
+    const sorted = rows.sort((a, b) => Math.abs(b.posterior_change_pct) - Math.abs(a.posterior_change_pct));
+    target.innerHTML = sorted.map(p => {
+      const arrow = p.posterior_change_pct > 0 ? '↑' : '↓';
+      const color = p.posterior_change_pct > 0 ? 'text-red-600' : 'text-green-600';
+      const ci = p.confidence_interval || [0, 0];
+      const modelBadge = p.model_name === 'transformer' ?
+        '<span class="text-xs px-2 py-0.5 rounded bg-purple-100 text-purple-700">Transformer</span>' :
+        '<span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600">Fallback</span>';
+      return `
+        <div class="bg-white border border-indigo-200 rounded p-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl ${color} font-bold">${arrow}</span>
+            <span class="text-sm font-mono font-semibold ${color} w-16">${p.posterior_change_pct >= 0 ? '+' : ''}${p.posterior_change_pct.toFixed(2)}%</span>
+            <span class="text-xs text-gray-400 font-mono">[${ci[0] >= 0 ? '+' : ''}${ci[0].toFixed(2)}, ${ci[1] >= 0 ? '+' : ''}${ci[1].toFixed(2)}]</span>
+            ${modelBadge}
+          </div>
+          <div class="text-sm font-medium mt-1">${p.event_title}</div>
+          <div class="text-xs text-gray-500">${p.event_date} · n=${p.sample_size}</div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) { console.error(e); }
+}
+
+async function trainDLModel() {
+  if (!confirm('训练深度学习模型？需要历史事件+价格数据。')) return;
+  try {
+    toast('训练中... (后台运行)', 'info');
+    const result = await post('/api/ml/train?epochs=30');
+    toast('训练完成: ' + JSON.stringify(result), result.status === 'ok' ? 'success' : 'info');
+    setTimeout(loadDLPredictions, 2000);
+  } catch (e) { toast('训练失败: ' + e.message, 'error'); }
+}
+
+
+// ============================================================================
+// Event-Driven Backtest Engine
+// ============================================================================
+
+async function runEngineBacktest() {
+  const target = document.getElementById('engine-backtest');
+  target.innerHTML = '<div class="text-sm text-emerald-600">⏳ 回测中... (分析 180 天历史事件 vs 股价)</div>';
+  try {
+    const result = await post('/api/backtest/run?days_back=180&hold_days=5&min_impact=3');
+    const lines = [];
+    lines.push(`<div class="mb-3">`);
+    lines.push(`<div class="text-sm"><strong>📊 事件驱动回测结果</strong> (${result.start_date} → ${result.end_date}, 持仓 5 天)</div>`);
+    lines.push(`<div class="text-sm mt-2">`);
+    lines.push(`交易: <strong>${result.n_trades}</strong> | 胜率: <strong class="${result.win_rate >= 50 ? 'text-green-600' : 'text-red-600'}">${result.win_rate.toFixed(1)}%</strong> `);
+    lines.push(`(${result.n_wins}胜 / ${result.n_losses}负)</div>`);
+    lines.push(`<div class="text-sm">总收益: <strong class="${result.total_pnl_pct >= 0 ? 'text-red-600' : 'text-green-600'}">${result.total_pnl_pct >= 0 ? '+' : ''}${result.total_pnl_pct.toFixed(2)}%</strong> · `);
+    lines.push(`单笔均: ${result.avg_pnl_per_trade >= 0 ? '+' : ''}${result.avg_pnl_per_trade.toFixed(3)}% · `);
+    lines.push(`Sharpe: ${result.sharpe_ratio.toFixed(2)} · `);
+    lines.push(`最大回撤: ${result.max_drawdown.toFixed(2)}%</div>`);
+    lines.push(`<div class="text-sm">基准: ${result.baseline_pnl >= 0 ? '+' : ''}${result.baseline_pnl.toFixed(2)}% · `);
+    lines.push(`超额: <strong class="${result.excess_return >= 0 ? 'text-red-600' : 'text-green-600'}">${result.excess_return >= 0 ? '+' : ''}${result.excess_return.toFixed(2)}%</strong></div>`);
+    lines.push(`</div>`);
+
+    if (result.trades && result.trades.length > 0) {
+      lines.push(`<details class="mt-2"><summary class="text-sm font-semibold cursor-pointer">交易明细 (${result.trades.length})</summary>`);
+      lines.push(`<div class="mt-2 max-h-48 overflow-y-auto">`);
+      lines.push(`<table class="w-full text-xs"><thead class="text-gray-500"><tr><th class="text-left">日期</th><th class="text-left">股票</th><th>方向</th><th class="text-right">入场</th><th class="text-right">出场</th><th class="text-right">收益%</th></tr></thead><tbody>`);
+      for (const t of result.trades) {
+        const arrow = t.side === 'long' ? '↑' : '↓';
+        const color = t.pnl_pct >= 0 ? 'text-red-600' : 'text-green-600';
+        lines.push(`<tr class="border-b"><td class="py-1">${t.entry_date}</td><td>${t.code}</td><td>${arrow}${t.side}</td><td class="text-right">${t.entry_price.toFixed(2)}</td><td class="text-right">${(t.exit_price || 0).toFixed(2)}</td><td class="text-right ${color} font-mono">${t.pnl_pct >= 0 ? '+' : ''}${t.pnl_pct.toFixed(2)}%</td></tr>`);
+      }
+      lines.push(`</tbody></table></div></details>`);
+    } else {
+      lines.push(`<div class="text-sm text-orange-600 mt-2">⚠️ 历史数据不足，无可执行交易。运行 <code>./start.sh backfill --days 30</code> 补全数据后重试。</div>`);
+    }
+    target.innerHTML = lines.join('');
+  } catch (e) {
+    target.innerHTML = `<div class="text-sm text-red-600">回测失败: ${e.message}</div>`;
+  }
+}
+
+
+// ============================================================================
+// Smart Q&A
+// ============================================================================
+
+async function loadSuggestions() {
+  try {
+    const result = await api('/api/qa/suggestions');
+    const target = document.getElementById('qa-suggestions');
+    target.innerHTML = result.suggestions.map(s =>
+      `<button onclick="document.getElementById('qa-input').value='${s}';askQuestion()" class="text-xs px-3 py-1 bg-gray-100 hover:bg-cyan-100 border rounded-full">${s}</button>`
+    ).join('');
+  } catch (e) { console.error(e); }
+}
+
+async function askQuestion() {
+  const q = document.getElementById('qa-input').value.trim();
+  if (!q) return;
+  const target = document.getElementById('qa-result');
+  target.innerHTML = '<div class="text-gray-500">⏳ 思考中...</div>';
+  try {
+    const result = await api(`/api/qa?q=${encodeURIComponent(q)}`);
+    let html = `<div class="text-xs text-gray-400 mb-2">意图: ${result.intent} | 置信度: ${(result.confidence * 100).toFixed(0)}%</div>`;
+    html += `<div class="text-sm whitespace-pre-wrap">${escapeHtml(result.answer)}</div>`;
+    if (result.data && result.data.events && result.data.events.length > 0) {
+      html += `<details class="mt-2"><summary class="text-xs text-gray-500 cursor-pointer">事件列表 (${result.data.events.length})</summary>`;
+      html += `<div class="mt-1 text-xs space-y-1">`;
+      for (const e of result.data.events.slice(0, 8)) {
+        html += `<div class="text-gray-700">• ${e.event_date || e.date || ''} ${e.title} <span class="text-gray-400">(${e.industry_label || ''})</span></div>`;
+      }
+      html += `</div></details>`;
+    }
+    target.innerHTML = html;
+  } catch (e) {
+    target.innerHTML = `<div class="text-red-600">错误: ${e.message}</div>`;
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+
+// ============================================================================
+// SSE Real-time Stream
+// ============================================================================
+
+let sseEventSource = null;
+
+function connectSSE() {
+  if (sseEventSource) { toast('已连接', 'info'); return; }
+  try {
+    sseEventSource = new EventSource('/api/stream?topics=new_event,price_alert,signal_alert,system');
+    sseEventSource.addEventListener('system', e => appendSSELog('system', JSON.parse(e.data)));
+    sseEventSource.addEventListener('new_event', e => appendSSELog('new_event', JSON.parse(e.data)));
+    sseEventSource.addEventListener('price_alert', e => appendSSELog('price_alert', JSON.parse(e.data)));
+    sseEventSource.addEventListener('signal_alert', e => appendSSELog('signal_alert', JSON.parse(e.data)));
+    sseEventSource.addEventListener('heartbeat', e => {/* silent */});
+    sseEventSource.onerror = () => {
+      document.getElementById('sse-status').className = 'text-xs px-2 py-1 rounded bg-red-100 text-red-700';
+      document.getElementById('sse-status').textContent = '连接错误';
+    };
+    sseEventSource.onopen = () => {
+      document.getElementById('sse-status').className = 'text-xs px-2 py-1 rounded bg-green-100 text-green-700';
+      document.getElementById('sse-status').textContent = '已连接';
+    };
+    toast('SSE 已连接', 'success');
+  } catch (e) {
+    toast('SSE 连接失败: ' + e.message, 'error');
+  }
+}
+
+function disconnectSSE() {
+  if (sseEventSource) {
+    sseEventSource.close();
+    sseEventSource = null;
+    document.getElementById('sse-status').className = 'text-xs px-2 py-1 rounded bg-gray-100 text-gray-500';
+    document.getElementById('sse-status').textContent = '未连接';
+    toast('SSE 已断开', 'info');
+  }
+}
+
+function appendSSELog(topic, data) {
+  const log = document.getElementById('sse-log');
+  const ts = new Date().toLocaleTimeString();
+  const colors = {system: 'text-gray-600', new_event: 'text-blue-600', price_alert: 'text-red-600', signal_alert: 'text-purple-600'};
+  const line = document.createElement('div');
+  line.className = colors[topic] || 'text-gray-500';
+  line.textContent = `[${ts}] ${topic}: ${JSON.stringify(data).slice(0, 200)}`;
+  if (log.firstChild && log.firstChild.textContent.includes('SSE 消息流')) log.innerHTML = '';
+  log.insertBefore(line, log.firstChild);
+  while (log.children.length > 50) log.removeChild(log.lastChild);
+}
+
+async function testPublish() {
+  try {
+    await post('/api/stream/publish?topic=test', {message: 'test from UI', ts: new Date().toISOString()});
+    toast('测试消息已发布', 'success');
+  } catch (e) { toast('发布失败: ' + e.message, 'error'); }
+}
+
+
+// ============================================================================
+// News Sentiment
+// ============================================================================
+
+async function loadSentiment() {
+  try {
+    const s = await api('/api/sentiment?hours_back=24&limit=200');
+    const target = document.getElementById('sentiment-summary');
+    const avgColor = s.avg_score > 0.1 ? 'text-red-600' : s.avg_score < -0.1 ? 'text-green-600' : 'text-gray-600';
+    const arrow = s.avg_score > 0.1 ? '↑' : s.avg_score < -0.1 ? '↓' : '·';
+    target.innerHTML = `
+      <div class="bg-white border border-pink-200 rounded p-3 flex items-center gap-4">
+        <div class="text-3xl font-bold ${avgColor}">${arrow} ${s.avg_score >= 0 ? '+' : ''}${s.avg_score}</div>
+        <div class="flex-1 text-sm">
+          <div class="font-medium">新闻情绪指数 (24h, ${s.total}条)</div>
+          <div class="text-xs text-gray-500 mt-1">
+            <span class="px-2 py-0.5 rounded bg-red-100 text-red-700">看涨 ${s.n_bullish}</span>
+            <span class="px-2 py-0.5 rounded bg-gray-100 text-gray-600 ml-1">中性 ${s.n_neutral}</span>
+            <span class="px-2 py-0.5 rounded bg-green-100 text-green-700 ml-1">看跌 ${s.n_bearish}</span>
+          </div>
+        </div>
+      </div>
+      ${s.top_bullish.length > 0 ? `
+        <div class="bg-red-50 border border-red-200 rounded p-2 mt-2">
+          <div class="text-xs font-semibold text-red-700 mb-1">🔴 最看涨</div>
+          ${s.top_bullish.slice(0, 3).map(n => `<div class="text-xs">↑ +${n.score.toFixed(2)}  ${escapeHtml(n.title.slice(0, 60))}</div>`).join('')}
+        </div>
+      ` : ''}
+      ${s.top_bearish.length > 0 ? `
+        <div class="bg-green-50 border border-green-200 rounded p-2 mt-2">
+          <div class="text-xs font-semibold text-green-700 mb-1">🟢 最看跌</div>
+          ${s.top_bearish.slice(0, 3).map(n => `<div class="text-xs">↓ ${n.score.toFixed(2)}  ${escapeHtml(n.title.slice(0, 60))}</div>`).join('')}
+        </div>
+      ` : ''}
+    `;
+  } catch (e) { console.error(e); }
+}
+
+
+// ============================================================================
+// Data Export
+// ============================================================================
+
+async function exportReport(format) {
+  const status = document.getElementById('export-status');
+  status.textContent = `正在生成 ${format.toUpperCase()} 报告...`;
+  try {
+    const r = await fetch(`/api/export/report?format=${format}`);
+    if (!r.ok) throw new Error(await r.text());
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `report_${new Date().toISOString().slice(0, 10)}.${format === 'excel' ? 'xlsx' : format === 'pdf' ? 'pdf' : format === 'docx' ? 'docx' : 'md'}`;
+    a.click();
+    URL.revokeObjectURL(url);
+    status.textContent = `✅ ${format.toUpperCase()} 报告已下载`;
+  } catch (e) { status.textContent = `❌ 错误: ${e.message}`; }
+}
+
+async function exportEvents(format) {
+  const status = document.getElementById('export-status');
+  status.textContent = `正在生成事件列表 (${format})...`;
+  try {
+    const r = await fetch(`/api/export/events?format=${format}&days_ahead=30`);
+    if (!r.ok) throw new Error(await r.text());
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `events_${new Date().toISOString().slice(0, 10)}.${format === 'excel' ? 'xlsx' : 'md'}`;
+    a.click();
+    URL.revokeObjectURL(url);
+    status.textContent = `✅ 事件列表已下载 (${format})`;
+  } catch (e) { status.textContent = `❌ 错误: ${e.message}`; }
+}
+
+
+// ============================================================================
+// User Dashboard
+// ============================================================================
+
+let currentUser = 'default';
+
+async function loadUserDashboard() {
+  const userId = document.getElementById('user-id').value.trim() || 'default';
+  currentUser = userId;
+  try {
+    const d = await api(`/api/user/dashboard?user_id=${encodeURIComponent(userId)}&days_ahead=7`);
+    document.getElementById('user-name').value = d.user.display_name || userId;
+    const prefs = d.user.preferences || {};
+    document.getElementById('user-industries').value = (prefs.industries || []).join(', ');
+    document.getElementById('user-risk').value = prefs.risk_level || 'medium';
+    document.getElementById('user-horizon').value = prefs.horizon_days || 30;
+    document.getElementById('user-min-impact').value = prefs.min_impact || 3;
+
+    const evDiv = document.getElementById('user-events');
+    if (d.upcoming_events.length === 0) {
+      evDiv.innerHTML = '<div class="text-gray-500 text-sm">无匹配事件 (调整上方偏好后重试)</div>';
+    } else {
+      evDiv.innerHTML = d.upcoming_events.map(e => `
+        <div class="bg-white border border-gray-200 rounded p-2 flex items-center gap-2">
+          <button onclick="toggleFavorite('event', ${e.id})" class="text-yellow-500 hover:text-yellow-600" title="收藏/取消">⭐</button>
+          <div class="flex-1">
+            <div class="text-sm font-medium">${escapeHtml(e.title)}</div>
+            <div class="text-xs text-gray-500">${e.event_date} · ${e.industry_label} · ⭐${e.impact_level}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Load favorites
+    loadFavorites();
+  } catch (e) { console.error(e); toast('加载失败: ' + e.message, 'error'); }
+}
+
+async function saveUserPreferences() {
+  const userId = document.getElementById('user-id').value.trim() || 'default';
+  const industries = document.getElementById('user-industries').value.split(',').map(s => s.trim()).filter(s => s);
+  const prefs = {
+    industries,
+    risk_level: document.getElementById('user-risk').value,
+    horizon_days: parseInt(document.getElementById('user-horizon').value) || 30,
+    min_impact: parseInt(document.getElementById('user-min-impact').value) || 3,
+  };
+  try {
+    await post(`/api/user/profile?user_id=${encodeURIComponent(userId)}`, prefs);
+    toast('偏好已保存', 'success');
+    loadUserDashboard();
+  } catch (e) { toast('保存失败: ' + e.message, 'error'); }
+}
+
+async function loadFavorites() {
+  try {
+    const favs = await api(`/api/user/favorite?user_id=${encodeURIComponent(currentUser)}`);
+    const div = document.getElementById('user-favorites');
+    if (favs.length === 0) {
+      div.innerHTML = '<div class="text-gray-500 text-sm">暂无收藏 (点击事件旁的 ⭐ 收藏)</div>';
+      return;
+    }
+    div.innerHTML = favs.map(f => `
+      <div class="bg-yellow-50 border border-yellow-200 rounded p-2 flex items-center gap-2">
+        <span class="text-yellow-600">⭐</span>
+        <span class="text-sm">${f.item_type} #${f.item_id}</span>
+        ${f.note ? `<span class="text-xs text-gray-500">- ${escapeHtml(f.note)}</span>` : ''}
+        <div class="flex-1"></div>
+        <button onclick="toggleFavorite('${f.item_type}', ${f.item_id})" class="text-xs text-red-500 hover:text-red-700">移除</button>
+      </div>
+    `).join('');
+  } catch (e) { console.error(e); }
+}
+
+async function toggleFavorite(itemType, itemId) {
+  try {
+    await post(`/api/user/favorite?user_id=${encodeURIComponent(currentUser)}&item_type=${itemType}&item_id=${itemId}`);
+    toast(`已收藏 ${itemType} #${itemId}`, 'success');
+    loadFavorites();
+  } catch (e) { toast('收藏失败: ' + e.message, 'error'); }
+}
+
+
+// ============================================================================
+// LLM NLU test
+// ============================================================================
+
+async function testLLMParse() {
+  const q = document.getElementById('llm-input').value.trim();
+  if (!q) return;
+  const target = document.getElementById('llm-result');
+  target.innerHTML = '<div class="text-gray-500">⏳ 解析中...</div>';
+  try {
+    const r = await post('/api/llm/parse', {user_query: q});
+    const sourceBadge = r.source === 'llm' ?
+      '<span class="text-xs px-2 py-0.5 rounded bg-purple-100 text-purple-700">LLM</span>' :
+      '<span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600">本地</span>';
+    const llmStatus = r.llm_enabled ? '✅ 已启用' : '⚠️ 未启用 (用本地)';
+    target.innerHTML = `
+      <div class="flex items-center gap-2 mb-2 text-xs">
+        <span>意图: <strong>${r.intent}</strong></span>
+        <span>置信度: ${(r.confidence * 100).toFixed(0)}%</span>
+        ${sourceBadge}
+        <span class="text-gray-500">${llmStatus}</span>
+      </div>
+      <div class="text-xs text-gray-600 mb-2">${escapeHtml(r.reasoning || '')}</div>
+      <details><summary class="text-xs cursor-pointer text-gray-500">实体 (entities)</summary>
+      <pre class="text-xs bg-gray-50 p-2 mt-1 rounded">${JSON.stringify(r.entities, ensure_ascii=False, indent=2)}</pre>
+      </details>
+    `;
+  } catch (e) {
+    target.innerHTML = `<div class="text-red-600">错误: ${e.message}</div>`;
+  }
+}
+
+
+// ============================================================================
+// WebSocket (bidirectional)
+// ============================================================================
+
+let wsConnection = null;
+
+function connectWS() {
+  if (wsConnection) { toast('WebSocket 已连接', 'info'); return; }
+  try {
+    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const url = `${protocol}//${location.host}/ws`;
+    wsConnection = new WebSocket(url);
+    wsConnection.onopen = () => {
+      document.getElementById('ws-status').className = 'text-xs px-2 py-1 rounded bg-green-100 text-green-700';
+      document.getElementById('ws-status').textContent = '已连接';
+      appendWSLog('system', 'connected to ' + url);
+      wsConnection.send(JSON.stringify({type: 'subscribe', topics: ['all']}));
+    };
+    wsConnection.onmessage = (e) => {
+      try {
+        const msg = JSON.parse(e.data);
+        if (msg.type === 'event') appendWSLog('event', `${msg.topic}: ${JSON.stringify(msg.data).slice(0, 100)}`);
+        else if (msg.type === 'chat') appendWSLog('chat', `${msg.data.user}: ${msg.data.text}`);
+        else if (msg.type === 'system') appendWSLog('system', msg.message);
+        else if (msg.type === 'pong') {/* silent */ }
+        else appendWSLog(msg.type, JSON.stringify(msg).slice(0, 150));
+      } catch (err) {
+        appendWSLog('error', e.data);
+      }
+    };
+    wsConnection.onclose = () => {
+      document.getElementById('ws-status').className = 'text-xs px-2 py-1 rounded bg-gray-100 text-gray-500';
+      document.getElementById('ws-status').textContent = '已断开';
+      appendWSLog('system', 'disconnected');
+      wsConnection = null;
+    };
+    wsConnection.onerror = () => {
+      appendWSLog('error', 'WebSocket error');
+    };
+    toast('WebSocket 连接中...', 'info');
+  } catch (e) { toast('WebSocket 连接失败: ' + e.message, 'error'); }
+}
+
+function disconnectWS() {
+  if (wsConnection) {
+    wsConnection.close();
+    wsConnection = null;
+    document.getElementById('ws-status').className = 'text-xs px-2 py-1 rounded bg-gray-100 text-gray-500';
+    document.getElementById('ws-status').textContent = '未连接';
+    toast('WebSocket 已断开', 'info');
+  }
+}
+
+function sendWSMessage() {
+  if (!wsConnection || wsConnection.readyState !== WebSocket.OPEN) {
+    toast('WebSocket 未连接', 'error');
+    return;
+  }
+  const input = document.getElementById('ws-input');
+  const text = input.value.trim();
+  if (!text) return;
+  wsConnection.send(JSON.stringify({type: 'chat', text}));
+  input.value = '';
+  appendWSLog('me', text);
+}
+
+function appendWSLog(kind, text) {
+  const log = document.getElementById('ws-log');
+  const ts = new Date().toLocaleTimeString();
+  const colors = {system: 'text-gray-600', event: 'text-blue-600', chat: 'text-purple-600', me: 'text-green-600 font-semibold', error: 'text-red-600'};
+  const line = document.createElement('div');
+  line.className = colors[kind] || 'text-gray-500';
+  line.textContent = `[${ts}] ${kind}: ${text}`;
+  if (log.firstChild && log.firstChild.textContent.includes('WebSocket 消息')) log.innerHTML = '';
+  log.insertBefore(line, log.firstChild);
+  while (log.children.length > 50) log.removeChild(log.lastChild);
+}
+
+
+// ============================================================================
+// Prometheus Metrics Summary
+// ============================================================================
+
+async function loadMetricsSummary() {
+  try {
+    const s = await api('/api/metrics/summary');
+    const target = document.getElementById('metrics-summary');
+    const ev = s.events || {};
+    const cards = [
+      ['📊 Events', `${ev.total || 0}`, `${ev.future || 0} future / ${ev.past || 0} past`],
+      ['📰 News', `${s.news || 0}`, 'articles'],
+      ['📄 Reports', `${s.reports || 0}`, 'generated'],
+      ['⚙️ Job Runs', `${s.job_runs || 0}`, 'total'],
+    ];
+    target.innerHTML = cards.map(([title, value, sub]) => `
+      <div class="bg-white border border-slate-200 rounded p-3">
+        <div class="text-xs text-gray-500">${title}</div>
+        <div class="text-2xl font-bold mt-1">${value}</div>
+        <div class="text-xs text-gray-500 mt-1">${sub}</div>
+      </div>
+    `).join('');
+  } catch (e) { console.error(e); }
+}
+
+// =====================================================================
+// Supply-chain 3-tier knowledge graph
+// =====================================================================
+
+let _graphNetwork = null;
+let _graphData = null;
+let _graphSortKey = 'signal_count';
+let _graphSortAsc = false;
+let _graphView = 'network';
+
+const _CAT_COLORS = [
+  '#1e40af', '#0891b2', '#059669', '#d97706', '#dc2626',
+  '#7c3aed', '#db2777', '#0d9488', '#65a30d', '#ea580c',
+  '#9333ea', '#0284c7', '#16a34a', '#ca8a04', '#be185d',
+  '#0369a1', '#15803d', '#a16207', '#b91c1c', '#6d28d9',
+  '#475569',
+];
+
+function _catColor(cat) {
+  let h = 0;
+  for (let i = 0; i < cat.length; i++) h = (h * 31 + cat.charCodeAt(i)) & 0xffffffff;
+  return _CAT_COLORS[Math.abs(h) % _CAT_COLORS.length];
+}
+
+async function loadSupplyChainGraph() {
+  const container = document.getElementById('supply-chain-graph');
+  const statsEl = document.getElementById('graph-stats');
+  if (statsEl) statsEl.textContent = '加载中…';
+  if (container) container.innerHTML = '<div class="p-8 text-center text-gray-400">加载中…</div>';
+
+  if (typeof vis === 'undefined' || !vis.Network) {
+    const msg = 'vis-network 库未加载。请检查 /static/vendor/vis-network.min.js 是否存在。';
+    if (container) container.innerHTML = `<div class="p-8 text-center text-red-600"><div class="font-semibold mb-2">图谱渲染失败</div><div class="text-sm text-gray-600">${msg}</div><button onclick="loadSupplyChainGraph()" class="mt-3 px-3 py-1 border rounded text-sm hover:bg-gray-50">重试</button></div>`;
+    if (statsEl) statsEl.innerHTML = '<span class="text-red-600">图谱库未加载 · 表格仍可使用</span>';
+    try { _graphData = await api('/api/supply-chain/graph'); } catch (_) {}
+    renderGraphCategoryTable();
+    renderGraphView();
+    return;
+  }
+
+  try {
+    const data = await api('/api/supply-chain/graph');
+    _graphData = data;
+    if (!data || !data.nodes || data.nodes.length === 0) {
+      if (container) container.innerHTML = '<div class="p-8 text-center text-gray-500">暂无图谱数据</div>';
+      if (statsEl) statsEl.textContent = '';
+      return;
+    }
+    const st = data.stats || {};
+    if (statsEl) {
+      statsEl.innerHTML = `共 <b>${st.category_count || 0}</b> 分类 · <b>${st.term_count || 0}</b> term · <b>${st.stock_count || 0}</b> 唯一股票节点 · <b>${st.matched_signal_count || 0}</b>/<b>${st.signal_count || 0}</b> 信号已分类匹配`;
+    }
+
+    const nodes = new vis.DataSet(data.nodes.map(n => {
+      const base = { id: n.id, label: n.label, title: n.title, size: n.size };
+      if (n.type === 'category') {
+        return { ...base, shape: 'box', color: { background: _catColor(n.label), border: '#1e293b', highlight: { background: '#fbbf24', border: '#92400e' } }, font: { color: '#fff', size: 14, face: 'PingFang SC, sans-serif', bold: { color: '#fff', size: 14, mod: 'bold' } }, margin: 10 };
+      }
+      if (n.type === 'term') {
+        return { ...base, shape: 'ellipse', color: { background: '#d1fae5', border: '#059669', highlight: { background: '#fef3c7', border: '#92400e' } }, font: { color: '#064e3b', size: 11, face: 'PingFang SC, sans-serif' } };
+      }
+      return { ...base, shape: 'dot', color: { background: n.kind === 'HK' ? '#fef3c7' : '#fde68a', border: n.kind === 'HK' ? '#b45309' : '#d97706' }, font: { color: '#78350f', size: 9, face: 'PingFang SC, sans-serif' }, margin: 4 };
+    }));
+
+    const edges = new vis.DataSet(data.edges.map(e => ({
+      id: `${e.from}->${e.to}:${Math.random()}`,
+      from: e.from, to: e.to,
+      arrows: { to: { enabled: e.type === 'maps_to', scaleFactor: 0.4 } },
+      color: { color: e.type === 'maps_to' ? '#d97706' : '#94a3b8', opacity: 0.6 },
+      smooth: { enabled: true, type: 'continuous', roundness: 0.2 },
+      length: e.type === 'maps_to' ? 120 : 80,
+    })));
+
+    if (_graphNetwork) { try { _graphNetwork.destroy(); } catch (_) {} }
+    _graphNetwork = new vis.Network(container, { nodes, edges }, {
+      physics: {
+        enabled: true,
+        solver: 'forceAtlas2Based',
+        forceAtlas2Based: { gravitationalConstant: -55, centralGravity: 0.012, springLength: 90, springConstant: 0.08, damping: 0.45, avoidOverlap: 0.5 },
+        stabilization: { enabled: true, iterations: 250, fit: true },
+      },
+      layout: { improvedLayout: false },
+      interaction: { hover: true, tooltipDelay: 100, dragNodes: true, zoomView: true, dragView: true },
+      nodes: { borderWidth: 1.5 },
+      edges: { width: 0.6, hoverWidth: 1.5 },
+    });
+
+    _graphNetwork.on('click', (params) => {
+      if (params.nodes.length === 0) return;
+      const nodeId = params.nodes[0];
+      const node = data.nodes.find(n => n.id === nodeId);
+      if (!node) return;
+      if (node.type === 'stock' && node.code) {
+        showTab('stocks');
+        setTimeout(() => { const inp = document.getElementById('stock-search'); if (inp) { inp.value = node.code; inp.dispatchEvent(new Event('input')); } }, 200);
+      }
+    });
+
+    renderGraphCategoryTable();
+    renderGraphView();
+  } catch (e) {
+    if (container) container.innerHTML = `<div class="p-8 text-center text-red-600"><div class="font-semibold mb-2">图谱加载失败</div><div class="text-sm text-gray-600">${e.message || e}</div><div class="text-xs text-gray-400 mt-2">请打开浏览器开发者工具查看网络请求详情</div><button onclick="loadSupplyChainGraph()" class="mt-3 px-3 py-1 border rounded text-sm hover:bg-gray-50">重试</button></div>`;
+    if (statsEl) statsEl.innerHTML = `<span class="text-red-600">图谱加载失败: ${e.message || e} · 表格仍可使用</span>`;
+    try { _graphData = await api('/api/supply-chain/graph'); } catch (_) {}
+    renderGraphCategoryTable();
+    renderGraphView();
+  }
+}
+
+function renderGraphCategoryTable() {
+  if (!_graphData || !_graphData.categories) return;
+  const tbody = document.getElementById('graph-category-table-body');
+  if (!tbody) return;
+  const filterEl = document.getElementById('graph-category-filter');
+  const filter = (filterEl?.value || '').trim().toLowerCase();
+  let rows = _graphData.categories.slice();
+  if (filter) {
+    rows = rows.filter(c =>
+      c.category.toLowerCase().includes(filter) ||
+      (c.signal_type || '').toLowerCase().includes(filter)
+    );
+  }
+  rows.sort((a, b) => {
+    const va = a[_graphSortKey] ?? '';
+    const vb = b[_graphSortKey] ?? '';
+    if (typeof va === 'number' && typeof vb === 'number') return _graphSortAsc ? va - vb : vb - va;
+    return _graphSortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  });
+  const total = _graphData.categories.reduce((acc, c) => {
+    acc.term_count += c.term_count;
+    acc.stock_count += c.stock_count;
+    acc.signal_count += c.signal_count;
+    return acc;
+  }, { term_count: 0, stock_count: 0, signal_count: 0 });
+
+  const maxSig = Math.max(1, ...rows.map(r => r.signal_count));
+  tbody.innerHTML = rows.map(c => {
+    const intensity = c.signal_count / maxSig;
+    const bg = c.signal_count > 0 ? `rgba(220, 38, 38, ${0.05 + intensity * 0.35})` : 'transparent';
+    return `<tr class="border-b hover:bg-gray-50" style="background:${bg}">
+      <td class="py-1.5 px-2 font-medium">${c.category}</td>
+      <td class="py-1.5 px-2 text-gray-600">${c.signal_type || '—'}</td>
+      <td class="py-1.5 px-2 text-right tabular-nums">${c.term_count}</td>
+      <td class="py-1.5 px-2 text-right tabular-nums">${c.stock_count}</td>
+      <td class="py-1.5 px-2 text-right tabular-nums font-semibold ${c.signal_count > 0 ? 'text-red-600' : 'text-gray-400'}">${c.signal_count}</td>
+    </tr>`;
+  }).join('') + `<tr class="bg-gray-100 font-semibold">
+      <td class="py-2 px-2">合计 (${rows.length} 分类)</td>
+      <td class="py-2 px-2 text-gray-500">—</td>
+      <td class="py-2 px-2 text-right tabular-nums">${total.term_count}</td>
+      <td class="py-2 px-2 text-right tabular-nums">${total.stock_count}</td>
+      <td class="py-2 px-2 text-right tabular-nums">${total.signal_count}</td>
+    </tr>`;
+}
+
+function sortGraphTable(key) {
+  if (_graphSortKey === key) _graphSortAsc = !_graphSortAsc;
+  else { _graphSortKey = key; _graphSortAsc = key === 'category' || key === 'signal_type'; }
+  renderGraphCategoryTable();
+}
+
+// =====================================================================
+// View-mode switcher + 3 alternative renderers (cards/tree/heatmap)
+// =====================================================================
+
+function switchGraphView(view) {
+  _graphView = view;
+  document.querySelectorAll('.graph-view-btn').forEach(b => {
+    const active = b.dataset.view === view;
+    b.classList.toggle('bg-blue-600', active);
+    b.classList.toggle('text-white', active);
+    b.classList.toggle('bg-white', !active);
+  });
+  document.querySelectorAll('[data-view-pane]').forEach(p => {
+    p.classList.toggle('hidden', p.dataset.viewPane !== view);
+  });
+  renderGraphView();
+}
+
+function renderGraphView() {
+  if (!_graphData) return;
+  if (!_graphData.views) {
+    Object.entries({
+      cards: 'cards-container', tree: 'tree-container', heatmap: 'heatmap-container',
+    }).forEach(([view, id]) => {
+      const el = document.getElementById(id);
+      if (el && !el.innerHTML) el.innerHTML = `<div class="p-4 text-center text-gray-500">${_graphView === view ? '等待数据加载，请刷新页面' : ''}</div>`;
+    });
+    return;
+  }
+  try {
+    if (_graphView === 'cards') renderCardsView();
+    else if (_graphView === 'tree') renderTreeView();
+    else if (_graphView === 'heatmap') renderHeatmapView();
+  } catch (e) {
+    const container = document.getElementById('cards-container') || document.getElementById('tree-container') || document.getElementById('heatmap-container');
+    if (container) container.innerHTML = `<div class="p-4 text-center text-red-600">渲染错误: ${e.message}</div>`;
+  }
+}
+
+document.querySelectorAll('.graph-view-btn').forEach(b => {
+  b.addEventListener('click', () => switchGraphView(b.dataset.view));
+});
+
+function renderCardsView() {
+  const container = document.getElementById('cards-container');
+  if (!container) return;
+  const cards = _graphData.views.cards || [];
+  const filterEl = document.getElementById('cards-filter');
+  const filter = (filterEl?.value || '').trim().toLowerCase();
+  const filtered = !filter ? cards : cards.filter(c =>
+    c.category.toLowerCase().includes(filter) ||
+    (c.signal_type || '').toLowerCase().includes(filter) ||
+    c.stocks.some(s => s.code.includes(filter) || s.name.toLowerCase().includes(filter)) ||
+    c.terms.some(t => t.term.toLowerCase().includes(filter))
+  );
+  const maxSig = Math.max(1, ...cards.map(c => c.signal_count));
+  container.innerHTML = filtered.map(c => {
+    const intensity = c.signal_count / maxSig;
+    const borderColor = c.signal_count > 0 ? `rgba(220,38,38,${0.2 + intensity * 0.6})` : '#e5e7eb';
+    return `
+    <div class="border-l-4 rounded-r p-3 bg-white shadow-sm" style="border-left-color:${borderColor}">
+      <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-base">${c.category}</span>
+          ${c.signal_type ? `<span class="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600">${c.signal_type}</span>` : ''}
+          ${c.signal_count > 0 ? `<span class="text-xs px-2 py-0.5 rounded bg-red-100 text-red-700 font-semibold">🔥 ${c.signal_count} 信号</span>` : ''}
+        </div>
+        <div class="flex items-center gap-3 text-xs text-gray-500">
+          <span><b class="text-gray-800">${c.term_count}</b> term</span>
+          <span><b class="text-gray-800">${c.stock_count}</b> 股票</span>
+        </div>
+      </div>
+      <details>
+        <summary class="text-xs text-blue-600 cursor-pointer hover:underline">▸ 展开 ${c.term_count} 个 term 与 ${c.stock_count} 只股票</summary>
+        <div class="mt-2 space-y-1.5">
+          ${c.terms.map(t => `
+            <div class="text-xs pl-3 border-l-2 border-emerald-300 py-0.5">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-medium text-gray-800">${t.term}</span>
+                <span class="px-1.5 py-0.5 rounded ${t.priority === '高' ? 'bg-red-50 text-red-700' : t.priority === '低' ? 'bg-gray-100 text-gray-500' : 'bg-yellow-50 text-yellow-700'}">${t.priority}</span>
+              </div>
+              ${t.transmission ? `<div class="text-gray-500 mt-0.5">${t.transmission}</div>` : ''}
+              ${t.stocks.length ? `<div class="flex flex-wrap gap-1 mt-1">${t.stocks.map(s => `<span class="px-1.5 py-0.5 rounded cursor-pointer hover:bg-amber-200 ${s.kind === 'HK' ? 'bg-amber-100 text-amber-800' : 'bg-amber-50 text-amber-800'}" data-stock-code="${s.code}">${s.name}(${s.code})</span>`).join('')}</div>` : ''}
+            </div>`).join('')}
+        </div>
+      </details>
+    </div>`;
+  }).join('');
+  container.querySelectorAll('[data-stock-code]').forEach(el => {
+    el.addEventListener('click', () => {
+      const code = el.dataset.stockCode;
+      showTab('stocks');
+      setTimeout(() => { const inp = document.getElementById('stock-search'); if (inp) { inp.value = code; inp.dispatchEvent(new Event('input')); } }, 200);
+    });
+  });
+}
+
+function renderTreeView() {
+  const container = document.getElementById('tree-container');
+  if (!container) return;
+  const tree = _graphData.views.tree || [];
+  const stockToCats = (_graphData.views.heatmap && _graphData.views.heatmap.stock_to_cats) || {};
+  const html = tree.map(cat => `
+    <details class="mb-2">
+      <summary class="cursor-pointer font-semibold text-sm px-2 py-1 hover:bg-blue-50 rounded flex items-center gap-2">
+        <span>📁 ${cat.name}</span>
+        <span class="text-xs font-normal text-gray-500">${cat.type}</span>
+        ${cat.signal_count > 0 ? `<span class="text-xs px-1.5 py-0.5 rounded bg-red-100 text-red-700 font-semibold">🔥${cat.signal_count}</span>` : ''}
+      </summary>
+      <div class="pl-6 mt-1 space-y-1">
+        ${cat.children.map(t => `
+          <details>
+            <summary class="cursor-pointer text-sm px-2 py-0.5 hover:bg-emerald-50 rounded flex items-center gap-2">
+              <span>🔹 ${t.name}</span>
+              <span class="text-xs px-1.5 py-0.5 rounded ${t.priority === '高' ? 'bg-red-50 text-red-700' : t.priority === '低' ? 'bg-gray-100 text-gray-500' : 'bg-yellow-50 text-yellow-700'}">${t.priority}</span>
+            </summary>
+            <div class="pl-6 mt-0.5">
+              ${t.transmission ? `<div class="text-xs text-gray-500 italic mb-1">${t.transmission}</div>` : ''}
+              ${t.children.length ? `<div class="flex flex-wrap gap-1">${t.children.map(s => `<span class="text-xs px-1.5 py-0.5 rounded cursor-pointer hover:bg-amber-200 ${s.kind === 'HK' ? 'bg-amber-100 text-amber-800' : 'bg-amber-50 text-amber-800'}" data-stock-code="${s.code}" title="被 ${(stockToCats[s.code] || []).join('、')} 覆盖">${s.name}(${s.code})</span>`).join('')}</div>` : '<div class="text-xs text-gray-400">— 无映射 —</div>'}
+            </div>
+          </details>
+        `).join('')}
+      </div>
+    </details>
+  `).join('');
+  container.innerHTML = html;
+  container.querySelectorAll('[data-stock-code]').forEach(el => {
+    el.addEventListener('click', () => {
+      const code = el.dataset.stockCode;
+      showTab('stocks');
+      setTimeout(() => { const inp = document.getElementById('stock-search'); if (inp) { inp.value = code; inp.dispatchEvent(new Event('input')); } }, 200);
+    });
+  });
+}
+
+function renderHeatmapView() {
+  const container = document.getElementById('heatmap-container');
+  if (!container) return;
+  const hm = _graphData.views.heatmap || {};
+  const cats = hm.categories || [];
+  const stocks = hm.stocks || [];
+  const matrix = hm.matrix || [];
+  if (!cats.length || !stocks.length) {
+    container.innerHTML = '<div class="p-8 text-center text-gray-500">暂无矩阵数据</div>';
+    return;
+  }
+  const maxVal = Math.max(1, ...matrix.flat());
+  const cellW = 28, cellH = 22, labelW = 140, labelH = 90;
+  const width = labelW + stocks.length * cellW + 20;
+  const height = labelH + cats.length * cellH + 20;
+  let html = `<div style="min-width:${width}px;"><svg width="${width}" height="${height}" font-size="10">`;
+  html += `<text x="${labelW - 5}" y="${labelH - 5}" text-anchor="end" fill="#6b7280">分类 \\ 股票</text>`;
+  html += stocks.map((s, j) => {
+    const x = labelW + j * cellW + cellW / 2;
+    const y = labelH - 5;
+    const code = s.code;
+    return `<text x="${x}" y="${y}" text-anchor="start" transform="rotate(-45 ${x} ${y})" fill="#374151" font-weight="600">${code}</text>`;
+  }).join('');
+  cats.forEach((cat, i) => {
+    const y = labelH + i * cellH + cellH / 2 + 3;
+    html += `<text x="${labelW - 5}" y="${y}" text-anchor="end" fill="#374151">${cat}</text>`;
+  });
+  matrix.forEach((row, i) => {
+    row.forEach((v, j) => {
+      if (v <= 0) return;
+      const x = labelW + j * cellW;
+      const y = labelH + i * cellH;
+      const intensity = v / maxVal;
+      const r = Math.round(254 - (254 - 220) * intensity);
+      const g = Math.round(243 - (243 - 38) * intensity);
+      const b = Math.round(199 - (199 - 38) * intensity);
+      const fill = `rgb(${r},${g},${b})`;
+      const code = stocks[j].code;
+      const cat = cats[i];
+      html += `<rect x="${x}" y="${y}" width="${cellW - 1}" height="${cellH - 1}" fill="${fill}" stroke="#fff" data-stock-code="${code}" data-cat="${cat}" data-v="${v}"><title>${cat} → ${stocks[j].name}(${code}): ${v} 个 term</title></rect>`;
+      if (v >= maxVal * 0.6) {
+        html += `<text x="${x + cellW/2}" y="${y + cellH/2 + 3}" text-anchor="middle" fill="#fff" font-weight="700" pointer-events="none">${v}</text>`;
+      }
+    });
+  });
+  html += '</svg>';
+  html += `<div class="mt-3 flex items-center gap-2 text-xs text-gray-500">
+    <span>覆盖强度:</span>
+    <span class="inline-block w-4 h-4 align-middle" style="background:rgb(254,243,199)"></span>
+    <span>弱</span>
+    <span class="inline-block w-4 h-4 align-middle" style="background:rgb(200,90,80)"></span>
+    <span>强</span>
+    <span class="ml-4">点击格子跳转股票详情 · ${stocks.length} 只股票 × ${cats.length} 分类</span>
+  </div></div>`;
+  container.innerHTML = html;
+  container.querySelectorAll('rect[data-stock-code]').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+      const code = el.dataset.stockCode;
+      showTab('stocks');
+      setTimeout(() => { const inp = document.getElementById('stock-search'); if (inp) { inp.value = code; inp.dispatchEvent(new Event('input')); } }, 200);
+    });
+  });
+}
+</script>
+</body>
+</html>

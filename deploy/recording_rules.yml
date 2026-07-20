@@ -1,0 +1,111 @@
+groups:
+  # ========================================================================
+  # 多窗口录制规则 (5m / 1h / 1d / 7d)
+  # ========================================================================
+  - name: recording_5m
+    interval: 30s
+    rules:
+      - record: stock:events_rate_5m
+        expr: sum(rate(stock_events_total[5m]))
+
+      - record: stock:news_rate_5m
+        expr: sum(rate(stock_news_collected_total[5m]))
+
+      - record: stock:jobs_rate_5m
+        expr: sum by (job_id) (rate(stock_job_runs_total[5m]))
+
+      - record: stock:errors_rate_5m
+        expr: sum(rate(stock_api_requests_total{status=~"5.."}[5m]))
+
+      - record: stock:feishu_rate_5m
+        expr: sum by (status) (rate(stock_feishu_pushes_total[5m]))
+
+  - name: recording_1h
+    interval: 1m
+    rules:
+      - record: stock:events_rate_1h
+        expr: sum(rate(stock_events_total[1h]))
+
+      - record: stock:news_rate_1h
+        expr: sum(rate(stock_news_collected_total[1h]))
+
+      - record: stock:jobs_rate_1h
+        expr: sum by (job_id, status) (rate(stock_job_runs_total[1h]))
+
+      - record: stock:job_success_pct_1h
+        expr: |
+          sum by (job_id) (rate(stock_job_runs_total{status="ok"}[1h]))
+            /
+          sum by (job_id) (rate(stock_job_runs_total[1h]))
+
+      - record: stock:errors_rate_1h
+        expr: sum by (status) (rate(stock_api_requests_total[1h]))
+
+      - record: stock:feishu_rate_1h
+        expr: sum by (status) (rate(stock_feishu_pushes_total[1h]))
+
+      - record: stock:db_size_mb
+        expr: stock_db_size_bytes / 1048576
+
+      - record: stock:api_p99_1h
+        expr: |
+          histogram_quantile(0.99, sum(rate(stock_api_request_duration_seconds_bucket[1h])) by (le))
+
+  - name: recording_1d
+    interval: 5m
+    rules:
+      - record: stock:events_total_1d
+        expr: sum(increase(stock_events_total[1d]))
+
+      - record: stock:news_total_1d
+        expr: sum(increase(stock_news_collected_total[1d]))
+
+      - record: stock:reports_total_1d
+        expr: sum(increase(stock_reports_generated_total[1d]))
+
+      - record: stock:feishu_total_1d
+        expr: sum(increase(stock_feishu_pushes_total[1d]))
+
+      - record: stock:errors_total_1d
+        expr: sum(increase(stock_api_requests_total{status=~"5.."}[1d]))
+
+      - record: stock:api_requests_1d
+        expr: sum by (endpoint) (increase(stock_api_requests_total[1d]))
+
+  - name: recording_7d
+    interval: 30m
+    rules:
+      - record: stock:events_total_7d
+        expr: sum(increase(stock_events_total[7d]))
+
+      - record: stock:news_total_7d
+        expr: sum(increase(stock_news_collected_total[7d]))
+
+      - record: stock:reports_total_7d
+        expr: sum(increase(stock_reports_generated_total[7d]))
+
+      - record: stock:feishu_total_7d
+        expr: sum(increase(stock_feishu_pushes_total[7d]))
+
+      - record: stock:db_growth_7d
+        expr: stock_db_size_bytes - stock_db_size_bytes offset 7d
+
+      - record: stock:events_by_source_7d
+        expr: sum by (source) (increase(stock_events_total[7d]))
+
+  # ========================================================================
+  # 业务衍生指标
+  # ========================================================================
+  - name: business_metrics
+    interval: 1m
+    rules:
+      - record: stock:signal_strength_avg
+        expr: avg(stock_events_past)  # placeholder; real metric below
+
+      - record: stock:data_freshness_minutes
+        expr: (time() - timestamp(stock_last_job_status)) / 60
+
+      - record: stock:collection_efficiency
+        expr: |
+          (sum(rate(stock_news_collected_total[1d]))
+            / sum(stock_events_total) > 0) or vector(0)
