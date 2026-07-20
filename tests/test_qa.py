@@ -25,18 +25,18 @@ class TestEmptyQuery:
 
 
 class TestPatternMatching:
-    def test_latest_report(self):
+    def test_latest_report(self, in_memory_db):
         resp = ask("今天报告")
         # Should match today_report or latest_report pattern
         assert resp.intent in ("today_report", "latest_report")
         assert resp.confidence > 0
 
-    def test_upcoming_events_tomorrow(self):
+    def test_upcoming_events_tomorrow(self, in_memory_db):
         resp = ask("明天有什么事件")
         assert resp.intent == "upcoming_events"
         assert resp.confidence > 0
 
-    def test_upcoming_events_default(self):
+    def test_upcoming_events_default(self, in_memory_db):
         resp = ask("未来一周有什么事件")
         # _handle_upcoming always returns intent="upcoming_events"
         assert resp.intent == "upcoming_events"
@@ -47,7 +47,7 @@ class TestPatternMatching:
         assert resp.intent == "today_stocks"
         assert resp.confidence > 0
 
-    def test_industry_upcoming(self):
+    def test_industry_upcoming(self, in_memory_db):
         resp = ask("航天军工最近有什么事件")
         assert resp.intent == "industry_upcoming"
         assert resp.confidence > 0
