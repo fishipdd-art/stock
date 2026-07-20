@@ -98,6 +98,29 @@ class TestSaveReport:
             save_report(in_memory_db, "", payload, report_date=date(2026, 7, 6), n_signals=1)
             mock_cache.delete.assert_any_call("report:latest")
 
+    def test_historical_report_counts_news(self, in_memory_db):
+        from storage.models import NewsRaw
+
+        report_date = date(2026, 7, 6)
+        with in_memory_db.tx() as session:
+            session.add(NewsRaw(
+                url="https://example.test/historical-news",
+                title="Historical market news",
+                source="test",
+                source_label="Test",
+                published_at=datetime(2026, 7, 6, 8, 0),
+            ))
+
+        report = save_report(
+            in_memory_db,
+            "# Historical",
+            {"_meta": {"n_signals": 1}},
+            report_date=report_date,
+            report_type="backfill",
+        )
+
+        assert report.n_news == 1
+
 
 class TestMarkdownReport:
     def test_generates_string(self, in_memory_db):

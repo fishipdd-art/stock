@@ -23,6 +23,7 @@ from storage.models import (
 from processor.supply_demand import MismatchSignal, aggregate_mismatches
 from processor.matcher import build_matches, SignalMatch
 from processor.time_decay import weight_for_datetime
+from pipeline.time_utils import utc_bounds_for_business_date
 
 
 def _top_n(mismatches: list[MismatchSignal], n: int = 10) -> list[MismatchSignal]:
@@ -67,10 +68,12 @@ def generate_markdown_report(
     )
 
     # Recent news (top by recency × decay)
+    recent_start, _ = utc_bounds_for_business_date(report_date - timedelta(days=2))
+    _, recent_end = utc_bounds_for_business_date(report_date)
     recent_news = (
         session.query(NewsRaw)
-        .filter(NewsRaw.published_at >= datetime.combine(report_date - timedelta(days=2), datetime.min.time()))
-        .filter(NewsRaw.published_at < datetime.combine(report_date + timedelta(days=1), datetime.min.time()))
+        .filter(NewsRaw.published_at >= recent_start)
+        .filter(NewsRaw.published_at < recent_end)
         .order_by(NewsRaw.published_at.desc())
         .limit(50)
         .all()
@@ -410,10 +413,11 @@ def _save_report_inner(
         .first()
     )
 
+    news_start, news_end = utc_bounds_for_business_date(report_date)
     n_news = session.query(NewsRaw).filter(
-        NewsRaw.published_at >= datetime.combine(report_date, datetime.min.time()),
-        NewsRaw.published_at < datetime.combine(report_date + timedelta(days=1), datetime.min.time()),
-    ).count() if report_date == date.today() else 0
+        NewsRaw.published_at >= news_start,
+        NewsRaw.published_at < news_end,
+    ).count()
     n_top_categories = session.query(SectorHeat).filter(
         SectorHeat.trade_date == report_date
     ).count()
