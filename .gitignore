@@ -45,7 +45,11 @@ data/knowledge_graph/supply_chain_signals_*.md
 
 # ===== Logs =====
 *.log
+*.err
 logs/
+
+# ===== Local developer metadata =====
+.codegraph
 
 # ===== OS =====
 .DS_Store
@@ -54,3 +58,4 @@ desktop.ini
 
 # ===== Debug screenshots at project root =====
 /*.png
+data/db/supply_chain.db.bak-*
