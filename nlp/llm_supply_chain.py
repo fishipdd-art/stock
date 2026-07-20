@@ -207,12 +207,11 @@ def call_minimax_json(
     body = {
         "model": model,
         "max_tokens": max_tokens,
+        "system": system,
         "messages": [
-            {"role": "system", "content": system},
             {"role": "user", "content": user_prompt},
         ],
         "temperature": 0.0,
-        "response_format": {"type": "json_object"},
     }
 
     try:
@@ -221,7 +220,8 @@ def call_minimax_json(
             resp = client.post(
                 base_url,
                 headers={
-                    "Authorization": f"Bearer {api_key}",
+                    "X-Api-Key": api_key,
+                    "anthropic-version": "2023-06-01",
                     "Content-Type": "application/json",
                 },
                 json=body,
@@ -237,7 +237,11 @@ def call_minimax_json(
 
     try:
         payload = resp.json()
-        text = _coerce_text(payload.get("choices", [{}])[0].get("message", {}).get("content", ""))
+        content = payload.get("content")
+        if content is not None:
+            text = _coerce_text(content)
+        else:
+            text = _coerce_text(payload.get("choices", [{}])[0].get("message", {}).get("content", ""))
         json_text = _extract_json_block(text)
         data = json.loads(json_text) if json_text else {}
     except Exception as exc:

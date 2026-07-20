@@ -106,6 +106,51 @@ def _make_news(db, **kwargs) -> int:
 # ---------------------------------------------------------------------------
 
 
+def test_minimax_request_includes_x_api_key(monkeypatch):
+    import httpx
+
+    captured = {}
+
+    class FakeResponse:
+        status_code = 200
+        text = '{"choices":[{"message":{"content":"{\"ok\": true}"}}]}'
+
+        def json(self):
+            return {'choices': [{'message': {'content': json.dumps({'ok': True})}}]}
+
+    class FakeClient:
+        def __init__(self, **kwargs):
+            captured["client_kwargs"] = kwargs
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return None
+
+        def post(self, url, *, headers, json):
+            captured["url"] = url
+            captured["headers"] = headers
+            captured["json"] = json
+            return FakeResponse()
+
+    monkeypatch.setenv("MINIMAX_API_KEY", "test-secret")
+    monkeypatch.setattr(httpx, "Client", FakeClient)
+
+    from nlp.llm_supply_chain import call_minimax_json
+
+    result = call_minimax_json("return json")
+
+    assert result.ok is True
+    assert captured["headers"]["X-Api-Key"] == "test-secret"
+    assert captured["headers"]["anthropic-version"] == "2023-06-01"
+    assert "Authorization" not in captured["headers"]
+    assert captured["json"]["system"]
+    assert captured["json"]["messages"] == [
+        {"role": "user", "content": "return json"}
+    ]
+
+
 def test_extract_events_heuristic_path_when_no_api_key(in_memory_db, monkeypatch):
     """When MINIMAX_API_KEY is unset, the heuristic extractor is used and
     returns a StorageEvent row with at least industry_chain set."""
